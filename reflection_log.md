@@ -14,8 +14,8 @@ Describe a confusing or frustrating moment with git this week. How did you resol
 it? What do you now understand that you didn't before?
 
 A frustrating moment was when initialising git. The main branch was called mian which was a setting mispell. Additionally the README section was filled with 'statprog' 4 times which wasn't supposed to be there.
-I tried fixing it with the help of an LLM but it did more trouble than good. So I decided to delete the original repository and start over. The same mistake of the main branch happened again. This time I was able to fix it.
-It took me a few tries and hours but I was able to get the repository clean.
+I tried fixing it with the help of an LLM but it did more trouble than good. So I decided to delete the original repository and start over. The same mistake of the missspelled main branch happened again. I decided to look into the settings and found that the name of the original branch, when creating the repository was set to 'mian'. I was able to set it to 'main' and create the original branch with the right name.
+I moved on to connecting the repository to my folder. It took me a few tries and hours to fix the mistakes, but I was able to get the repository clean.
 
 How does committing code frequently change how you think about your work? Have you
 noticed yourself structuring tasks differently because of it?
