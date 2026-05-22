@@ -32,7 +32,7 @@
     "href": "reflection_log.html#week-2---scripts-functions-refactoring",
     "title": "Reflection Log",
     "section": "Week 2 - Scripts, Functions & Refactoring",
-    "text": "Week 2 - Scripts, Functions & Refactoring\nNSE (Non-Standard Evaluation) Bug:\nWhen writing a custom function and pass a column name into the function as a variable. When using the function, R looks for the variable name in the columns instead of the passed column name.\nExample:\n\n# my_filter_function &lt;- function(data, column, value) { \n#   filter(data, column == value) \n# }\n\n# my_filter_function(penguins, species, \"Gentoo\")\n\n# -&gt; Error"
+    "text": "Week 2 - Scripts, Functions & Refactoring\nNSE (Non-Standard Evaluation) Bug:\nWhen writing a custom function and pass a column name into the function as a variable. When using the function, R looks for the variable name in the columns instead of the passed column name.\nExample:\n\n# my_filter_function &lt;- function(data, column, value) { \n#   filter(data, column == value) \n# }\n\n# my_filter_function(penguins, species, \"Gentoo\")"
   },
   {
     "objectID": "reflection_log.html#week-3---debugging",
