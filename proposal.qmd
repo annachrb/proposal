@@ -1,0 +1,95 @@
+---
+title: "proposal"
+format: html
+editor: visual
+---
+
+# Exercise 0
+
+```{r}
+library(readr)
+library(dplyr)
+library(lubridate)
+
+accidents <- read_csv("40094bd6-f82d-4979-949b-26c8dc00b9a7.csv")
+glimpse(accidents)
+```
+
+```{r}
+accidents_clean <- accidents |>
+  filter(MONAT != "Summe") |>
+  mutate(date = ym(MONAT))
+
+glimpse(accidents_clean)
+```
+
+# Exercise 1
+
+## **License**:
+
+[https://www.govdata.de/dl-de/by-2-0](https://www.govdata.de/dl-de/by-2-0:)
+
+The data and meta-data provided may be used for commercial and non-commercial use
+
+## Source: 
+
+<https://www.mstatistik-muenchen.de/indikatorenatlas/export/export.php>
+
+## What is in it: 
+
+Rows: 3250
+
+Columns: 10
+
+Each row represents the yearly percentage of homeless people per district in Munich as well as the total yearly percantage across all districts. They are also divided into total, german, non german, male and female divisions.
+
+Key variables we expect to use are the year, districts, percentage and both base values.
+
+## Research Questions
+
+1.  How has the total percentage in Munich changed overall and across districts from 2000 to 2023? -\> Descripitve
+2.  Do homelessness percentages differ based on gender and heritage (german & non-german) across districts. -\> Explanatory Causal
+3.  Can we build a simple model to predict the homelessness percentage in the next years? -\> Predictive
+
+## Context and target audience
+
+Context: Government Planning and Policy
+
+The analysis is for the **government and economy**. Since the Departments have to plan efficiently and attack the problem. Which demographic requires services, where to open new shelters and in general where the budget should go to.
+
+Presentation: Visual presentation of the districts and location with concrete numbers and evidence.
+
+# Exercise 2
+
+```{r}
+library(readr)
+library(dplyr)
+library(visdat)
+
+arbeitslosen <- read_csv("Arbeitsmarkt-Arbeitslosen-Anteil.csv")
+
+glimpse(arbeitslosen)
+
+vis_dat(arbeitslosen)
+```
+
+The dates are read as \<dbl\>, Categorical variables are \<chr\>, there are no columns where the types are unexpected -\> catergorical as characters and number as \<dbl\>
+
+# Exercise 3
+
+```{r}
+library(skimr)
+skim(arbeitslosen)
+```
+
+```{r}
+library(naniar)
+
+miss_var_summary(arbeitslosen)
+
+vis_miss(arbeitslosen)
+```
+
+There were no data quality issues found: no missing values, key numeric values are in plausible bounds, integer values like year have no decimal
+
+# Exercise 4
