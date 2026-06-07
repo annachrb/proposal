@@ -25,17 +25,19 @@ glimpse(accidents_clean)
 
 # Exercise 1
 
+## Dataset and research questions
+
 ## **License**:
 
 [https://www.govdata.de/dl-de/by-2-0](https://www.govdata.de/dl-de/by-2-0:)
 
 The data and meta-data provided may be used for commercial and non-commercial use
 
-## Source: 
+## Source:
 
 <https://www.mstatistik-muenchen.de/indikatorenatlas/export/export.php>
 
-## What is in it: 
+## What is in it:
 
 Rows: 3250
 
@@ -88,8 +90,201 @@ library(naniar)
 miss_var_summary(arbeitslosen)
 
 vis_miss(arbeitslosen)
+
 ```
 
-There were no data quality issues found: no missing values, key numeric values are in plausible bounds, integer values like year have no decimal
+### Data quality issues:
+
+-   Dataset contains rows for both individual districts and the entire city total (*Stadt München*) in the same column
 
 # Exercise 4
+
+```{r}
+library(ggplot2)
+
+ggplot(arbeitslosen, aes(x = Indikatorwert)) +
+  geom_histogram(bins = 30) +
+  labs(title = "Distribution of Unemployment Rate",
+       x = "Indikatorwert (Unemployment Rate in %)", y = "Count")
+```
+
+```{r}
+selected_districts <- c("03 Maxvorstadt", "19 Thalkirchen - Obersendling - Forstenried - Fürstenried - Solln", "16 Ramersdorf - Perlach", "04 Schwabing - West")
+
+arbeitslosen %>% 
+  filter(Raumbezug %in% selected_districts) %>%
+  filter(Auspragung == "insgesamt") %>%
+ggplot(aes(x = Jahr, y = Indikatorwert)) +
+  geom_line(color = "steelblue", size = 1) +
+  geom_point() +
+  facet_wrap(~ Raumbezug, scales = "free_y") +
+  theme_minimal() +
+  labs(title = "Unemployment Trends over Time") +
+  theme(strip.text = element_text(size = 5, lineheight = 1.1))
+```
+
+# Exercise 5
+
+# Dataset & research questions
+
+## **License**:
+
+[https://www.govdata.de/dl-de/by-2-0](https://www.govdata.de/dl-de/by-2-0:)
+
+The data and meta-data provided may be used for commercial and non-commercial use
+
+## Source:
+
+<https://www.mstatistik-muenchen.de/indikatorenatlas/export/export.php>
+
+## What is in it:
+
+Rows: 3250
+
+Columns: 10
+
+Each row represents the yearly percentage of homeless people per district in Munich as well as the total yearly percantage across all districts. They are also divided into total, german, non german, male and female divisions.
+
+Key variables we expect to use are the year, districts, percentage and both base values.
+
+## Research Questions
+
+1.  How has the total percentage in Munich changed overall and across districts from 2000 to 2023? -\> Descripitve
+2.  Do homelessness percentages differ based on gender and heritage (german & non-german) across districts. -\> Explanatory Causal
+3.  Can we build a simple model to predict the homelessness percentage in the next years? -\> Predictive
+
+## Context and target audience
+
+Context: Government Planning and Policy
+
+The analysis is for the **government and economy**. Since the Departments have to plan efficiently and attack the problem. Which demographic requires services, where to open new shelters and in general where the budget should go to.
+
+Presentation: Visual presentation of the districts and location with concrete numbers and evidence.
+
+# Initial data analysis
+
+```{r}
+#| label: data_glimpse
+#| eval: false
+
+glimpse(arbeitslosen)
+```
+
+```{r}
+#| label: summary-statistics
+
+summary(arbeitslosen[, c("Jahr", "Raumbezug", "Indikatorwert", "Basiswert 1", "Basiswert 2")])
+
+```
+
+```{r}
+#| label: Plot 1
+#| fig-cap: "Figure 1: Distribution of Unemployment Rate"
+#| message: false
+#| warning: false
+
+library(ggplot2)
+
+ggplot(arbeitslosen, aes(x = Indikatorwert)) +
+  geom_histogram(bins = 30) +
+  labs(title = "Distribution of Unemployment Rate",
+       x = "Indikatorwert (Unemployment Rate in %)", y = "Count")
+```
+
+```{r}
+#| label: Plot 2
+#| fig-cap: "Figure 2: Unemployment Trends over Time"
+#| message: false
+#| warning: false
+
+library(ggplot2)
+
+selected_districts <- c("03 Maxvorstadt", "19 Thalkirchen - Obersendling - Forstenried - Fürstenried - Solln", "16 Ramersdorf - Perlach", "04 Schwabing - West")
+
+arbeitslosen %>% 
+  filter(Raumbezug %in% selected_districts) %>%
+  filter(Auspragung == "insgesamt") %>%
+ggplot(aes(x = Jahr, y = Indikatorwert)) +
+  geom_line(color = "steelblue", size = 1) +
+  geom_point() +
+  facet_wrap(~ Raumbezug, scales = "free_y") +
+  theme_minimal() +
+  labs(title = "Unemployment Trends over Time") +
+  theme(strip.text = element_text(size = 5, lineheight = 1.1))
+```
+
+### Data quality issues:
+
+-   Contains rows for both individual districts and the entire city total (*Stadt München*) in the same column
+
+    → Could filter out the total and create a new subset
+
+-   Column "Auspragung" combines gender with totals (*insgesamt*) within the same column. Long data.
+
+    → Could create different subset or wide data
+
+# Analysis plan
+
+1.  How has the total percentage in Munich changed overall and across districts from 2000 to 2023?
+
+    -   **Variables**: Auspragung (insgesamt), Jahr, Raumbezug, Indikatorwert
+
+    <!-- -->
+
+    -   **Analytic Approach**: Create a plot for each district and the overall percentage. → Shows the overall trend visually
+
+    -   **Cleaning/Transformation**: Filter out 'insgesamt' from Auspragung for each district and year. For total percentage filter out the overall percentage for each year.
+
+    -   **Uncertainties/risks**: Variables might get mixed up
+
+2.  Do homelessness percentages differ based on gender and heritage (german & non-german) across districts.
+
+    -   **Variables**: Auspragung, Raumbezug, Indikatorwert
+
+    -   **Analytical Approach**: Compare distribution of percentages across groups
+
+    -   **Cleaning/Transformation**: Filter the different groups from Auspragung (*weiblich, männlich, deutsch,...*)
+
+    -   **Uncertainties/risks**: Uncertain about how to compare the groups
+
+3.  Can we build a simple model to predict the homelessness percentage in the next years?
+
+    -   **Variables**: Auspragung, Jahr, Raumbezug, Indikatorwert
+
+    -   **Analytical Approach**: linear regresision model, train on data and extend the trend line for the future years
+
+    -   **Cleaning/Transformation**: Filter the different years
+
+    -   **Uncertainties/risks**: Events outside the data have major impact on the trend, cannot predict these events
+
+# Workflow organisation
+
+### **Code style:**
+
+-   tidyverse style guide: \<- for assignments, spaces around operators, ...
+
+-   styler package in RStudio to format before committing
+
+-   shared AI system prompt so the output follows tidyverse
+
+### Packages:
+
+-   tidyverse
+
+-   readr
+
+-   naniar, skimr
+
+We will initialize renv in our project repo to create renv.lock. This way the package versions we use will be locked down and our code runs identically across the group.
+
+### Git workflow:
+
+-   Tasks will be divided fairly and per task
+
+-   We will create separate branches and verify by the other group member before merging into the main branch
+
+### `.gitignore:`
+
+-   rendered outputs
+
+-   Local RStudio state files and `.env`
