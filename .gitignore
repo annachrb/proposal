@@ -11,3 +11,7 @@
 # OS noise
 .DS_Store
 Thumbs.db
+
+# Project specific ignores
+*.html
+*.csv
