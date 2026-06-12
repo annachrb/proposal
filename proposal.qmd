@@ -4,7 +4,7 @@ format: html
 editor: visual
 ---
 
-# Exercise 0
+# Warm up
 
 ```{r}
 library(readr)
@@ -23,9 +23,7 @@ accidents_clean <- accidents |>
 glimpse(accidents_clean)
 ```
 
-# Exercise 1
-
-## Dataset and research questions
+# 1. Dataset & research questions
 
 ## **License**:
 
@@ -55,13 +53,13 @@ Key variables we expect to use are the year, districts, percentage and both base
 
 ## Context and target audience
 
-Context: Government Planning and Policy
+Target audience: Agentur für Arbeit München, Jobcenter München, Referat für Arbeit und Wirtschaft der Landeshauptstadt München.
 
-The analysis is for the **government and economy**. Since the Departments have to plan efficiently and attack the problem. Which demographic requires services, where to open new shelters and in general where the budget should go to.
+Analysis of trends in each district to plan resources and aid for unemployed citizens and providing additional help like seminars for each districts.
 
-Presentation: Visual presentation of the districts and location with concrete numbers and evidence.
+Presentation: Visual presentation of the districts of Munich and location with concrete numbers and evidence.
 
-# Exercise 2
+# 2. Data screening
 
 ```{r}
 library(readr)
@@ -77,7 +75,7 @@ vis_dat(arbeitslosen)
 
 The dates are read as \<dbl\>, Categorical variables are \<chr\>, there are no columns where the types are unexpected -\> catergorical as characters and number as \<dbl\>
 
-# Exercise 3
+# 3. Data cleaning
 
 ```{r}
 library(skimr)
@@ -97,7 +95,7 @@ vis_miss(arbeitslosen)
 
 -   Dataset contains rows for both individual districts and the entire city total (*Stadt München*) in the same column
 
-# Exercise 4
+# **4. EDA plots**
 
 ```{r}
 library(ggplot2)
@@ -123,7 +121,7 @@ ggplot(aes(x = Jahr, y = Indikatorwert)) +
   theme(strip.text = element_text(size = 5, lineheight = 1.1))
 ```
 
-# Exercise 5
+# **5. IDA**
 
 # Dataset & research questions
 
@@ -155,11 +153,11 @@ Key variables we expect to use are the year, districts, percentage and both base
 
 ## Context and target audience
 
-Context: Government Planning and Policy
+Target audience: Agentur für Arbeit München, Jobcenter München, Referat für Arbeit und Wirtschaft der Landeshauptstadt München.
 
-The analysis is for the **government and economy**. Since the Departments have to plan efficiently and attack the problem. Which demographic requires services, where to open new shelters and in general where the budget should go to.
+Analysis of trends in each district to plan resources and aid for unemployed citizens and providing additional help like seminars for each districts.
 
-Presentation: Visual presentation of the districts and location with concrete numbers and evidence.
+Presentation: Visual presentation of the districts of Munich and location with concrete numbers and evidence.
 
 # Initial data analysis
 
@@ -225,29 +223,57 @@ ggplot(aes(x = Jahr, y = Indikatorwert)) +
 
 # Analysis plan
 
-1.  How has the total percentage in Munich changed overall and across districts from 2000 to 2023?
+1.  How has the unemployment percentage in Munich changed from 2000 to 2023 overall and by city area (North, East, South, West)?
 
-    -   **Variables**: Auspragung (insgesamt), Jahr, Raumbezug, Indikatorwert
+    -   Output:
+
+        Five line plots for each area and one for Munich overall that show the yearly unemployment percentage over time.
 
     <!-- -->
 
-    -   **Analytic Approach**: Create a plot for each district and the overall percentage. → Shows the overall trend visually
+    -   **Variables**:
+        -   Jahr (x-axis)
+        -   Indikatorwert (y-axis)
+        -   Raumbezug
+        -   Auspragung (insgesamt)
 
-    -   **Cleaning/Transformation**: Filter out 'insgesamt' from Auspragung for each district and year. For total percentage filter out the overall percentage for each year.
+    <!-- -->
 
-    -   **Uncertainties/risks**: Variables might get mixed up
+    -   **Cleaning/Transformation**:
 
-2.  Do homelessness percentages differ based on gender and heritage (german & non-german) across districts.
+        -   Filter Auspragung to 'insgesamt'
 
-    -   **Variables**: Auspragung, Raumbezug, Indikatorwert
+        -   Create city areas North, East, South, West by grouping each districts
 
-    -   **Analytical Approach**: Compare distribution of percentages across groups
+        -   Calculate the mean Indikatorwert per year for each area
 
-    -   **Cleaning/Transformation**: Filter the different groups from Auspragung (*weiblich, männlich, deutsch,...*)
+    -   **Uncertainties/risks**: Districts within one city area for example South Munich could have very different trends but get put into one average.
 
-    -   **Uncertainties/risks**: Uncertain about how to compare the groups
+2.  Do unemployment percentages differ in 2005 based on gender and heritage (deutsch & nichtdeutsch) across districts in South Munich.
 
-3.  Can we build a simple model to predict the homelessness percentage in the next years?
+    Output: A bar chart for each german, non german, male and female per South Munich district. It shows the Indikatorwert from 2024
+
+    -   **Variables**:
+
+        -   Indikatorwert (y-axis, from 2024)
+
+        -   Auspragung filtered to männlich, weiblich, deutsch, nichtdeutsch
+
+        -   Raumbezug filtered to 06 Sendling, 07 Sendling - Westpark, 17 Obergiesing -Fasangarten, 18 Untergiesing - Harlaching, 19 Thalkirchen - Obersendling - Forstenried - Fürstenried - Solln
+
+    -   **Cleaning/Transformation**:
+
+        -   Filter the different groups from Auspragung (männlich, weiblich, deutsch, nichtdeutsch)
+
+        -   Filter South Munichs districts
+
+        -   Filter the Indikatorwert from 2024 per group and district
+
+    -   **Uncertainties/risks**: A single year makes the result sensitive for that year's context. An outside event may have influenced the percentage.
+
+    **Cut RQ:**
+
+3.  Can we build a simple model to predict the unemployed percentage in the next years?
 
     -   **Variables**: Auspragung, Jahr, Raumbezug, Indikatorwert
 
