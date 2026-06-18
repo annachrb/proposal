@@ -221,6 +221,10 @@ ggplot(aes(x = Jahr, y = Indikatorwert)) +
 
     → Could create different subset or wide data
 
+### Why we chose the Dataset
+
+The dataset contains the unemployment percentage for each district and the city Munich overall. It lets us examine each district and the trend of the unemployment rate over 24 years. This matters because it show an history of Munich's unemployment and how different years and choices show different outcomes for the Citys unemployment.
+
 # Analysis plan
 
 1.  How has the unemployment percentage in Munich changed from 2000 to 2023 overall and by city area (North, East, South, West)?
