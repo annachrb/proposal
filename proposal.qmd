@@ -41,15 +41,15 @@ Rows: 3250
 
 Columns: 10
 
-Each row represents the yearly percentage of homeless people per district in Munich as well as the total yearly percantage across all districts. They are also divided into total, german, non german, male and female divisions.
+Each row represents the yearly percentage of unemployed people per district in Munich as well as the total yearly percantage across all districts. They are also divided into total, german, non german, male and female divisions.
 
 Key variables we expect to use are the year, districts, percentage and both base values.
 
 ## Research Questions
 
 1.  How has the total percentage in Munich changed overall and across districts from 2000 to 2023? -\> Descripitve
-2.  Do homelessness percentages differ based on gender and heritage (german & non-german) across districts. -\> Explanatory Causal
-3.  Can we build a simple model to predict the homelessness percentage in the next years? -\> Predictive
+2.  Do unemployment percentages differ based on gender and heritage (german & non-german) across districts. -\> Explanatory Causal
+3.  Can we build a simple model to predict the unemployment percentage in the next years? -\> Predictive
 
 ## Context and target audience
 
@@ -125,31 +125,51 @@ ggplot(aes(x = Jahr, y = Indikatorwert)) +
 
 # Dataset & research questions
 
-## **License**:
+## **License**
 
 [https://www.govdata.de/dl-de/by-2-0](https://www.govdata.de/dl-de/by-2-0:)
 
-The data and meta-data provided may be used for commercial and non-commercial use
+The "Arbeitsmarkt - Arbeitslosen" dataset uses [Datenlizenz Deutschland Namensnennung 2.0 (dl-by-de)](https://www.govdata.de/dl-de/by-2-0) (Version 2.0). This is a german open government licence: you can copy, use, and redistribute the data for any purpose, including commercially, as long as you attribute the source.
 
-## Source:
+## Source
 
 <https://www.mstatistik-muenchen.de/indikatorenatlas/export/export.php>
 
-## What is in it:
+## What is in it
 
 Rows: 3250
 
 Columns: 10
 
-Each row represents the yearly percentage of homeless people per district in Munich as well as the total yearly percantage across all districts. They are also divided into total, german, non german, male and female divisions.
+Each **row** represents the yearly percentage of unemployed people per district in Munich as well as the total yearly percantage across all districts. They are also divided into total, german, non german, male and female divisions.
+
+Columns include the id, indicator name, unemployed person type (total, male, female,...), year, munich district (including total), unemployment percentage, unemploymed count, total resident count (15-64 years old)
 
 Key variables we expect to use are the year, districts, percentage and both base values.
+
+## Initial documentation gaps in raw file
+
+`Indikatorwert` : Indicator value, but not quite clear what is meant by the name alone: "unemployment percentage" and which value is missing (%)
+
+`Basiswert 1 / Basiswert 2` : names provides zero information of what the values mean. `Name Basiswert 1 / 2` give context but the columns with proper names would be sufficient.
+
+`Auspragung` : again column name gives no information about the values: categorical variable with demographics / subpopulations
+
+## Structural gaps
+
+The Munich Open Data page gives a formula description but it misses a real variable dictionary. Columns like `Auspragung` ,`Basiswert 1 / Basiswert 2` are unexplained.
+
+There is a seperate metadata PDF from the Statistisches Amt München you can find linked in the description before the dataset. The document reveals information not mentioned in the file:
+
+`Basiswert 2` changes its meaning depending on `Auspragung`, whether the row is gender or nationality and "Stadt München" rows aggregate geographic data differnetly than individual district rows.
+
+A user who loads the dataset without tracking down this external PDF could misinterpret the metrics or miscalculate the averages by mixing districts and city totals.
 
 ## Research Questions
 
 1.  How has the total percentage in Munich changed overall and across districts from 2000 to 2023? -\> Descripitve
-2.  Do homelessness percentages differ based on gender and heritage (german & non-german) across districts. -\> Explanatory Causal
-3.  Can we build a simple model to predict the homelessness percentage in the next years? -\> Predictive
+2.  Do unemployment percentages differ based on gender and heritage (german & non-german) across districts. -\> Explanatory Causal
+3.  Can we build a simple model to predict the unemployment percentage in the next years? -\> Predictive
 
 ## Context and target audience
 
@@ -223,7 +243,7 @@ ggplot(aes(x = Jahr, y = Indikatorwert)) +
 
 ### Why we chose the Dataset
 
-The dataset contains the unemployment percentage for each district and the city Munich overall. It lets us examine each district and the trend of the unemployment rate over 24 years. This matters because it show an history of Munich's unemployment and how different years and choices show different outcomes for the Citys unemployment.
+The dataset contains the unemployment percentage for each district and the city Munich overall. It lets us examine each district and the trend of the unemployment rate over 24 years. The advantage over just unemployment counts is that the percentage immediently shows the relation. The dataset and it's analysis matters because it shows the history of Munich's unemployment and how different years and choices show different outcomes for the City's unemployment.
 
 # Analysis plan
 
@@ -309,9 +329,7 @@ We will initialize renv in our project repo to create renv.lock. This way the pa
 
 ### Git workflow:
 
--   Tasks will be divided fairly and per task
-
--   We will create separate branches and verify by the other group member before merging into the main branch
+-   We will create separate branches per task (eg. feature/write-IDA) and verify by the other group member before merging into the main branch
 
 ### `.gitignore:`
 
