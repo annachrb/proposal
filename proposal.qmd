@@ -252,7 +252,7 @@ The dataset contains the unemployment percentage for each district and the city 
 
 ## Final Research Questions
 
-1.  How has the unemployment percentage in Munich changed from 2000 to 2023 overall and by city area (North, East, South, West)?
+1.  How has the unemployment percentage in Munich changed from 2000 to 2024 overall and by city area (North, East, South, West)?
 
     -   Output:
 

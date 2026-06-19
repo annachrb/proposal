@@ -8,7 +8,7 @@ The data are published under Datenlizenz Deutschland Namensnennung 2.0 and downl
 
 ## Research Questions
 
-1. How has the unemployment percentage in Munich changed from 2000 to 2023 overall and by city area (North, East, South, West)?
+1. How has the unemployment percentage in Munich changed from 2000 to 2024 overall and by city area (North, East, South, West)?
 2. Do unemployment percentages differ in 2005 based on gender and heritage (deutsch & nichtdeutsch) across districts in South Munich.
 
 ## Group Members
