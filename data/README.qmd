@@ -1,0 +1,36 @@
+---
+title: "README"
+format: html
+editor: visual
+---
+
+## Overview
+
+The dataset contains yearly unemployment records across the 25 city districts of Munich, covering the years 2000 - 2024. Each row represents one year for one area combined with a single demographic category (gender, nationality or total) and the fitting unemployment percentage with the unemployment count and total resident count. The data are published under Datenlizenz Deutschland Namensnennung 2.0 and downloaded from the Munich Open Data Portal on 2026-05-15.
+
+## Variable dictionary
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+
+library(knitr)
+
+dictionary_data <- data.frame(
+  Variable = c("Jahr", "Raumbezug", "Auspragung", "Indikatorwert", "Basiswert 1", "Basiswert 2"),
+  Type = c("<dbl>", "<chr>", "<chr>", "<dbl>", "<dbl>", "<dbl>"),
+  Description = c(
+    "Observation year",
+    "District number and name",
+    "Demographic category (gender, nationality or total)",
+    "Unemployment rate calculated as a percentage (%)",
+    "Total count of unemployed individuals matching the demographic group",
+    "Reference working age population (ages 15-64)"
+  ),
+  'Example / range' = c("2000 - 2024", '"03 Maxvorstadt", "Stadt München"', '"insgesamt", "weiblich", "deutsch"', "1.6 - 13.0", "89.0 - 60348.8", "3308.8 - 1117076.3"),
+  check.names = FALSE
+)
+
+kable(dictionary_data, format = "markdown")
+```
