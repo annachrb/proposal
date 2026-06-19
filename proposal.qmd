@@ -11,7 +11,7 @@ library(readr)
 library(dplyr)
 library(lubridate)
 
-accidents <- read_csv("40094bd6-f82d-4979-949b-26c8dc00b9a7.csv")
+accidents <- read_csv("data/40094bd6-f82d-4979-949b-26c8dc00b9a7.csv")
 glimpse(accidents)
 ```
 
@@ -65,12 +65,15 @@ Presentation: Visual presentation of the districts of Munich and location with c
 library(readr)
 library(dplyr)
 library(visdat)
+library(skimr)
 
 arbeitslosen <- read_csv("Arbeitsmarkt-Arbeitslosen-Anteil.csv")
 
 glimpse(arbeitslosen)
 
 vis_dat(arbeitslosen)
+
+skim(arbeitslosen)
 ```
 
 The dates are read as \<dbl\>, Categorical variables are \<chr\>, there are no columns where the types are unexpected -\> catergorical as characters and number as \<dbl\>
@@ -329,7 +332,9 @@ We will initialize renv in our project repo to create renv.lock. This way the pa
 
 ### Git workflow:
 
--   We will create separate branches per task (eg. feature/write-IDA) and verify by the other group member before merging into the main branch
+We will create separate branches per task (eg. feature/write-IDA) and verify by the other group member before merging into the main branch.
+
+This way the other group member will be able to pull the tasks after they are finished. Creating just one feature branch per group member or working on the main branch it leads to merge conflicts and messy files.
 
 ### `.gitignore:`
 
