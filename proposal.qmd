@@ -67,7 +67,7 @@ library(dplyr)
 library(visdat)
 library(skimr)
 
-arbeitslosen <- read_csv("Arbeitsmarkt-Arbeitslosen-Anteil.csv")
+arbeitslosen <- read_csv("data/raw/Arbeitsmarkt-Arbeitslosen-Anteil.csv")
 
 glimpse(arbeitslosen)
 
@@ -249,6 +249,8 @@ ggplot(aes(x = Jahr, y = Indikatorwert)) +
 The dataset contains the unemployment percentage for each district and the city Munich overall. It lets us examine each district and the trend of the unemployment rate over 24 years. The advantage over just unemployment counts is that the percentage immediently shows the relation. The dataset and it's analysis matters because it shows the history of Munich's unemployment and how different years and choices show different outcomes for the City's unemployment.
 
 # Analysis plan
+
+## Final Research Questions
 
 1.  How has the unemployment percentage in Munich changed from 2000 to 2023 overall and by city area (North, East, South, West)?
 
