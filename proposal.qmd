@@ -1,6 +1,11 @@
 ---
 title: "proposal"
-format: html
+format: 
+  html: 
+    toc: true
+    toc-depth: 3
+    toc-location: right
+    smooth-scroll: true
 editor: visual
 ---
 
@@ -11,7 +16,7 @@ library(readr)
 library(dplyr)
 library(lubridate)
 
-accidents <- read_csv("data/40094bd6-f82d-4979-949b-26c8dc00b9a7.csv")
+accidents <- read_csv("40094bd6-f82d-4979-949b-26c8dc00b9a7.csv")
 glimpse(accidents)
 ```
 
@@ -23,43 +28,7 @@ accidents_clean <- accidents |>
 glimpse(accidents_clean)
 ```
 
-# 1. Dataset & research questions
-
-## **License**:
-
-[https://www.govdata.de/dl-de/by-2-0](https://www.govdata.de/dl-de/by-2-0:)
-
-The data and meta-data provided may be used for commercial and non-commercial use
-
-## Source:
-
-<https://www.mstatistik-muenchen.de/indikatorenatlas/export/export.php>
-
-## What is in it:
-
-Rows: 3250
-
-Columns: 10
-
-Each row represents the yearly percentage of unemployed people per district in Munich as well as the total yearly percantage across all districts. They are also divided into total, german, non german, male and female divisions.
-
-Key variables we expect to use are the year, districts, percentage and both base values.
-
-## Research Questions
-
-1.  How has the total percentage in Munich changed overall and across districts from 2000 to 2023? -\> Descripitve
-2.  Do unemployment percentages differ based on gender and heritage (german & non-german) across districts. -\> Explanatory Causal
-3.  Can we build a simple model to predict the unemployment percentage in the next years? -\> Predictive
-
-## Context and target audience
-
-Target audience: Agentur für Arbeit München, Jobcenter München, Referat für Arbeit und Wirtschaft der Landeshauptstadt München.
-
-Analysis of trends in each district to plan resources and aid for unemployed citizens and providing additional help like seminars for each districts.
-
-Presentation: Visual presentation of the districts of Munich and location with concrete numbers and evidence.
-
-# 2. Data screening
+# 1. Data screening
 
 ```{r}
 library(readr)
@@ -78,7 +47,7 @@ skim(arbeitslosen)
 
 The dates are read as \<dbl\>, Categorical variables are \<chr\>, there are no columns where the types are unexpected -\> catergorical as characters and number as \<dbl\>
 
-# 3. Data cleaning
+# 2. Data cleaning
 
 ```{r}
 library(skimr)
@@ -98,7 +67,7 @@ vis_miss(arbeitslosen)
 
 -   Dataset contains rows for both individual districts and the entire city total (*Stadt München*) in the same column
 
-# **4. EDA plots**
+# 3. Exploratory Data Analysis plots
 
 ```{r}
 library(ggplot2)
@@ -124,11 +93,9 @@ ggplot(aes(x = Jahr, y = Indikatorwert)) +
   theme(strip.text = element_text(size = 5, lineheight = 1.1))
 ```
 
-# **5. IDA**
+# 4. Initial Data Analysis
 
-# Dataset & research questions
-
-## **License**
+## License
 
 [https://www.govdata.de/dl-de/by-2-0](https://www.govdata.de/dl-de/by-2-0:)
 
@@ -182,8 +149,6 @@ Analysis of trends in each district to plan resources and aid for unemployed cit
 
 Presentation: Visual presentation of the districts of Munich and location with concrete numbers and evidence.
 
-# Initial data analysis
-
 ```{r}
 #| label: data_glimpse
 #| eval: false
@@ -234,7 +199,7 @@ ggplot(aes(x = Jahr, y = Indikatorwert)) +
   theme(strip.text = element_text(size = 5, lineheight = 1.1))
 ```
 
-### Data quality issues:
+## Data quality issues:
 
 -   Contains rows for both individual districts and the entire city total (*Stadt München*) in the same column
 
@@ -244,29 +209,24 @@ ggplot(aes(x = Jahr, y = Indikatorwert)) +
 
     → Could create different subset or wide data
 
-### Why we chose the Dataset
+## Why we chose the Dataset
 
 The dataset contains the unemployment percentage for each district and the city Munich overall. It lets us examine each district and the trend of the unemployment rate over 24 years. The advantage over just unemployment counts is that the percentage immediently shows the relation. The dataset and it's analysis matters because it shows the history of Munich's unemployment and how different years and choices show different outcomes for the City's unemployment.
 
 # Analysis plan
 
-## Final Research Questions
+## Research Questions
 
 1.  How has the unemployment percentage in Munich changed from 2000 to 2024 overall and by city area (North, East, South, West)?
 
-    -   Output:
-
-        Five line plots for each area and one for Munich overall that show the yearly unemployment percentage over time.
-
-    <!-- -->
+    -   **Output:** Five line plots for each area and one for Munich overall that show the yearly unemployment percentage over time.
 
     -   **Variables**:
+
         -   Jahr (x-axis)
         -   Indikatorwert (y-axis)
         -   Raumbezug
         -   Auspragung (insgesamt)
-
-    <!-- -->
 
     -   **Cleaning/Transformation**:
 
@@ -314,7 +274,7 @@ The dataset contains the unemployment percentage for each district and the city 
 
 # Workflow organisation
 
-### **Code style:**
+### Code style:
 
 -   tidyverse style guide: \<- for assignments, spaces around operators, ...
 
