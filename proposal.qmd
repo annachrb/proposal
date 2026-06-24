@@ -199,7 +199,7 @@ ggplot(aes(x = Jahr, y = Indikatorwert)) +
   theme(strip.text = element_text(size = 5, lineheight = 1.1))
 ```
 
-## Data quality issues:
+## Data quality issues
 
 -   Contains rows for both individual districts and the entire city total (*Stadt München*) in the same column
 
@@ -219,46 +219,47 @@ The dataset contains the unemployment percentage for each district and the city 
 
 1.  How has the unemployment percentage in Munich changed from 2000 to 2024 overall and by city area (North, East, South, West)?
 
-    -   **Output:** Five line plots for each area and one for Munich overall that show the yearly unemployment percentage over time.
+    **Specific claim:**
 
-    -   **Variables**:
+    We will estimate the trend of mean unemployment percentage over time (`Indikatorwert ~ Jahr`) grouped by city area and total by calculating the annual average of the districts, and report five line graphs that show the trend from 2000 to 2024.
 
-        -   Jahr (x-axis)
-        -   Indikatorwert (y-axis)
-        -   Raumbezug
-        -   Auspragung (insgesamt)
+    **Classify the analysis:**
 
-    -   **Cleaning/Transformation**:
+    **Goal: Descriptive** - we are describing the state of the `Indikatorwert` per city area from 2000-2024, **exploratory -** after looking at the variables available we fixed the question
 
-        -   Filter Auspragung to 'insgesamt'
+    **Model specification:**
 
-        -   Create city areas North, East, South, West by grouping each districts
+    -   **Response: `Indikatorwert`** - unemployment percentage in % (`<dbl>`)
 
-        -   Calculate the mean Indikatorwert per year for each area
+    -   **Predictor:** `Jahr` - year (`<dbl>`), across five groups of `Raumbezug` (North, East, South, West, total)
 
-    -   **Uncertainties/risks**: Districts within one city area for example South Munich could have very different trends but get put into one average.
+    -   **Method:** Calculating the annual mean of the districts within each city area & total
 
-2.  Do unemployment percentages differ in 2005 based on gender and heritage (deutsch & nichtdeutsch) across districts in South Munich.
+    -   **Expected output:** a summary data set of annual means and five line plots showing the trend from 2000 to 2024
 
-    Output: A bar chart for each german, non german, male and female per South Munich district. It shows the Indikatorwert from 2024
+    -   **Interpretation:** "This tells us how the unemployment rate has historically developed and shifted over a 24 year time period within different regions of Munich."
 
-    -   **Variables**:
+2.  Do unemployment percentages differ in 2024 based on gender across districts in South Munich.
 
-        -   Indikatorwert (y-axis, from 2024)
+    **Specific claim:**
 
-        -   Auspragung filtered to männlich, weiblich, deutsch, nichtdeutsch
+    We will compare mean unemployment percentage between männlich and weiblich groups (`Indikatorwert ~ Auspragung`) across South Munich districts for the year 2024 using a difference in means test, and report the estimated difference, a 95% confidence interval, and a p-value.
 
-        -   Raumbezug filtered to 06 Sendling, 07 Sendling - Westpark, 17 Obergiesing -Fasangarten, 18 Untergiesing - Harlaching, 19 Thalkirchen - Obersendling - Forstenried - Fürstenried - Solln
+    **Classify the analysis:**
 
-    -   **Cleaning/Transformation**:
+    **Goal: Explanatory** - we are asking whether `Auspragung` (gender) is related to `Indikatorwert`, **exploratory -** after seeing the data was grouped by gender also we decided to look more into it
 
-        -   Filter the different groups from Auspragung (männlich, weiblich, deutsch, nichtdeutsch)
+    **Model specification:**
 
-        -   Filter South Munichs districts
+    -   **Response: `Indikatorwert`** - unemployment percentage in % (`<dbl>`)
 
-        -   Filter the Indikatorwert from 2024 per group and district
+    -   **Predictor:** `Auspragung` - Categorical grouping filtered to `männlich` & `weiblich` (`<chr>`)
 
-    -   **Uncertainties/risks**: A single year makes the result sensitive for that year's context. An outside event may have influenced the percentage.
+    -   **Method:** Difference in means between the two groups, using a theory-based t null distribution
+
+    -   **Expected output:** The observed difference in means, a null-distribution plot with the observed statistic shaded, a p-value, and a 95% CI
+
+    -   **Interpretation:** "This tells us whether male residents face systematically higher or lower unemployment percentages compared to female residents across South Munich districts in 2024"
 
     **Cut RQ:**
 
