@@ -261,6 +261,18 @@ The dataset contains the unemployment percentage for each district and the city 
 
     -   **Interpretation:** "This tells us whether male residents face systematically higher or lower unemployment percentages compared to female residents across South Munich districts in 2024"
 
+    ```{r}
+    library(dplyr)
+
+    dat <- readr::read_csv("data/raw/Arbeitsmarkt-Arbeitslosen-Anteil.csv")
+    glimpse(dat)
+
+    # Do the variables you named exist, with the right type?
+    # Is there enough variation and coverage to estimate what you want?
+    dat |> count(Auspragung)          # are groups large enough?
+    dat |> summarise(across(where(is.numeric), \(x) sum(is.na(x))))  # missingness
+    ```
+
     **Cut RQ:**
 
 3.  Can we build a simple model to predict the unemployed percentage in the next years?
