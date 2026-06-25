@@ -273,6 +273,30 @@ The dataset contains the unemployment percentage for each district and the city 
 
     -   **Uncertainties/risks**: Events outside the data have major impact on the trend, cannot predict these events
 
+## `{infer}` test
+
+```{r}
+library(infer)
+
+obs_stat <- arbeitslosen |>
+  filter(Jahr == 2024 & Auspragung %in% c("männlich", "weiblich")) |>
+  specify(Indikatorwert ~ Auspragung) |>   
+  calculate(stat = "diff in means",           
+            order = c("männlich", "weiblich"))
+
+null_dist <- arbeitslosen |>
+  filter(Auspragung %in% c("männlich", "weiblich")) |>
+  specify(Indikatorwert ~ Auspragung) |>
+  assume("t")          
+
+# Visualize the result
+null_dist |> 
+  visualize() +
+  shade_p_value(obs_stat = obs_stat, direction = "both")
+```
+
+**Result Interpretation:** The difference in average unemployment rate between männlich and weiblich in 2024 falls within the high probability region of the null distribution. The variation between groups can be explained by random sampling variation and we cannot reject the null hypothesis that there is no systematic gender gap.
+
 # Workflow organisation
 
 ### Code style:
