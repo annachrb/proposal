@@ -1,5 +1,5 @@
 ---
-title: "sandbox-starwars"
+title: "sandbox"
 format: html
 ---
 
@@ -31,7 +31,7 @@ Exploratory –\> a suggested finding not confirmed. And because `starwars` is
 
 **Interpretation sentence:** This tells us whether masculine characters are systematically taller or shorter than feminine characters in this dataset
 
-## Run test with `{infer}` 
+## Run test with `{infer}`
 
 ```{r}
 library(dplyr)
@@ -83,3 +83,22 @@ null_dist |>
 -   `visualize() + shade_p_value(obs_stat = obs_diff, direction = "two-sided")` creates a plot with the t-null distribution and marks where the actual obs_diff (result) lies.
 
 **Result Interpretation:** The feminine height is small and the difference between the masculine height is large.
+
+# Sandbox - **communicating `palmerpenguins`**
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(gt)
+library(palmerpenguins)
+```
+
+-   a\. The exact mean and SD of bill length for each of the three species
+
+    table, need exact values
+
+-   b\. Whether body mass and flipper length are related
+
+-   c\. A preview of the first six rows of the raw data for a methods appendix
+
+-   d\. How the distribution of bill length differs between species

@@ -1,8 +1,10 @@
 project:
   type: website
+  output-dir: docs
+  execute-dir: project
 
 website:
-  title: "reflection-log"
+  title: "Proposal"
   navbar:
     left:
       - href: index.qmd
