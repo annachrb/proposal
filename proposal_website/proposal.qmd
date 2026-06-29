@@ -85,12 +85,16 @@ arbeitslosen %>%
   filter(Raumbezug %in% selected_districts) %>%
   filter(Auspragung == "insgesamt") %>%
 ggplot(aes(x = Jahr, y = Indikatorwert)) +
-  geom_line(color = "steelblue", size = 1) +
-  geom_point() +
+  geom_line(color = "steelblue", linewidth = 0.8) +
+  geom_point(size = 1.5) +
   facet_wrap(~ Raumbezug, scales = "free_y") +
   theme_minimal() +
-  labs(title = "Unemployment Trends over Time") +
-  theme(strip.text = element_text(size = 5, lineheight = 1.1))
+  labs(title = "Unemployment Trends over Time" , subtitle = "Ramersdorf-Perlach consistently shows higher rates than Maxvorstadt",
+    x        = "Year",
+    y        = "Unemployment Rate (%)",
+    caption  = "Source: Statistisches Amt München") +
+  theme(strip.text = element_text(size = 7),  plot.subtitle = element_text(color = "grey40")
+  )
 ```
 
 # 4. Initial Data Analysis
@@ -179,7 +183,14 @@ ggplot(arbeitslosen, aes(x = Indikatorwert)) +
 
 ```{r}
 #| label: Plot 2
-#| fig-cap: "Figure 2: Unemployment Trends over Time"
+#| fig-cap: "Figure 2: Ramersdorf-Perlach consistently shows the
+#| highest unemployment rates among the four districts, while
+#| Maxvorstadt remains the lowest across 2000–2024."
+#| fig-alt: "A faceted line chart showing unemployment rates from
+#| 2000 to 2024 for four Munich districts. Ramersdorf-Perlach
+#| starts around 8%  and remains the highest throughout.
+#| Maxvorstadt stays the lowest,peaking around 2005 and declining
+#| steadily."
 #| message: false
 #| warning: false
 
@@ -340,3 +351,44 @@ This way the other group member will be able to pull the tasks after they are fi
 -   rendered outputs
 
 -   Local RStudio state files and `.env`
+
+### gt table
+
+```{r}
+
+library(dplyr)
+library(gt)
+
+arbeitslosen |>
+  filter(Jahr == 2024,
+         Auspragung %in% c("männlich", "weiblich")) |>
+  group_by(Auspragung) |>
+  summarise(
+    n         = n(),
+    mean_rate = mean(Indikatorwert, na.rm = TRUE),
+    min_rate  = min(Indikatorwert, na.rm = TRUE),
+    max_rate  = max(Indikatorwert, na.rm = TRUE)
+  ) |>
+  gt() |>
+  fmt_number(columns = c(mean_rate, min_rate, max_rate), decimals = 1) |>
+  fmt_integer(columns = n) |>
+  cols_label(
+    Auspragung = "Gruppe",
+    n          = "Bezirke (n)",
+    mean_rate  = "Mittelwert",
+    min_rate   = "Min",
+    max_rate   = "Max"
+  ) |>
+  tab_spanner(
+    label   = "Arbeitslosenquote (%)",
+    columns = c(mean_rate, min_rate, max_rate)
+  ) |>
+  cols_align(align = "right", columns = where(is.numeric)) |>
+  tab_header(
+    title    = "Arbeitslosenquote nach Geschlecht",
+    subtitle = "München, 2024"
+  ) |>
+  tab_source_note(md("Quelle: Statistisches Amt München"))
+```
+
+### 

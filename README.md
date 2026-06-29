@@ -11,6 +11,15 @@ The data is published under Datenlizenz Deutschland Namensnennung 2.0 and downlo
 1. How has the unemployment percentage in Munich changed from 2000 to 2024 overall and by city area (North, East, South, West)?
 2. Do unemployment percentages differ in 2024 based on gender across districts in South Munich.
 
+## Visualisation improvement
+
+Before:The plot had no subtitle, no data source, and used the outdated `size` argument.
+
+After: Added a finding-based subtitle, axis labels with units, a source caption, and switched to `linewidth` for modern ggplot2.
+
+The subtitle now states the finding directly so readers immediately understand 
+what the chart shows without having to interpret it themselves.
+
 ## Group Members
 - Rebecca Patrick: R.Patrick@campus.lmu.de
 - Anna Chrebtov: Anna.Chrebtov@campus.lmu.de
