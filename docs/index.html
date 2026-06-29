@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>reflection-log – Proposal</title>
+<title>proposal – Proposal</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +19,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -68,6 +103,7 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<style>html{ scroll-behavior: smooth; }</style>
 
 
 <link rel="stylesheet" href="styles.css">
@@ -113,15 +149,53 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#warm-up" id="toc-warm-up" class="nav-link active" data-scroll-target="#warm-up">Warm up</a></li>
+  <li><a href="#data-screening" id="toc-data-screening" class="nav-link" data-scroll-target="#data-screening">1. Data screening</a></li>
+  <li><a href="#data-cleaning" id="toc-data-cleaning" class="nav-link" data-scroll-target="#data-cleaning">2. Data cleaning</a>
+  <ul class="collapse">
+  <li><a href="#data-quality-issues" id="toc-data-quality-issues" class="nav-link" data-scroll-target="#data-quality-issues">Data quality issues:</a></li>
+  </ul></li>
+  <li><a href="#exploratory-data-analysis-plots" id="toc-exploratory-data-analysis-plots" class="nav-link" data-scroll-target="#exploratory-data-analysis-plots">3. Exploratory Data Analysis plots</a></li>
+  <li><a href="#initial-data-analysis" id="toc-initial-data-analysis" class="nav-link" data-scroll-target="#initial-data-analysis">4. Initial Data Analysis</a>
+  <ul class="collapse">
+  <li><a href="#license" id="toc-license" class="nav-link" data-scroll-target="#license">License</a></li>
+  <li><a href="#source" id="toc-source" class="nav-link" data-scroll-target="#source">Source</a></li>
+  <li><a href="#what-is-in-it" id="toc-what-is-in-it" class="nav-link" data-scroll-target="#what-is-in-it">What is in it</a></li>
+  <li><a href="#initial-documentation-gaps-in-raw-file" id="toc-initial-documentation-gaps-in-raw-file" class="nav-link" data-scroll-target="#initial-documentation-gaps-in-raw-file">Initial documentation gaps in raw file</a></li>
+  <li><a href="#structural-gaps" id="toc-structural-gaps" class="nav-link" data-scroll-target="#structural-gaps">Structural gaps</a></li>
+  <li><a href="#research-questions" id="toc-research-questions" class="nav-link" data-scroll-target="#research-questions">Research Questions</a></li>
+  <li><a href="#context-and-target-audience" id="toc-context-and-target-audience" class="nav-link" data-scroll-target="#context-and-target-audience">Context and target audience</a></li>
+  <li><a href="#data-quality-issues-1" id="toc-data-quality-issues-1" class="nav-link" data-scroll-target="#data-quality-issues-1">Data quality issues</a></li>
+  <li><a href="#why-we-chose-the-dataset" id="toc-why-we-chose-the-dataset" class="nav-link" data-scroll-target="#why-we-chose-the-dataset">Why we chose the Dataset</a></li>
+  </ul></li>
+  <li><a href="#analysis-plan" id="toc-analysis-plan" class="nav-link" data-scroll-target="#analysis-plan">Analysis plan</a>
+  <ul class="collapse">
+  <li><a href="#research-questions-1" id="toc-research-questions-1" class="nav-link" data-scroll-target="#research-questions-1">Research Questions</a></li>
+  <li><a href="#infer-test" id="toc-infer-test" class="nav-link" data-scroll-target="#infer-test"><code>{infer}</code> test</a></li>
+  </ul></li>
+  <li><a href="#workflow-organisation" id="toc-workflow-organisation" class="nav-link" data-scroll-target="#workflow-organisation">Workflow organisation</a>
+  <ul class="collapse">
+  <li><a href="#code-style" id="toc-code-style" class="nav-link" data-scroll-target="#code-style">Code style:</a></li>
+  <li><a href="#packages" id="toc-packages" class="nav-link" data-scroll-target="#packages">Packages:</a></li>
+  <li><a href="#git-workflow" id="toc-git-workflow" class="nav-link" data-scroll-target="#git-workflow">Git workflow:</a></li>
+  <li><a href="#gitignore" id="toc-gitignore" class="nav-link" data-scroll-target="#gitignore"><code>.gitignore:</code></a></li>
+  <li><a href="#gt-table" id="toc-gt-table" class="nav-link" data-scroll-target="#gt-table">gt table</a></li>
+  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"></a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">reflection-log</h1>
+<h1 class="title">proposal</h1>
 </div>
 
 
@@ -138,10 +212,1564 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>This is a Quarto website.</p>
-<p>To learn more about Quarto websites visit <a href="https://quarto.org/docs/websites" class="uri">https://quarto.org/docs/websites</a>.</p>
+<section id="warm-up" class="level1">
+<h1>Warm up</h1>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(dplyr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attache Paket: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Die folgenden Objekte sind maskiert von 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Die folgenden Objekte sind maskiert von 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">library</span>(lubridate)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attache Paket: 'lubridate'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Die folgenden Objekte sind maskiert von 'package:base':
+
+    date, intersect, setdiff, union</code></pre>
+</div>
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>accidents <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"40094bd6-f82d-4979-949b-26c8dc00b9a7.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 2450 Columns: 10</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (3): MONATSZAHL, AUSPRAEGUNG, MONAT
+dbl (7): _id, JAHR, WERT, VORJAHRESWERT, VERAEND_VORMONAT_PROZENT, VERAEND_V...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="fu">glimpse</span>(accidents)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 2,450
+Columns: 10
+$ `_id`                          &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, …
+$ MONATSZAHL                     &lt;chr&gt; "Alkoholunfälle", "Alkoholunfälle", "Al…
+$ AUSPRAEGUNG                    &lt;chr&gt; "insgesamt", "insgesamt", "insgesamt", …
+$ JAHR                           &lt;dbl&gt; 2026, 2026, 2026, 2026, 2026, 2026, 202…
+$ MONAT                          &lt;chr&gt; "202601", "202602", "202603", "202604",…
+$ WERT                           &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
+$ VORJAHRESWERT                  &lt;dbl&gt; 34, 24, 28, 26, 43, 39, 48, 55, 53, 32,…
+$ VERAEND_VORMONAT_PROZENT       &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
+$ VERAEND_VORJAHRESMONAT_PROZENT &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
+$ ZWOELF_MONATE_MITTELWERT       &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…</code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>accidents_clean <span class="ot">&lt;-</span> accidents <span class="sc">|&gt;</span></span>
+<span id="cb13-2"><a href="#cb13-2"></a>  <span class="fu">filter</span>(MONAT <span class="sc">!=</span> <span class="st">"Summe"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb13-3"><a href="#cb13-3"></a>  <span class="fu">mutate</span>(<span class="at">date =</span> <span class="fu">ym</span>(MONAT))</span>
+<span id="cb13-4"><a href="#cb13-4"></a></span>
+<span id="cb13-5"><a href="#cb13-5"></a><span class="fu">glimpse</span>(accidents_clean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 2,268
+Columns: 11
+$ `_id`                          &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, …
+$ MONATSZAHL                     &lt;chr&gt; "Alkoholunfälle", "Alkoholunfälle", "Al…
+$ AUSPRAEGUNG                    &lt;chr&gt; "insgesamt", "insgesamt", "insgesamt", …
+$ JAHR                           &lt;dbl&gt; 2026, 2026, 2026, 2026, 2026, 2026, 202…
+$ MONAT                          &lt;chr&gt; "202601", "202602", "202603", "202604",…
+$ WERT                           &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
+$ VORJAHRESWERT                  &lt;dbl&gt; 34, 24, 28, 26, 43, 39, 48, 55, 53, 32,…
+$ VERAEND_VORMONAT_PROZENT       &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
+$ VERAEND_VORJAHRESMONAT_PROZENT &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
+$ ZWOELF_MONATE_MITTELWERT       &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
+$ date                           &lt;date&gt; 2026-01-01, 2026-02-01, 2026-03-01, 20…</code></pre>
+</div>
+</div>
+</section>
+<section id="data-screening" class="level1">
+<h1>1. Data screening</h1>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb15-2"><a href="#cb15-2"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb15-3"><a href="#cb15-3"></a><span class="fu">library</span>(visdat)</span>
+<span id="cb15-4"><a href="#cb15-4"></a><span class="fu">library</span>(skimr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Paket 'skimr' wurde unter R Version 4.5.2 erstellt</code></pre>
+</div>
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>arbeitslosen <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/raw/Arbeitsmarkt-Arbeitslosen-Anteil.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 3250 Columns: 10
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (5): Indikator, Auspragung, Raumbezug, Name Basiswert 1, Name Basiswert 2
+dbl (5): _id, Jahr, Indikatorwert, Basiswert 1, Basiswert 2
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="fu">glimpse</span>(arbeitslosen)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 3,250
+Columns: 10
+$ `_id`              &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, …
+$ Indikator          &lt;chr&gt; "Arbeitslose - Anteil", "Arbeitslose - Anteil", "Ar…
+$ Auspragung         &lt;chr&gt; "deutsch", "deutsch", "deutsch", "deutsch", "deutsc…
+$ Jahr               &lt;dbl&gt; 2024, 2024, 2024, 2024, 2024, 2024, 2024, 2024, 202…
+$ Raumbezug          &lt;chr&gt; "Stadt München", "01 Altstadt - Lehel", "02 Ludwigs…
+$ Indikatorwert      &lt;dbl&gt; 3.1, 2.6, 3.0, 2.7, 2.6, 3.1, 3.4, 3.0, 3.5, 2.7, 3…
+$ `Basiswert 1`      &lt;dbl&gt; 22284.8, 284.3, 849.0, 781.0, 932.8, 1077.3, 706.8,…
+$ `Basiswert 2`      &lt;dbl&gt; 726741.0, 11023.5, 28076.8, 29447.0, 35939.0, 34584…
+$ `Name Basiswert 1` &lt;chr&gt; "Arbeitslose (deutsch)", "Arbeitslose (deutsch)", "…
+$ `Name Basiswert 2` &lt;chr&gt; "Hauptwohnsitzbevölkerung (15 bis 64 Jahre) (deutsc…</code></pre>
+</div>
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a><span class="fu">vis_dat</span>(arbeitslosen)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a><span class="fu">skim</span>(arbeitslosen)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Data summary</caption>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Name</td>
+<td style="text-align: left;">arbeitslosen</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Number of rows</td>
+<td style="text-align: left;">3250</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Number of columns</td>
+<td style="text-align: left;">10</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">_______________________</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Column type frequency:</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">character</td>
+<td style="text-align: left;">5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">numeric</td>
+<td style="text-align: left;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">________________________</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Group variables</td>
+<td style="text-align: left;">None</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: character</strong></p>
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 22%">
+<col style="width: 13%">
+<col style="width: 18%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 8%">
+<col style="width: 12%">
+<col style="width: 14%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">skim_variable</th>
+<th style="text-align: right;">n_missing</th>
+<th style="text-align: right;">complete_rate</th>
+<th style="text-align: right;">min</th>
+<th style="text-align: right;">max</th>
+<th style="text-align: right;">empty</th>
+<th style="text-align: right;">n_unique</th>
+<th style="text-align: right;">whitespace</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Indikator</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Auspragung</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Raumbezug</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">65</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">26</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Name Basiswert 1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: right;">26</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Name Basiswert 2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">52</td>
+<td style="text-align: right;">57</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: numeric</strong></p>
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 9%">
+<col style="width: 13%">
+<col style="width: 8%">
+<col style="width: 9%">
+<col style="width: 6%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 9%">
+<col style="width: 5%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">skim_variable</th>
+<th style="text-align: right;">n_missing</th>
+<th style="text-align: right;">complete_rate</th>
+<th style="text-align: right;">mean</th>
+<th style="text-align: right;">sd</th>
+<th style="text-align: right;">p0</th>
+<th style="text-align: right;">p25</th>
+<th style="text-align: right;">p50</th>
+<th style="text-align: right;">p75</th>
+<th style="text-align: right;">p100</th>
+<th style="text-align: left;">hist</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">_id</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1625.50</td>
+<td style="text-align: right;">938.34</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">813.25</td>
+<td style="text-align: right;">1625.50</td>
+<td style="text-align: right;">2437.75</td>
+<td style="text-align: right;">3250.0</td>
+<td style="text-align: left;">▇▇▇▇▇</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Jahr</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2012.00</td>
+<td style="text-align: right;">7.21</td>
+<td style="text-align: right;">2000.0</td>
+<td style="text-align: right;">2006.00</td>
+<td style="text-align: right;">2012.00</td>
+<td style="text-align: right;">2018.00</td>
+<td style="text-align: right;">2024.0</td>
+<td style="text-align: left;">▇▇▇▇▇</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Indikatorwert</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">4.21</td>
+<td style="text-align: right;">1.46</td>
+<td style="text-align: right;">1.6</td>
+<td style="text-align: right;">3.20</td>
+<td style="text-align: right;">3.90</td>
+<td style="text-align: right;">5.00</td>
+<td style="text-align: right;">13.0</td>
+<td style="text-align: left;">▇▇▂▁▁</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Basiswert 1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1854.35</td>
+<td style="text-align: right;">4880.48</td>
+<td style="text-align: right;">89.0</td>
+<td style="text-align: right;">607.70</td>
+<td style="text-align: right;">841.30</td>
+<td style="text-align: right;">1260.55</td>
+<td style="text-align: right;">60348.8</td>
+<td style="text-align: left;">▇▁▁▁▁</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Basiswert 2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">46214.80</td>
+<td style="text-align: right;">121407.52</td>
+<td style="text-align: right;">3308.8</td>
+<td style="text-align: right;">14788.20</td>
+<td style="text-align: right;">21677.75</td>
+<td style="text-align: right;">33357.25</td>
+<td style="text-align: right;">1117076.3</td>
+<td style="text-align: left;">▇▁▁▁▁</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The dates are read as &lt;dbl&gt;, Categorical variables are &lt;chr&gt;, there are no columns where the types are unexpected -&gt; catergorical as characters and number as &lt;dbl&gt;</p>
+</section>
+<section id="data-cleaning" class="level1">
+<h1>2. Data cleaning</h1>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a><span class="fu">library</span>(skimr)</span>
+<span id="cb23-2"><a href="#cb23-2"></a><span class="fu">skim</span>(arbeitslosen)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Data summary</caption>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Name</td>
+<td style="text-align: left;">arbeitslosen</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Number of rows</td>
+<td style="text-align: left;">3250</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Number of columns</td>
+<td style="text-align: left;">10</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">_______________________</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Column type frequency:</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">character</td>
+<td style="text-align: left;">5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">numeric</td>
+<td style="text-align: left;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">________________________</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Group variables</td>
+<td style="text-align: left;">None</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: character</strong></p>
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 22%">
+<col style="width: 13%">
+<col style="width: 18%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 8%">
+<col style="width: 12%">
+<col style="width: 14%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">skim_variable</th>
+<th style="text-align: right;">n_missing</th>
+<th style="text-align: right;">complete_rate</th>
+<th style="text-align: right;">min</th>
+<th style="text-align: right;">max</th>
+<th style="text-align: right;">empty</th>
+<th style="text-align: right;">n_unique</th>
+<th style="text-align: right;">whitespace</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Indikator</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Auspragung</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Raumbezug</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">65</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">26</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Name Basiswert 1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: right;">26</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Name Basiswert 2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">52</td>
+<td style="text-align: right;">57</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: numeric</strong></p>
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 9%">
+<col style="width: 13%">
+<col style="width: 8%">
+<col style="width: 9%">
+<col style="width: 6%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 9%">
+<col style="width: 5%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">skim_variable</th>
+<th style="text-align: right;">n_missing</th>
+<th style="text-align: right;">complete_rate</th>
+<th style="text-align: right;">mean</th>
+<th style="text-align: right;">sd</th>
+<th style="text-align: right;">p0</th>
+<th style="text-align: right;">p25</th>
+<th style="text-align: right;">p50</th>
+<th style="text-align: right;">p75</th>
+<th style="text-align: right;">p100</th>
+<th style="text-align: left;">hist</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">_id</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1625.50</td>
+<td style="text-align: right;">938.34</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">813.25</td>
+<td style="text-align: right;">1625.50</td>
+<td style="text-align: right;">2437.75</td>
+<td style="text-align: right;">3250.0</td>
+<td style="text-align: left;">▇▇▇▇▇</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Jahr</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2012.00</td>
+<td style="text-align: right;">7.21</td>
+<td style="text-align: right;">2000.0</td>
+<td style="text-align: right;">2006.00</td>
+<td style="text-align: right;">2012.00</td>
+<td style="text-align: right;">2018.00</td>
+<td style="text-align: right;">2024.0</td>
+<td style="text-align: left;">▇▇▇▇▇</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Indikatorwert</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">4.21</td>
+<td style="text-align: right;">1.46</td>
+<td style="text-align: right;">1.6</td>
+<td style="text-align: right;">3.20</td>
+<td style="text-align: right;">3.90</td>
+<td style="text-align: right;">5.00</td>
+<td style="text-align: right;">13.0</td>
+<td style="text-align: left;">▇▇▂▁▁</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Basiswert 1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1854.35</td>
+<td style="text-align: right;">4880.48</td>
+<td style="text-align: right;">89.0</td>
+<td style="text-align: right;">607.70</td>
+<td style="text-align: right;">841.30</td>
+<td style="text-align: right;">1260.55</td>
+<td style="text-align: right;">60348.8</td>
+<td style="text-align: left;">▇▁▁▁▁</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Basiswert 2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">46214.80</td>
+<td style="text-align: right;">121407.52</td>
+<td style="text-align: right;">3308.8</td>
+<td style="text-align: right;">14788.20</td>
+<td style="text-align: right;">21677.75</td>
+<td style="text-align: right;">33357.25</td>
+<td style="text-align: right;">1117076.3</td>
+<td style="text-align: left;">▇▁▁▁▁</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a><span class="fu">library</span>(naniar)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attache Paket: 'naniar'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Das folgende Objekt ist maskiert 'package:skimr':
+
+    n_complete</code></pre>
+</div>
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a><span class="fu">miss_var_summary</span>(arbeitslosen)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 3
+   variable         n_miss pct_miss
+   &lt;chr&gt;             &lt;int&gt;    &lt;num&gt;
+ 1 _id                   0        0
+ 2 Indikator             0        0
+ 3 Auspragung            0        0
+ 4 Jahr                  0        0
+ 5 Raumbezug             0        0
+ 6 Indikatorwert         0        0
+ 7 Basiswert 1           0        0
+ 8 Basiswert 2           0        0
+ 9 Name Basiswert 1      0        0
+10 Name Basiswert 2      0        0</code></pre>
+</div>
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="fu">vis_miss</span>(arbeitslosen)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="data-quality-issues" class="level3">
+<h3 class="anchored" data-anchor-id="data-quality-issues">Data quality issues:</h3>
+<ul>
+<li>Dataset contains rows for both individual districts and the entire city total (<em>Stadt München</em>) in the same column</li>
+</ul>
+</section>
+</section>
+<section id="exploratory-data-analysis-plots" class="level1">
+<h1>3. Exploratory Data Analysis plots</h1>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb30-2"><a href="#cb30-2"></a></span>
+<span id="cb30-3"><a href="#cb30-3"></a><span class="fu">ggplot</span>(arbeitslosen, <span class="fu">aes</span>(<span class="at">x =</span> Indikatorwert)) <span class="sc">+</span></span>
+<span id="cb30-4"><a href="#cb30-4"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">30</span>) <span class="sc">+</span></span>
+<span id="cb30-5"><a href="#cb30-5"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribution of Unemployment Rate"</span>,</span>
+<span id="cb30-6"><a href="#cb30-6"></a>       <span class="at">x =</span> <span class="st">"Indikatorwert (Unemployment Rate in %)"</span>, <span class="at">y =</span> <span class="st">"Count"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a>selected_districts <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"03 Maxvorstadt"</span>, <span class="st">"19 Thalkirchen - Obersendling - Forstenried - Fürstenried - Solln"</span>, <span class="st">"16 Ramersdorf - Perlach"</span>, <span class="st">"04 Schwabing - West"</span>)</span>
+<span id="cb31-2"><a href="#cb31-2"></a></span>
+<span id="cb31-3"><a href="#cb31-3"></a>arbeitslosen <span class="sc">%&gt;%</span> </span>
+<span id="cb31-4"><a href="#cb31-4"></a>  <span class="fu">filter</span>(Raumbezug <span class="sc">%in%</span> selected_districts) <span class="sc">%&gt;%</span></span>
+<span id="cb31-5"><a href="#cb31-5"></a>  <span class="fu">filter</span>(Auspragung <span class="sc">==</span> <span class="st">"insgesamt"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb31-6"><a href="#cb31-6"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Jahr, <span class="at">y =</span> Indikatorwert)) <span class="sc">+</span></span>
+<span id="cb31-7"><a href="#cb31-7"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"steelblue"</span>, <span class="at">linewidth =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb31-8"><a href="#cb31-8"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">1.5</span>) <span class="sc">+</span></span>
+<span id="cb31-9"><a href="#cb31-9"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> Raumbezug, <span class="at">scales =</span> <span class="st">"free_y"</span>) <span class="sc">+</span></span>
+<span id="cb31-10"><a href="#cb31-10"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb31-11"><a href="#cb31-11"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Unemployment Trends over Time"</span> , <span class="at">subtitle =</span> <span class="st">"Ramersdorf-Perlach consistently shows higher rates than Maxvorstadt"</span>,</span>
+<span id="cb31-12"><a href="#cb31-12"></a>    <span class="at">x        =</span> <span class="st">"Year"</span>,</span>
+<span id="cb31-13"><a href="#cb31-13"></a>    <span class="at">y        =</span> <span class="st">"Unemployment Rate (%)"</span>,</span>
+<span id="cb31-14"><a href="#cb31-14"></a>    <span class="at">caption  =</span> <span class="st">"Source: Statistisches Amt München"</span>) <span class="sc">+</span></span>
+<span id="cb31-15"><a href="#cb31-15"></a>  <span class="fu">theme</span>(<span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">7</span>),  <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">"grey40"</span>)</span>
+<span id="cb31-16"><a href="#cb31-16"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="initial-data-analysis" class="level1">
+<h1>4. Initial Data Analysis</h1>
+<section id="license" class="level2">
+<h2 class="anchored" data-anchor-id="license">License</h2>
+<p><a href="https://www.govdata.de/dl-de/by-2-0:">https://www.govdata.de/dl-de/by-2-0</a></p>
+<p>The “Arbeitsmarkt - Arbeitslosen” dataset uses <a href="https://www.govdata.de/dl-de/by-2-0">Datenlizenz Deutschland Namensnennung 2.0 (dl-by-de)</a> (Version 2.0). This is a german open government licence: you can copy, use, and redistribute the data for any purpose, including commercially, as long as you attribute the source.</p>
+</section>
+<section id="source" class="level2">
+<h2 class="anchored" data-anchor-id="source">Source</h2>
+<p><a href="https://www.mstatistik-muenchen.de/indikatorenatlas/export/export.php" class="uri">https://www.mstatistik-muenchen.de/indikatorenatlas/export/export.php</a></p>
+</section>
+<section id="what-is-in-it" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-in-it">What is in it</h2>
+<p>Rows: 3250</p>
+<p>Columns: 10</p>
+<p>Each <strong>row</strong> represents the yearly percentage of unemployed people per district in Munich as well as the total yearly percantage across all districts. They are also divided into total, german, non german, male and female divisions.</p>
+<p>Columns include the id, indicator name, unemployed person type (total, male, female,…), year, munich district (including total), unemployment percentage, unemploymed count, total resident count (15-64 years old)</p>
+<p>Key variables we expect to use are the year, districts, percentage and both base values.</p>
+</section>
+<section id="initial-documentation-gaps-in-raw-file" class="level2">
+<h2 class="anchored" data-anchor-id="initial-documentation-gaps-in-raw-file">Initial documentation gaps in raw file</h2>
+<p><code>Indikatorwert</code> : Indicator value, but not quite clear what is meant by the name alone: “unemployment percentage” and which value is missing (%)</p>
+<p><code>Basiswert 1 / Basiswert 2</code> : names provides zero information of what the values mean. <code>Name Basiswert 1 / 2</code> give context but the columns with proper names would be sufficient.</p>
+<p><code>Auspragung</code> : again column name gives no information about the values: categorical variable with demographics / subpopulations</p>
+</section>
+<section id="structural-gaps" class="level2">
+<h2 class="anchored" data-anchor-id="structural-gaps">Structural gaps</h2>
+<p>The Munich Open Data page gives a formula description but it misses a real variable dictionary. Columns like <code>Auspragung</code> ,<code>Basiswert 1 / Basiswert 2</code> are unexplained.</p>
+<p>There is a seperate metadata PDF from the Statistisches Amt München you can find linked in the description before the dataset. The document reveals information not mentioned in the file:</p>
+<p><code>Basiswert 2</code> changes its meaning depending on <code>Auspragung</code>, whether the row is gender or nationality and “Stadt München” rows aggregate geographic data differnetly than individual district rows.</p>
+<p>A user who loads the dataset without tracking down this external PDF could misinterpret the metrics or miscalculate the averages by mixing districts and city totals.</p>
+</section>
+<section id="research-questions" class="level2">
+<h2 class="anchored" data-anchor-id="research-questions">Research Questions</h2>
+<ol type="1">
+<li>How has the total percentage in Munich changed overall and across districts from 2000 to 2023? -&gt; Descripitve</li>
+<li>Do unemployment percentages differ based on gender and heritage (german &amp; non-german) across districts. -&gt; Explanatory Causal</li>
+<li>Can we build a simple model to predict the unemployment percentage in the next years? -&gt; Predictive</li>
+</ol>
+</section>
+<section id="context-and-target-audience" class="level2">
+<h2 class="anchored" data-anchor-id="context-and-target-audience">Context and target audience</h2>
+<p>Target audience: Agentur für Arbeit München, Jobcenter München, Referat für Arbeit und Wirtschaft der Landeshauptstadt München.</p>
+<p>Analysis of trends in each district to plan resources and aid for unemployed citizens and providing additional help like seminars for each districts.</p>
+<p>Presentation: Visual presentation of the districts of Munich and location with concrete numbers and evidence.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a><span class="fu">glimpse</span>(arbeitslosen)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a><span class="fu">summary</span>(arbeitslosen[, <span class="fu">c</span>(<span class="st">"Jahr"</span>, <span class="st">"Raumbezug"</span>, <span class="st">"Indikatorwert"</span>, <span class="st">"Basiswert 1"</span>, <span class="st">"Basiswert 2"</span>)])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>      Jahr       Raumbezug         Indikatorwert    Basiswert 1     
+ Min.   :2000   Length:3250        Min.   : 1.60   Min.   :   89.0  
+ 1st Qu.:2006   Class :character   1st Qu.: 3.20   1st Qu.:  607.7  
+ Median :2012   Mode  :character   Median : 3.90   Median :  841.3  
+ Mean   :2012                      Mean   : 4.21   Mean   : 1854.3  
+ 3rd Qu.:2018                      3rd Qu.: 5.00   3rd Qu.: 1260.5  
+ Max.   :2024                      Max.   :13.00   Max.   :60348.8  
+  Basiswert 2     
+ Min.   :   3309  
+ 1st Qu.:  14788  
+ Median :  21678  
+ Mean   :  46215  
+ 3rd Qu.:  33357  
+ Max.   :1117076  </code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb35-2"><a href="#cb35-2"></a></span>
+<span id="cb35-3"><a href="#cb35-3"></a><span class="fu">ggplot</span>(arbeitslosen, <span class="fu">aes</span>(<span class="at">x =</span> Indikatorwert)) <span class="sc">+</span></span>
+<span id="cb35-4"><a href="#cb35-4"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">30</span>) <span class="sc">+</span></span>
+<span id="cb35-5"><a href="#cb35-5"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribution of Unemployment Rate"</span>,</span>
+<span id="cb35-6"><a href="#cb35-6"></a>       <span class="at">x =</span> <span class="st">"Indikatorwert (Unemployment Rate in %)"</span>, <span class="at">y =</span> <span class="st">"Count"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="index_files/figure-html/Plot 1-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Figure 1: Distribution of Unemployment Rate</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb36-2"><a href="#cb36-2"></a></span>
+<span id="cb36-3"><a href="#cb36-3"></a>selected_districts <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"03 Maxvorstadt"</span>, <span class="st">"19 Thalkirchen - Obersendling - Forstenried - Fürstenried - Solln"</span>, <span class="st">"16 Ramersdorf - Perlach"</span>, <span class="st">"04 Schwabing - West"</span>)</span>
+<span id="cb36-4"><a href="#cb36-4"></a></span>
+<span id="cb36-5"><a href="#cb36-5"></a>arbeitslosen <span class="sc">%&gt;%</span> </span>
+<span id="cb36-6"><a href="#cb36-6"></a>  <span class="fu">filter</span>(Raumbezug <span class="sc">%in%</span> selected_districts) <span class="sc">%&gt;%</span></span>
+<span id="cb36-7"><a href="#cb36-7"></a>  <span class="fu">filter</span>(Auspragung <span class="sc">==</span> <span class="st">"insgesamt"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb36-8"><a href="#cb36-8"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Jahr, <span class="at">y =</span> Indikatorwert)) <span class="sc">+</span></span>
+<span id="cb36-9"><a href="#cb36-9"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"steelblue"</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb36-10"><a href="#cb36-10"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb36-11"><a href="#cb36-11"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> Raumbezug, <span class="at">scales =</span> <span class="st">"free_y"</span>) <span class="sc">+</span></span>
+<span id="cb36-12"><a href="#cb36-12"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb36-13"><a href="#cb36-13"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Unemployment Trends over Time"</span>) <span class="sc">+</span></span>
+<span id="cb36-14"><a href="#cb36-14"></a>  <span class="fu">theme</span>(<span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">5</span>, <span class="at">lineheight =</span> <span class="fl">1.1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="index_files/figure-html/Plot 2-1.png" class="img-fluid figure-img" alt="A faceted line chart showing unemployment rates from 2000 to 2024 for four Munich districts. Ramersdorf-Perlach starts around 8%  and remains the highest throughout. Maxvorstadt stays the lowest,peaking around 2005 and declining steadily." width="672"></p>
+<figcaption>Figure 2: Ramersdorf-Perlach consistently shows the highest unemployment rates among the four districts, while Maxvorstadt remains the lowest across 2000–2024.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="data-quality-issues-1" class="level2">
+<h2 class="anchored" data-anchor-id="data-quality-issues-1">Data quality issues</h2>
+<ul>
+<li><p>Contains rows for both individual districts and the entire city total (<em>Stadt München</em>) in the same column</p>
+<p>→ Could filter out the total and create a new subset</p></li>
+<li><p>Column “Auspragung” combines gender with totals (<em>insgesamt</em>) within the same column. Long data.</p>
+<p>→ Could create different subset or wide data</p></li>
+</ul>
+</section>
+<section id="why-we-chose-the-dataset" class="level2">
+<h2 class="anchored" data-anchor-id="why-we-chose-the-dataset">Why we chose the Dataset</h2>
+<p>The dataset contains the unemployment percentage for each district and the city Munich overall. It lets us examine each district and the trend of the unemployment rate over 24 years. The advantage over just unemployment counts is that the percentage immediently shows the relation. The dataset and it’s analysis matters because it shows the history of Munich’s unemployment and how different years and choices show different outcomes for the City’s unemployment.</p>
+</section>
+</section>
+<section id="analysis-plan" class="level1">
+<h1>Analysis plan</h1>
+<section id="research-questions-1" class="level2">
+<h2 class="anchored" data-anchor-id="research-questions-1">Research Questions</h2>
+<ol type="1">
+<li><p>How has the unemployment percentage in Munich changed from 2000 to 2024 overall and by city area (North, East, South, West)?</p>
+<p><strong>Specific claim:</strong></p>
+<p>We will estimate the trend of mean unemployment percentage over time (<code>Indikatorwert ~ Jahr</code>) grouped by city area and total by calculating the annual average of the districts, and report five line graphs that show the trend from 2000 to 2024.</p>
+<p><strong>Classify the analysis:</strong></p>
+<p><strong>Goal: Descriptive</strong> - we are describing the state of the <code>Indikatorwert</code> per city area from 2000-2024, <strong>exploratory -</strong> after looking at the variables available we fixed the question</p>
+<p><strong>Model specification:</strong></p>
+<ul>
+<li><p><strong>Response: <code>Indikatorwert</code></strong> - unemployment percentage in % (<code>&lt;dbl&gt;</code>)</p></li>
+<li><p><strong>Predictor:</strong> <code>Jahr</code> - year (<code>&lt;dbl&gt;</code>), across five groups of <code>Raumbezug</code> (North, East, South, West, total)</p></li>
+<li><p><strong>Method:</strong> Calculating the annual mean of the districts within each city area &amp; total</p></li>
+<li><p><strong>Expected output:</strong> a summary data set of annual means and five line plots showing the trend from 2000 to 2024</p></li>
+<li><p><strong>Interpretation:</strong> “This tells us how the unemployment rate has historically developed and shifted over a 24 year time period within different regions of Munich.”</p></li>
+</ul></li>
+<li><p>Do unemployment percentages differ in 2024 based on gender across districts in South Munich.</p>
+<p><strong>Specific claim:</strong></p>
+<p>We will compare mean unemployment percentage between männlich and weiblich groups (<code>Indikatorwert ~ Auspragung</code>) across South Munich districts for the year 2024 using a difference in means test, and report the estimated difference, a 95% confidence interval, and a p-value.</p>
+<p><strong>Classify the analysis:</strong></p>
+<p><strong>Goal: Explanatory</strong> - we are asking whether <code>Auspragung</code> (gender) is related to <code>Indikatorwert</code>, <strong>exploratory -</strong> after seeing the data was grouped by gender also we decided to look more into it</p>
+<p><strong>Model specification:</strong></p>
+<ul>
+<li><p><strong>Response: <code>Indikatorwert</code></strong> - unemployment percentage in % (<code>&lt;dbl&gt;</code>)</p></li>
+<li><p><strong>Predictor:</strong> <code>Auspragung</code> - Categorical grouping filtered to <code>männlich</code> &amp; <code>weiblich</code> (<code>&lt;chr&gt;</code>)</p></li>
+<li><p><strong>Method:</strong> Difference in means between the two groups, using a theory-based t null distribution</p></li>
+<li><p><strong>Expected output:</strong> The observed difference in means, a null-distribution plot with the observed statistic shaded, a p-value, and a 95% CI</p></li>
+<li><p><strong>Interpretation:</strong> “This tells us whether male residents face systematically higher or lower unemployment percentages compared to female residents across South Munich districts in 2024”</p></li>
+</ul>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb37-2"><a href="#cb37-2"></a></span>
+<span id="cb37-3"><a href="#cb37-3"></a>dat <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">"data/raw/Arbeitsmarkt-Arbeitslosen-Anteil.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 3250 Columns: 10
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (5): Indikator, Auspragung, Raumbezug, Name Basiswert 1, Name Basiswert 2
+dbl (5): _id, Jahr, Indikatorwert, Basiswert 1, Basiswert 2
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1"></a><span class="fu">glimpse</span>(dat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 3,250
+Columns: 10
+$ `_id`              &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, …
+$ Indikator          &lt;chr&gt; "Arbeitslose - Anteil", "Arbeitslose - Anteil", "Ar…
+$ Auspragung         &lt;chr&gt; "deutsch", "deutsch", "deutsch", "deutsch", "deutsc…
+$ Jahr               &lt;dbl&gt; 2024, 2024, 2024, 2024, 2024, 2024, 2024, 2024, 202…
+$ Raumbezug          &lt;chr&gt; "Stadt München", "01 Altstadt - Lehel", "02 Ludwigs…
+$ Indikatorwert      &lt;dbl&gt; 3.1, 2.6, 3.0, 2.7, 2.6, 3.1, 3.4, 3.0, 3.5, 2.7, 3…
+$ `Basiswert 1`      &lt;dbl&gt; 22284.8, 284.3, 849.0, 781.0, 932.8, 1077.3, 706.8,…
+$ `Basiswert 2`      &lt;dbl&gt; 726741.0, 11023.5, 28076.8, 29447.0, 35939.0, 34584…
+$ `Name Basiswert 1` &lt;chr&gt; "Arbeitslose (deutsch)", "Arbeitslose (deutsch)", "…
+$ `Name Basiswert 2` &lt;chr&gt; "Hauptwohnsitzbevölkerung (15 bis 64 Jahre) (deutsc…</code></pre>
+</div>
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1"></a><span class="co"># Do the variables you named exist, with the right type?</span></span>
+<span id="cb41-2"><a href="#cb41-2"></a><span class="co"># Is there enough variation and coverage to estimate what you want?</span></span>
+<span id="cb41-3"><a href="#cb41-3"></a>dat <span class="sc">|&gt;</span> <span class="fu">count</span>(Auspragung)          <span class="co"># are groups large enough?</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 2
+  Auspragung       n
+  &lt;chr&gt;        &lt;int&gt;
+1 deutsch        650
+2 insgesamt      650
+3 männlich       650
+4 nichtdeutsch   650
+5 weiblich       650</code></pre>
+</div>
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1"></a>dat <span class="sc">|&gt;</span> <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), \(x) <span class="fu">sum</span>(<span class="fu">is.na</span>(x))))  <span class="co"># missingness</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 5
+  `_id`  Jahr Indikatorwert `Basiswert 1` `Basiswert 2`
+  &lt;int&gt; &lt;int&gt;         &lt;int&gt;         &lt;int&gt;         &lt;int&gt;
+1     0     0             0             0             0</code></pre>
+</div>
+</div>
+<p><strong>Cut RQ:</strong></p></li>
+<li><p>Can we build a simple model to predict the unemployed percentage in the next years?</p>
+<ul>
+<li><p><strong>Variables</strong>: Auspragung, Jahr, Raumbezug, Indikatorwert</p></li>
+<li><p><strong>Analytical Approach</strong>: linear regresision model, train on data and extend the trend line for the future years</p></li>
+<li><p><strong>Cleaning/Transformation</strong>: Filter the different years</p></li>
+<li><p><strong>Uncertainties/risks</strong>: Events outside the data have major impact on the trend, cannot predict these events</p></li>
+</ul></li>
+</ol>
+</section>
+<section id="infer-test" class="level2">
+<h2 class="anchored" data-anchor-id="infer-test"><code>{infer}</code> test</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1"></a><span class="fu">library</span>(infer)</span>
+<span id="cb45-2"><a href="#cb45-2"></a></span>
+<span id="cb45-3"><a href="#cb45-3"></a>obs_stat <span class="ot">&lt;-</span> arbeitslosen <span class="sc">|&gt;</span></span>
+<span id="cb45-4"><a href="#cb45-4"></a>  <span class="fu">filter</span>(Jahr <span class="sc">==</span> <span class="dv">2024</span> <span class="sc">&amp;</span> Auspragung <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"männlich"</span>, <span class="st">"weiblich"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb45-5"><a href="#cb45-5"></a>  <span class="fu">specify</span>(Indikatorwert <span class="sc">~</span> Auspragung) <span class="sc">|&gt;</span>   </span>
+<span id="cb45-6"><a href="#cb45-6"></a>  <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"diff in means"</span>,           </span>
+<span id="cb45-7"><a href="#cb45-7"></a>            <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"männlich"</span>, <span class="st">"weiblich"</span>))</span>
+<span id="cb45-8"><a href="#cb45-8"></a></span>
+<span id="cb45-9"><a href="#cb45-9"></a>null_dist <span class="ot">&lt;-</span> arbeitslosen <span class="sc">|&gt;</span></span>
+<span id="cb45-10"><a href="#cb45-10"></a>  <span class="fu">filter</span>(Auspragung <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"männlich"</span>, <span class="st">"weiblich"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb45-11"><a href="#cb45-11"></a>  <span class="fu">specify</span>(Indikatorwert <span class="sc">~</span> Auspragung) <span class="sc">|&gt;</span></span>
+<span id="cb45-12"><a href="#cb45-12"></a>  <span class="fu">assume</span>(<span class="st">"t"</span>)          </span>
+<span id="cb45-13"><a href="#cb45-13"></a></span>
+<span id="cb45-14"><a href="#cb45-14"></a><span class="co"># Visualize the result</span></span>
+<span id="cb45-15"><a href="#cb45-15"></a>null_dist <span class="sc">|&gt;</span> </span>
+<span id="cb45-16"><a href="#cb45-16"></a>  <span class="fu">visualize</span>() <span class="sc">+</span></span>
+<span id="cb45-17"><a href="#cb45-17"></a>  <span class="fu">shade_p_value</span>(<span class="at">obs_stat =</span> obs_stat, <span class="at">direction =</span> <span class="st">"both"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Result Interpretation:</strong> The difference in average unemployment rate between männlich and weiblich in 2024 falls within the high probability region of the null distribution. The variation between groups can be explained by random sampling variation and we cannot reject the null hypothesis that there is no systematic gender gap.</p>
+</section>
+</section>
+<section id="workflow-organisation" class="level1">
+<h1>Workflow organisation</h1>
+<section id="code-style" class="level3">
+<h3 class="anchored" data-anchor-id="code-style">Code style:</h3>
+<ul>
+<li><p>tidyverse style guide: &lt;- for assignments, spaces around operators, …</p></li>
+<li><p>styler package in RStudio to format before committing</p></li>
+<li><p>shared AI system prompt so the output follows tidyverse</p></li>
+</ul>
+</section>
+<section id="packages" class="level3">
+<h3 class="anchored" data-anchor-id="packages">Packages:</h3>
+<ul>
+<li><p>tidyverse</p></li>
+<li><p>readr</p></li>
+<li><p>naniar, skimr</p></li>
+</ul>
+<p>We will initialize renv in our project repo to create renv.lock. This way the package versions we use will be locked down and our code runs identically across the group.</p>
+</section>
+<section id="git-workflow" class="level3">
+<h3 class="anchored" data-anchor-id="git-workflow">Git workflow:</h3>
+<p>We will create separate branches per task (eg. feature/write-IDA) and verify by the other group member before merging into the main branch.</p>
+<p>This way the other group member will be able to pull the tasks after they are finished. Creating just one feature branch per group member or working on the main branch it leads to merge conflicts and messy files.</p>
+</section>
+<section id="gitignore" class="level3">
+<h3 class="anchored" data-anchor-id="gitignore"><code>.gitignore:</code></h3>
+<ul>
+<li><p>rendered outputs</p></li>
+<li><p>Local RStudio state files and <code>.env</code></p></li>
+</ul>
+</section>
+<section id="gt-table" class="level3">
+<h3 class="anchored" data-anchor-id="gt-table">gt table</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb46-2"><a href="#cb46-2"></a><span class="fu">library</span>(gt)</span>
+<span id="cb46-3"><a href="#cb46-3"></a></span>
+<span id="cb46-4"><a href="#cb46-4"></a>arbeitslosen <span class="sc">|&gt;</span></span>
+<span id="cb46-5"><a href="#cb46-5"></a>  <span class="fu">filter</span>(Jahr <span class="sc">==</span> <span class="dv">2024</span>,</span>
+<span id="cb46-6"><a href="#cb46-6"></a>         Auspragung <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"männlich"</span>, <span class="st">"weiblich"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb46-7"><a href="#cb46-7"></a>  <span class="fu">group_by</span>(Auspragung) <span class="sc">|&gt;</span></span>
+<span id="cb46-8"><a href="#cb46-8"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb46-9"><a href="#cb46-9"></a>    <span class="at">n         =</span> <span class="fu">n</span>(),</span>
+<span id="cb46-10"><a href="#cb46-10"></a>    <span class="at">mean_rate =</span> <span class="fu">mean</span>(Indikatorwert, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb46-11"><a href="#cb46-11"></a>    <span class="at">min_rate  =</span> <span class="fu">min</span>(Indikatorwert, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb46-12"><a href="#cb46-12"></a>    <span class="at">max_rate  =</span> <span class="fu">max</span>(Indikatorwert, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb46-13"><a href="#cb46-13"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb46-14"><a href="#cb46-14"></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span></span>
+<span id="cb46-15"><a href="#cb46-15"></a>  <span class="fu">fmt_number</span>(<span class="at">columns =</span> <span class="fu">c</span>(mean_rate, min_rate, max_rate), <span class="at">decimals =</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb46-16"><a href="#cb46-16"></a>  <span class="fu">fmt_integer</span>(<span class="at">columns =</span> n) <span class="sc">|&gt;</span></span>
+<span id="cb46-17"><a href="#cb46-17"></a>  <span class="fu">cols_label</span>(</span>
+<span id="cb46-18"><a href="#cb46-18"></a>    <span class="at">Auspragung =</span> <span class="st">"Gruppe"</span>,</span>
+<span id="cb46-19"><a href="#cb46-19"></a>    <span class="at">n          =</span> <span class="st">"Bezirke (n)"</span>,</span>
+<span id="cb46-20"><a href="#cb46-20"></a>    <span class="at">mean_rate  =</span> <span class="st">"Mittelwert"</span>,</span>
+<span id="cb46-21"><a href="#cb46-21"></a>    <span class="at">min_rate   =</span> <span class="st">"Min"</span>,</span>
+<span id="cb46-22"><a href="#cb46-22"></a>    <span class="at">max_rate   =</span> <span class="st">"Max"</span></span>
+<span id="cb46-23"><a href="#cb46-23"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb46-24"><a href="#cb46-24"></a>  <span class="fu">tab_spanner</span>(</span>
+<span id="cb46-25"><a href="#cb46-25"></a>    <span class="at">label   =</span> <span class="st">"Arbeitslosenquote (%)"</span>,</span>
+<span id="cb46-26"><a href="#cb46-26"></a>    <span class="at">columns =</span> <span class="fu">c</span>(mean_rate, min_rate, max_rate)</span>
+<span id="cb46-27"><a href="#cb46-27"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb46-28"><a href="#cb46-28"></a>  <span class="fu">cols_align</span>(<span class="at">align =</span> <span class="st">"right"</span>, <span class="at">columns =</span> <span class="fu">where</span>(is.numeric)) <span class="sc">|&gt;</span></span>
+<span id="cb46-29"><a href="#cb46-29"></a>  <span class="fu">tab_header</span>(</span>
+<span id="cb46-30"><a href="#cb46-30"></a>    <span class="at">title    =</span> <span class="st">"Arbeitslosenquote nach Geschlecht"</span>,</span>
+<span id="cb46-31"><a href="#cb46-31"></a>    <span class="at">subtitle =</span> <span class="st">"München, 2024"</span></span>
+<span id="cb46-32"><a href="#cb46-32"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb46-33"><a href="#cb46-33"></a>  <span class="fu">tab_source_note</span>(<span class="fu">md</span>(<span class="st">"Quelle: Statistisches Amt München"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="dalmzsqlsy" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#dalmzsqlsy table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#dalmzsqlsy thead, #dalmzsqlsy tbody, #dalmzsqlsy tfoot, #dalmzsqlsy tr, #dalmzsqlsy td, #dalmzsqlsy th {
+  border-style: none;
+}
+
+#dalmzsqlsy p {
+  margin: 0;
+  padding: 0;
+}
+
+#dalmzsqlsy .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#dalmzsqlsy .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#dalmzsqlsy .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#dalmzsqlsy .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#dalmzsqlsy .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#dalmzsqlsy .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#dalmzsqlsy .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#dalmzsqlsy .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#dalmzsqlsy .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#dalmzsqlsy .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#dalmzsqlsy .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#dalmzsqlsy .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#dalmzsqlsy .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#dalmzsqlsy .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#dalmzsqlsy .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#dalmzsqlsy .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#dalmzsqlsy .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#dalmzsqlsy .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#dalmzsqlsy .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#dalmzsqlsy .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#dalmzsqlsy .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#dalmzsqlsy .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#dalmzsqlsy .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#dalmzsqlsy .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#dalmzsqlsy .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#dalmzsqlsy .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#dalmzsqlsy .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#dalmzsqlsy .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#dalmzsqlsy .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#dalmzsqlsy .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#dalmzsqlsy .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#dalmzsqlsy .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#dalmzsqlsy .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#dalmzsqlsy .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#dalmzsqlsy .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#dalmzsqlsy .gt_left {
+  text-align: left;
+}
+
+#dalmzsqlsy .gt_center {
+  text-align: center;
+}
+
+#dalmzsqlsy .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#dalmzsqlsy .gt_font_normal {
+  font-weight: normal;
+}
+
+#dalmzsqlsy .gt_font_bold {
+  font-weight: bold;
+}
+
+#dalmzsqlsy .gt_font_italic {
+  font-style: italic;
+}
+
+#dalmzsqlsy .gt_super {
+  font-size: 65%;
+}
+
+#dalmzsqlsy .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#dalmzsqlsy .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#dalmzsqlsy .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#dalmzsqlsy .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#dalmzsqlsy .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#dalmzsqlsy .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#dalmzsqlsy .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#dalmzsqlsy .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#dalmzsqlsy div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-bootstrap="false">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="gt_heading header">
+<td colspan="5" class="gt_heading gt_title gt_font_normal">Arbeitslosenquote nach Geschlecht</td>
+</tr>
+<tr class="gt_heading even">
+<td colspan="5" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border">München, 2024</td>
+</tr>
+<tr class="gt_col_headings gt_spanner_row header">
+<th rowspan="2" id="Auspragung" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Gruppe</th>
+<th rowspan="2" id="n" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Bezirke (n)</th>
+<th colspan="3" id="Arbeitslosenquote (%)" class="gt_center gt_columns_top_border gt_column_spanner_outer" data-quarto-table-cell-role="th" scope="colgroup"><div class="gt_column_spanner">
+Arbeitslosenquote (%)
+</div></th>
+</tr>
+<tr class="gt_col_headings even">
+<th id="mean_rate" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Mittelwert</th>
+<th id="min_rate" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Min</th>
+<th id="max_rate" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Max</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left" headers="Auspragung">männlich</td>
+<td class="gt_row gt_right" headers="n">26</td>
+<td class="gt_row gt_right" headers="mean_rate">4.0</td>
+<td class="gt_row gt_right" headers="min_rate">2.9</td>
+<td class="gt_row gt_right" headers="max_rate">5.5</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Auspragung">weiblich</td>
+<td class="gt_row gt_right" headers="n">26</td>
+<td class="gt_row gt_right" headers="mean_rate">3.8</td>
+<td class="gt_row gt_right" headers="min_rate">2.9</td>
+<td class="gt_row gt_right" headers="max_rate">4.9</td>
+</tr>
+</tbody><tfoot>
+<tr class="gt_sourcenotes odd">
+<td colspan="5" class="gt_sourcenote">Quelle: Statistisches Amt München</td>
+</tr>
+</tfoot>
+
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="section" class="level3">
+<h3 class="anchored" data-anchor-id="section"></h3>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -549,4 +2177,5 @@ ul.task-list li input[type="checkbox"] {
 
 
 
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>
