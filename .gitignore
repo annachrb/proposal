@@ -13,4 +13,5 @@
 Thumbs.db
 
 # Project specific ignores
-
+sandbox.qmd
+Practical3.qmd
