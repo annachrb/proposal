@@ -284,18 +284,6 @@ The dataset contains the unemployment percentage for each district and the city 
     dat |> summarise(across(where(is.numeric), \(x) sum(is.na(x))))  # missingness
     ```
 
-    **Cut RQ:**
-
-3.  Can we build a simple model to predict the unemployed percentage in the next years?
-
-    -   **Variables**: Auspragung, Jahr, Raumbezug, Indikatorwert
-
-    -   **Analytical Approach**: linear regresision model, train on data and extend the trend line for the future years
-
-    -   **Cleaning/Transformation**: Filter the different years
-
-    -   **Uncertainties/risks**: Events outside the data have major impact on the trend, cannot predict these events
-
 ## `{infer}` test
 
 ```{r}
