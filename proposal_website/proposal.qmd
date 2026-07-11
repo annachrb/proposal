@@ -9,101 +9,11 @@ format:
 editor: visual
 ---
 
-# Warm up
-
-```{r}
-library(readr)
-library(dplyr)
-library(lubridate)
-
-accidents <- read_csv("40094bd6-f82d-4979-949b-26c8dc00b9a7.csv")
-glimpse(accidents)
-```
-
-```{r}
-accidents_clean <- accidents |>
-  filter(MONAT != "Summe") |>
-  mutate(date = ym(MONAT))
-
-glimpse(accidents_clean)
-```
-
-# 1. Data screening
-
-```{r}
-library(readr)
-library(dplyr)
-library(visdat)
-library(skimr)
-
-arbeitslosen <- read_csv("data/raw/Arbeitsmarkt-Arbeitslosen-Anteil.csv")
-
-glimpse(arbeitslosen)
-
-vis_dat(arbeitslosen)
-
-skim(arbeitslosen)
-```
-
-The dates are read as \<dbl\>, Categorical variables are \<chr\>, there are no columns where the types are unexpected -\> catergorical as characters and number as \<dbl\>
-
-# 2. Data cleaning
-
-```{r}
-library(skimr)
-skim(arbeitslosen)
-```
-
-```{r}
-library(naniar)
-
-miss_var_summary(arbeitslosen)
-
-vis_miss(arbeitslosen)
-
-```
-
-### Data quality issues:
-
--   Dataset contains rows for both individual districts and the entire city total (*Stadt München*) in the same column
-
-# 3. Exploratory Data Analysis plots
-
-```{r}
-library(ggplot2)
-
-ggplot(arbeitslosen, aes(x = Indikatorwert)) +
-  geom_histogram(bins = 30) +
-  labs(title = "Distribution of Unemployment Rate",
-       x = "Indikatorwert (Unemployment Rate in %)", y = "Count")
-```
-
-```{r}
-selected_districts <- c("03 Maxvorstadt", "19 Thalkirchen - Obersendling - Forstenried - Fürstenried - Solln", "16 Ramersdorf - Perlach", "04 Schwabing - West")
-
-arbeitslosen %>% 
-  filter(Raumbezug %in% selected_districts) %>%
-  filter(Auspragung == "insgesamt") %>%
-ggplot(aes(x = Jahr, y = Indikatorwert)) +
-  geom_line(color = "steelblue", linewidth = 0.8) +
-  geom_point(size = 1.5) +
-  facet_wrap(~ Raumbezug, scales = "free_y") +
-  theme_minimal() +
-  labs(title = "Unemployment Trends over Time" , subtitle = "Ramersdorf-Perlach consistently shows higher rates than Maxvorstadt",
-    x        = "Year",
-    y        = "Unemployment Rate (%)",
-    caption  = "Source: Statistisches Amt München") +
-  theme(strip.text = element_text(size = 7),  plot.subtitle = element_text(color = "grey40")
-  )
-```
-
-# 4. Initial Data Analysis
+# 1. Dataset & Research Questions
 
 ## License
 
-[https://www.govdata.de/dl-de/by-2-0](https://www.govdata.de/dl-de/by-2-0:)
-
-The "Arbeitsmarkt - Arbeitslosen" dataset uses [Datenlizenz Deutschland Namensnennung 2.0 (dl-by-de)](https://www.govdata.de/dl-de/by-2-0) (Version 2.0). This is a german open government licence: you can copy, use, and redistribute the data for any purpose, including commercially, as long as you attribute the source.
+The "Arbeitsmarkt - Arbeitslosen" dataset uses [Datenlizenz Deutschland Namensnennung 2.0 (dl-by-de)](https://www.govdata.de/dl-de/by-2-0) (Version 2.0). This is a German open government licence: you can copy, use, and redistribute the data for any purpose, including commercially, as long as you attribute the source.
 
 ## Source
 
@@ -115,268 +25,349 @@ Rows: 3250
 
 Columns: 10
 
-Each **row** represents the yearly percentage of unemployed people per district in Munich as well as the total yearly percantage across all districts. They are also divided into total, german, non german, male and female divisions.
+Each **row** represents the yearly percentage of unemployed people per district in Munich, as well as the total yearly percentage across all districts, further divided into total, German, non-German, male, and female categories.
 
-Columns include the id, indicator name, unemployed person type (total, male, female,...), year, munich district (including total), unemployment percentage, unemploymed count, total resident count (15-64 years old)
+Columns include the id, indicator name, unemployed-person type (total, male, female, ...), year, Munich district (including the city total), unemployment percentage, unemployed count, and total resident count (15–64 years old).
 
-Key variables we expect to use are the year, districts, percentage and both base values.
+**Row identification:** year (`Jahr`), district (`Raumbezug`), and demographic group (`Auspragung`) together uniquely identify each row.
+
+Key variables we expect to use are the year, district, unemployment percentage, and both base values.
 
 ## Initial documentation gaps in raw file
 
-`Indikatorwert` : Indicator value, but not quite clear what is meant by the name alone: "unemployment percentage" and which value is missing (%)
+`Indikatorwert`: the indicator value — not obvious from the name alone that this is the unemployment percentage, or which unit is missing (%).
 
-`Basiswert 1 / Basiswert 2` : names provides zero information of what the values mean. `Name Basiswert 1 / 2` give context but the columns with proper names would be sufficient.
+`Basiswert 1 / Basiswert 2`: the names give no information about what the values mean.
 
-`Auspragung` : again column name gives no information about the values: categorical variable with demographics / subpopulations
+`Auspragung`: the column name gives no information about the values it contains — a categorical variable for demographic/subpopulation groups.
 
 ## Structural gaps
 
-The Munich Open Data page gives a formula description but it misses a real variable dictionary. Columns like `Auspragung` ,`Basiswert 1 / Basiswert 2` are unexplained.
+The Munich Open Data page gives a formula description but no real variable dictionary. Columns like `Auspragung` and `Basiswert 1 / Basiswert 2` are left unexplained.
 
-There is a seperate metadata PDF from the Statistisches Amt München you can find linked in the description before the dataset. The document reveals information not mentioned in the file:
+A separate metadata PDF from the Statistisches Amt München (linked in the dataset description) reveals information not present in the file itself: `Basiswert 2` changes its meaning depending on `Auspragung` (whether the row concerns gender or nationality), and "Stadt München" rows aggregate geographic data differently than individual district rows.
 
-`Basiswert 2` changes its meaning depending on `Auspragung`, whether the row is gender or nationality and "Stadt München" rows aggregate geographic data differnetly than individual district rows.
-
-A user who loads the dataset without tracking down this external PDF could misinterpret the metrics or miscalculate the averages by mixing districts and city totals.
+A user who loads the dataset without tracking down this external PDF could misinterpret the metrics or miscalculate averages by mixing districts and city totals.
 
 ## Research Questions
 
-1.  How has the total percentage in Munich changed overall and across districts from 2000 to 2023? -\> Descripitve
-2.  Do unemployment percentages differ based on gender and heritage (german & non-german) across districts. -\> Explanatory Causal
-3.  Can we build a simple model to predict the unemployment percentage in the next years? -\> Predictive
+1.  How has the unemployment percentage in Munich changed from 2000 to 2024 overall and by city area (North, East, South, West)? → **Descriptive**
+2.  Do unemployment percentages differ in 2024 based on gender across districts in South Munich? → **Explanatory**
+
+**Cut:** we originally considered a third, predictive research question ("Can we build a simple model to predict the unemployment percentage in the next years?"). We cut this to keep scope focused on the two questions above, in line with the updated-proposal requirement to lock in at most two focused research questions. See the reflection log for our reasoning.
 
 ## Context and target audience
 
-Target audience: Agentur für Arbeit München, Jobcenter München, Referat für Arbeit und Wirtschaft der Landeshauptstadt München.
+**Target audience:** Agentur für Arbeit München, Jobcenter München, Referat für Arbeit und Wirtschaft der Landeshauptstadt München.
 
-Analysis of trends in each district to plan resources and aid for unemployed citizens and providing additional help like seminars for each districts.
+**Purpose:** analysis of trends in each district to plan resources and aid for unemployed citizens, and to design additional support such as seminars tailored to each district.
 
-Presentation: Visual presentation of the districts of Munich and location with concrete numbers and evidence.
+**Presentation:** a visual presentation of Munich's districts and locations with concrete numbers and evidence.
+
+## Why we chose the dataset
+
+The dataset contains the unemployment percentage for each district and for the city of Munich overall. It lets us examine each district and the trend of the unemployment rate over 24 years. The advantage over raw unemployment counts is that the percentage immediately shows the relation to population size. The analysis matters because it shows the history of Munich's unemployment and how different years and policy choices coincide with different outcomes for the city.
+
+# 2. Initial Data Analysis
 
 ```{r}
-#| label: data_glimpse
-#| eval: false
+#| label: setup
+#| message: false
+#| warning: false
+
+library(readr)
+library(dplyr)
+library(ggplot2)
+library(visdat)
+library(skimr)
+library(naniar)
+library(stringr)
+
+arbeitslosen <- read_csv("data/raw/Arbeitsmarkt-Arbeitslosen-Anteil.csv")
+```
+
+```{r}
+#| label: data screening
+#| message: false
+#| warning: false
 
 glimpse(arbeitslosen)
+vis_dat(arbeitslosen)
+skim(arbeitslosen)
+```
+
+Dates are read as `<dbl>`, categorical variables are `<chr>` — no column has an unexpected type.
+
+```{r}
+#| label: missingness
+#| message: false
+#| warning: false
+
+miss_var_summary(arbeitslosen)
+vis_miss(arbeitslosen)
 ```
 
 ```{r}
 #| label: summary-statistics
 
 summary(arbeitslosen[, c("Jahr", "Raumbezug", "Indikatorwert", "Basiswert 1", "Basiswert 2")])
-
-```
-
-```{r}
-#| label: Plot 1
-#| fig-cap: "Figure 1: Distribution of Unemployment Rate"
-#| message: false
-#| warning: false
-
-library(ggplot2)
-
-ggplot(arbeitslosen, aes(x = Indikatorwert)) +
-  geom_histogram(bins = 30) +
-  labs(title = "Distribution of Unemployment Rate",
-       x = "Indikatorwert (Unemployment Rate in %)", y = "Count")
-```
-
-```{r}
-#| label: Plot 2
-#| fig-cap: "Figure 2: Ramersdorf-Perlach consistently shows the
-#| highest unemployment rates among the four districts, while
-#| Maxvorstadt remains the lowest across 2000–2024."
-#| fig-alt: "A faceted line chart showing unemployment rates from
-#| 2000 to 2024 for four Munich districts. Ramersdorf-Perlach
-#| starts around 8%  and remains the highest throughout.
-#| Maxvorstadt stays the lowest,peaking around 2005 and declining
-#| steadily."
-#| message: false
-#| warning: false
-
-library(ggplot2)
-
-selected_districts <- c("03 Maxvorstadt", "19 Thalkirchen - Obersendling - Forstenried - Fürstenried - Solln", "16 Ramersdorf - Perlach", "04 Schwabing - West")
-
-arbeitslosen %>% 
-  filter(Raumbezug %in% selected_districts) %>%
-  filter(Auspragung == "insgesamt") %>%
-ggplot(aes(x = Jahr, y = Indikatorwert)) +
-  geom_line(color = "steelblue", size = 1) +
-  geom_point() +
-  facet_wrap(~ Raumbezug, scales = "free_y") +
-  theme_minimal() +
-  labs(title = "Unemployment Trends over Time") +
-  theme(strip.text = element_text(size = 5, lineheight = 1.1))
 ```
 
 ## Data quality issues
 
--   Contains rows for both individual districts and the entire city total (*Stadt München*) in the same column
+-   Dataset contains rows for both individual districts and the entire city total (*Stadt München*) in the same column → could filter out the total and create a separate subset.
+-   Column `Auspragung` combines gender, nationality, and totals (*insgesamt*) within the same column (long format) → could split into separate subsets or reshape to wide format.
 
-    → Could filter out the total and create a new subset
-
--   Column "Auspragung" combines gender with totals (*insgesamt*) within the same column. Long data.
-
-    → Could create different subset or wide data
-
-## Why we chose the Dataset
-
-The dataset contains the unemployment percentage for each district and the city Munich overall. It lets us examine each district and the trend of the unemployment rate over 24 years. The advantage over just unemployment counts is that the percentage immediently shows the relation. The dataset and it's analysis matters because it shows the history of Munich's unemployment and how different years and choices show different outcomes for the City's unemployment.
-
-# Analysis plan
-
-## Research Questions
-
-1.  How has the unemployment percentage in Munich changed from 2000 to 2024 overall and by city area (North, East, South, West)?
-
-    **Specific claim:**
-
-    We will estimate the trend of mean unemployment percentage over time (`Indikatorwert ~ Jahr`) grouped by city area and total by calculating the annual average of the districts, and report five line graphs that show the trend from 2000 to 2024.
-
-    **Classify the analysis:**
-
-    **Goal: Descriptive** - we are describing the state of the `Indikatorwert` per city area from 2000-2024, **exploratory -** after looking at the variables available we fixed the question
-
-    **Model specification:**
-
-    -   **Response: `Indikatorwert`** - unemployment percentage in % (`<dbl>`)
-
-    -   **Predictor:** `Jahr` - year (`<dbl>`), across five groups of `Raumbezug` (North, East, South, West, total)
-
-    -   **Method:** Calculating the annual mean of the districts within each city area & total
-
-    -   **Expected output:** a summary data set of annual means and five line plots showing the trend from 2000 to 2024
-
-    -   **Interpretation:** "This tells us how the unemployment rate has historically developed and shifted over a 24 year time period within different regions of Munich."
-
-2.  Do unemployment percentages differ in 2024 based on gender across districts in South Munich.
-
-    **Specific claim:**
-
-    We will compare mean unemployment percentage between männlich and weiblich groups (`Indikatorwert ~ Auspragung`) across South Munich districts for the year 2024 using a difference in means test, and report the estimated difference, a 95% confidence interval, and a p-value.
-
-    **Classify the analysis:**
-
-    **Goal: Explanatory** - we are asking whether `Auspragung` (gender) is related to `Indikatorwert`, **exploratory -** after seeing the data was grouped by gender also we decided to look more into it
-
-    **Model specification:**
-
-    -   **Response: `Indikatorwert`** - unemployment percentage in % (`<dbl>`)
-
-    -   **Predictor:** `Auspragung` - Categorical grouping filtered to `männlich` & `weiblich` (`<chr>`)
-
-    -   **Method:** Difference in means between the two groups, using a theory-based t null distribution
-
-    -   **Expected output:** The observed difference in means, a null-distribution plot with the observed statistic shaded, a p-value, and a 95% CI
-
-    -   **Interpretation:** "This tells us whether male residents face systematically higher or lower unemployment percentages compared to female residents across South Munich districts in 2024"
-
-    ```{r}
-    library(dplyr)
-
-    dat <- readr::read_csv("data/raw/Arbeitsmarkt-Arbeitslosen-Anteil.csv")
-    glimpse(dat)
-
-    # Do the variables you named exist, with the right type?
-    # Is there enough variation and coverage to estimate what you want?
-    dat |> count(Auspragung)          # are groups large enough?
-    dat |> summarise(across(where(is.numeric), \(x) sum(is.na(x))))  # missingness
-    ```
-
-## `{infer}` test
+## Plots
 
 ```{r}
+#| label: plot-1-distribution
+#| fig-cap: "Figure 1: Distribution of Unemployment Rate"
+#| message: false
+#| warning: false
+
+ggplot(arbeitslosen, aes(x = Indikatorwert)) +
+  geom_histogram(bins = 30) +
+  labs(
+    title = "Distribution of Unemployment Rate",
+    x = "Indikatorwert (Unemployment Rate in %)", y = "Count"
+  )
+```
+
+```{r}
+#| label: plot-2-trend
+#| fig-cap: "Figure 2: Ramersdorf-Perlach consistently shows the highest unemployment rates among the four districts, while Maxvorstadt remains the lowest across 2000–2024."
+#| fig-alt: "A faceted line chart showing unemployment rates from 2000 to 2024 for four Munich districts. Ramersdorf-Perlach starts around 8% and remains the highest throughout. Maxvorstadt stays the lowest, peaking around 2005 and declining steadily."
+#| message: false
+#| warning: false
+
+selected_districts <- c(
+  "03 Maxvorstadt",
+  "19 Thalkirchen - Obersendling - Forstenried - Fürstenried - Solln",
+  "16 Ramersdorf - Perlach",
+  "04 Schwabing - West"
+)
+
+arbeitslosen %>%
+  filter(Raumbezug %in% selected_districts) %>%
+  filter(Auspragung == "insgesamt") %>%
+  ggplot(aes(x = Jahr, y = Indikatorwert)) +
+  geom_line(color = "steelblue", linewidth = 0.8) +
+  geom_point(size = 1.5) +
+  facet_wrap(~Raumbezug, scales = "free_y") +
+  theme_minimal() +
+  labs(
+    title = "Unemployment Trends over Time",
+    subtitle = "Ramersdorf-Perlach consistently shows higher rates than Maxvorstadt",
+    x = "Year",
+    y = "Unemployment Rate (%)",
+    caption = "Source: Statistisches Amt München"
+  ) +
+  theme(
+    strip.text = element_text(size = 7),
+    plot.subtitle = element_text(color = "grey40")
+  )
+```
+
+# 3. Analysis Plan
+
+## RQ1: Unemployment trend by city area (2000–2024)
+
+**Specific claim:** We estimate the trend of mean unemployment percentage over time (`Indikatorwert ~ Jahr`) grouped by city area and total, by calculating the annual average of the districts, and report line graphs showing the trend from 2000 to 2024.
+
+**Classify the analysis:** Goal: **Descriptive** — we describe the state of `Indikatorwert` per city area from 2000–2024. **Exploratory** — after reviewing the available variables we fixed this question.
+
+**Model specification:**
+
+-   **Response:** `Indikatorwert` — unemployment percentage in % (`<dbl>`)
+-   **Predictor:** `Jahr` — year (`<dbl>`), across six groups of `Raumbezug` (North, East, South, West, Center, Total)
+-   **Method:** annual mean of the districts within each city area and city-wide total
+-   **Expected output:** a summary dataset of annual means and line plots showing the trend from 2000 to 2024
+-   **Interpretation:** this tells us how the unemployment rate has historically developed and shifted over a 24-year period across different regions of Munich
+
+**District → area mapping.** Munich's 25 districts don't come pre-labeled with a compass region, so we assigned each district to North / East / South / West based on its approximate position relative to the city center. The two central districts (Altstadt-Lehel, Ludwigsvorstadt-Isarvorstadt) are excluded from the area breakdown since they sit at the center rather than in any one direction; they remain included in the city-wide total.
+
+> **Note:** this mapping is a judgment call we made, not an official designation.
+
+```{r}
+district_area <- tibble::tibble(
+  district_code = c(
+    1, 2, 3,                     # Center
+    4, 11, 12, 24,                # North
+    5, 13, 14, 15, 16,            # East
+    6, 7, 17, 18, 19, 20,         # South
+    8, 9, 10, 21, 22, 23, 25      # West
+  ),
+  area = c(
+    rep("Center", 3),
+    rep("North", 4),
+    rep("East", 5),
+    rep("South", 6),
+    rep("West", 7)
+  )
+)
+
+arbeitslosen_area <- arbeitslosen %>%
+  mutate(district_code = as.numeric(str_extract(Raumbezug, "^[0-9]+"))) %>%
+  left_join(district_area, by = "district_code") %>%
+  filter(!is.na(area), Auspragung == "insgesamt")
+
+annual_means_area <- arbeitslosen_area %>%
+  group_by(area, Jahr) %>%
+  summarise(mean_rate = mean(Indikatorwert, na.rm = TRUE), .groups = "drop")
+
+annual_means_total <- arbeitslosen %>%
+  filter(Auspragung == "insgesamt", Raumbezug == "Stadt München") %>%
+  transmute(area = "Total", Jahr, mean_rate = Indikatorwert)
+
+annual_means_all <- bind_rows(annual_means_area, annual_means_total)
+```
+
+```{r}
+#| label: rq1-plot
+#| fig-cap: "Figure 3: Mean unemployment rate by Munich city area, 2000-2024"
+#| message: false
+#| warning: false
+
+ggplot(annual_means_all, aes(x = Jahr, y = mean_rate)) +
+  geom_line(color = "steelblue", linewidth = 0.8) +
+  geom_point(size = 1.2) +
+  facet_wrap(~area, scales = "free_y") +
+  theme_minimal() +
+  labs(
+    title = "Mean Unemployment Rate by City Area",
+    x = "Year", y = "Mean Unemployment Rate (%)",
+    caption = "Source: Statistisches Amt München"
+  )
+```
+
+**Interpretation:** *(fill in once you've run this on the real data)*
+
+## RQ2: Gender differences in South Munich, 2024
+
+**Specific claim:** We compare mean unemployment percentage between männlich and weiblich groups (`Indikatorwert ~ Auspragung`) across South Munich districts for the year 2024, using a difference-in-means test, and report the estimated difference, a 95% confidence interval, and a p-value.
+
+**Classify the analysis:** Goal: **Explanatory** — we ask whether `Auspragung` (gender) is related to `Indikatorwert`. **Exploratory** — after seeing the data was already grouped by gender, we decided to investigate further.
+
+**Model specification:**
+
+-   **Response:** `Indikatorwert` — unemployment percentage in % (`<dbl>`)
+-   **Predictor:** `Auspragung` — categorical grouping filtered to `männlich` & `weiblich` (`<chr>`)
+-   **Method:** difference in means between the two groups, using a theory-based t null distribution
+-   **Expected output:** the observed difference in means, a null-distribution plot with the observed statistic shaded, a p-value, and a 95% CI
+-   **Interpretation:** this tells us whether male residents face systematically higher or lower unemployment percentages compared to female residents across South Munich districts in 2024
+
+```{r}
+#| label: rq2-checks
+#| message: false
+#| warning: false
+
+arbeitslosen |> count(Auspragung)
+arbeitslosen |> summarise(across(where(is.numeric), \(x) sum(is.na(x))))
+```
+
+### `{infer}` test
+
+```{r}
+#| label: rq2-infer
+#| message: false
+#| warning: false
+
 library(infer)
 
-obs_stat <- arbeitslosen |>
-  filter(Jahr == 2024 & Auspragung %in% c("männlich", "weiblich")) |>
-  specify(Indikatorwert ~ Auspragung) |>   
-  calculate(stat = "diff in means",           
-            order = c("männlich", "weiblich"))
+south_districts <- c(6, 7, 17, 18, 19, 20)
 
-null_dist <- arbeitslosen |>
+arbeitslosen_south <- arbeitslosen |>
+  mutate(district_code = as.numeric(str_extract(Raumbezug, "^[0-9]+"))) |>
+  filter(district_code %in% south_districts)
+
+obs_stat <- arbeitslosen_south |>
+  filter(Jahr == 2024 & Auspragung %in% c("männlich", "weiblich")) |>
+  specify(Indikatorwert ~ Auspragung) |>
+  calculate(
+    stat = "diff in means",
+    order = c("männlich", "weiblich")
+  )
+
+null_dist <- arbeitslosen_south |>
   filter(Auspragung %in% c("männlich", "weiblich")) |>
   specify(Indikatorwert ~ Auspragung) |>
-  assume("t")          
+  assume("t")
 
-# Visualize the result
-null_dist |> 
+null_dist |>
   visualize() +
   shade_p_value(obs_stat = obs_stat, direction = "both")
 ```
 
-**Result Interpretation:** The difference in average unemployment rate between männlich and weiblich in 2024 falls within the high probability region of the null distribution. The variation between groups can be explained by random sampling variation and we cannot reject the null hypothesis that there is no systematic gender gap.
+**Result interpretation:** the difference in average unemployment rate between männlich and weiblich in 2024 falls within the high-probability region of the null distribution. The variation between groups can be explained by random sampling variation, and we cannot reject the null hypothesis that there is no systematic gender gap.
 
-# Workflow organisation
-
-### Code style:
-
--   tidyverse style guide: \<- for assignments, spaces around operators, ...
-
--   styler package in RStudio to format before committing
-
--   shared AI system prompt so the output follows tidyverse
-
-### Packages:
-
--   tidyverse
-
--   readr
-
--   naniar, skimr
-
-We will initialize renv in our project repo to create renv.lock. This way the package versions we use will be locked down and our code runs identically across the group.
-
-### Git workflow:
-
-We will create separate branches per task (eg. feature/write-IDA) and verify by the other group member before merging into the main branch.
-
-This way the other group member will be able to pull the tasks after they are finished. Creating just one feature branch per group member or working on the main branch it leads to merge conflicts and messy files.
-
-### `.gitignore:`
-
--   rendered outputs
-
--   Local RStudio state files and `.env`
-
-### gt table
+### Summary table
 
 ```{r}
+#| label: rq2-gt-table
+#| message: false
+#| warning: false
 
-library(dplyr)
 library(gt)
 
-arbeitslosen |>
-  filter(Jahr == 2024,
-         Auspragung %in% c("männlich", "weiblich")) |>
+arbeitslosen_south |> count(Auspragung)
+arbeitslosen_south |> summarise(across(where(is.numeric), \(x) sum(is.na(x))))
+
+arbeitslosen_south |>
+  filter(
+    Jahr == 2024,
+    Auspragung %in% c("männlich", "weiblich")
+  ) |>
   group_by(Auspragung) |>
   summarise(
-    n         = n(),
+    n = n(),
     mean_rate = mean(Indikatorwert, na.rm = TRUE),
-    min_rate  = min(Indikatorwert, na.rm = TRUE),
-    max_rate  = max(Indikatorwert, na.rm = TRUE)
+    min_rate = min(Indikatorwert, na.rm = TRUE),
+    max_rate = max(Indikatorwert, na.rm = TRUE)
   ) |>
   gt() |>
   fmt_number(columns = c(mean_rate, min_rate, max_rate), decimals = 1) |>
   fmt_integer(columns = n) |>
   cols_label(
     Auspragung = "Gruppe",
-    n          = "Bezirke (n)",
-    mean_rate  = "Mittelwert",
-    min_rate   = "Min",
-    max_rate   = "Max"
+    n = "Bezirke (n)",
+    mean_rate = "Mittelwert",
+    min_rate = "Min",
+    max_rate = "Max"
   ) |>
   tab_spanner(
-    label   = "Arbeitslosenquote (%)",
+    label = "Arbeitslosenquote (%)",
     columns = c(mean_rate, min_rate, max_rate)
   ) |>
   cols_align(align = "right", columns = where(is.numeric)) |>
   tab_header(
-    title    = "Arbeitslosenquote nach Geschlecht",
+    title = "Arbeitslosenquote nach Geschlecht",
     subtitle = "München, 2024"
   ) |>
   tab_source_note(md("Quelle: Statistisches Amt München"))
 ```
 
-### 
+# 4. Workflow Organisation
+
+### Code style
+
+-   tidyverse style guide: `<-` for assignments, spaces around operators, ...
+-   `styler` package in RStudio to format before committing
+-   shared AI system prompt so output follows tidyverse conventions
+
+### Packages
+
+-   tidyverse
+-   readr
+-   naniar, skimr
+
+We initialize `renv` in our project repo to create `renv.lock`, so that our package versions are locked down and our code runs identically across the group.
+
+### Git workflow
+
+We create separate branches per task (e.g. `feature/write-IDA`) and have the other group member review before merging into `main`. This lets the other group member pull finished tasks and avoids merge conflicts and messy files that a single shared branch would cause.
+
+### `.gitignore`
+
+-   rendered outputs
+-   local RStudio state files and `.env`
