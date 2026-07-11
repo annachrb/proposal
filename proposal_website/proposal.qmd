@@ -330,6 +330,35 @@ null_dist |>
 
 **Result interpretation:** the difference in average unemployment rate between männlich and weiblich in 2024 falls within the high-probability region of the null distribution. The variation between groups can be explained by random sampling variation, and we cannot reject the null hypothesis that there is no systematic gender gap.
 
+```{r}
+#| label: rq2-pvalue
+#| message: false
+#| warning: false
+
+p_value <- null_dist |>
+  get_p_value(obs_stat = obs_stat, direction = "both")
+
+obs_stat
+p_value
+```
+
+```{r}
+#| label: rq2-ci
+#| message: false
+#| warning: false
+
+boot_dist <- arbeitslosen_south |>
+  filter(Jahr == 2024, Auspragung %in% c("männlich", "weiblich")) |>
+  specify(Indikatorwert ~ Auspragung) |>
+  generate(reps = 1000, type = "bootstrap") |>
+  calculate(stat = "diff in means", order = c("männlich", "weiblich"))
+
+ci <- boot_dist |>
+  get_confidence_interval(level = 0.95, type = "percentile")
+
+ci
+```
+
 ### Summary table
 
 ```{r}
@@ -398,5 +427,5 @@ We create separate branches per task (e.g. `feature/write-IDA`) and have the oth
 
 ### `.gitignore`
 
--   rendered outputs
 -   local RStudio state files and `.env`
+-   Practical3.qmd and sandbox.qmd (Practicals and Warm-ups)

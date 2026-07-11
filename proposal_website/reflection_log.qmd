@@ -5,8 +5,6 @@ editor:
     wrap: sentence
 ---
 
-# Reflection Log
-
 ## Week 1 - Introduction, CLI & Git basics
 
 ```{r}
