@@ -6,8 +6,6 @@ format:
 editor: visual
 ---
 
-# Munich Unemployment Analysis (2000-2024)
-
 This project analyses unemployment trends across Munich's 25 city districts from 2000 to 2024, using open data from the [Munich Open Data Portal](https://opendata.muenchen.de).
 
 We explore two questions:

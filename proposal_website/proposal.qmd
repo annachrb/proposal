@@ -1,5 +1,5 @@
 ---
-title: "proposal"
+title: "Proposal"
 format: 
   html: 
     toc: true
@@ -54,7 +54,9 @@ A user who loads the dataset without tracking down this external PDF could misin
 1.  How has the unemployment percentage in Munich changed from 2000 to 2024 overall and by city area (North, East, South, West)? → **Descriptive**
 2.  Do unemployment percentages differ in 2024 based on gender across districts in South Munich? → **Explanatory**
 
-**Cut:** we originally considered a third, predictive research question ("Can we build a simple model to predict the unemployment percentage in the next years?"). We cut this to keep scope focused on the two questions above, in line with the updated-proposal requirement to lock in at most two focused research questions. See the reflection log for our reasoning.
+**Cut:**
+
+We originally considered a third, predictive research question ("Can we build a simple model to predict the unemployment percentage in the next years?"). We cut this to keep scope focused on the two questions above. Also the updated proposal required to lock in at most two focused research questions.
 
 ## Context and target audience
 
