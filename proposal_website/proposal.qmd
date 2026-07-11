@@ -45,13 +45,13 @@ Key variables we expect to use are the year, district, unemployment percentage, 
 
 The Munich Open Data page gives a formula description but no real variable dictionary. Columns like `Auspragung` and `Basiswert 1 / Basiswert 2` are left unexplained.
 
-A separate metadata PDF from the Statistisches Amt München (linked in the dataset description) reveals information not present in the file itself: `Basiswert 2` changes its meaning depending on `Auspragung` (whether the row concerns gender or nationality), and "Stadt München" rows aggregate geographic data differently than individual district rows.
+A separate metadata PDF from the Statistisches Amt München (<https://stadt.muenchen.de/dam/jcr:42312f77-cae6-4995-a534-ff9dfff69480/indikatorenatlas_muenchen_metadaten_2023.pdf>) reveals information not present in the file itself: `Basiswert 2` changes its meaning depending on `Auspragung` (whether the row concerns gender or nationality), and "Stadt München" rows aggregate geographic data differently than individual district rows.
 
 A user who loads the dataset without tracking down this external PDF could misinterpret the metrics or miscalculate averages by mixing districts and city totals.
 
 ## Research Questions
 
-1.  How has the unemployment percentage in Munich changed from 2000 to 2024 overall and by city area (North, East, South, West)? → **Descriptive**
+1.  How has the unemployment percentage in Munich changed from 2000 to 2024 overall and by city area (North, East, South, West, Center)? → **Descriptive**
 2.  Do unemployment percentages differ in 2024 based on gender across districts in South Munich? → **Explanatory**
 
 **Cut:**
@@ -138,8 +138,7 @@ ggplot(arbeitslosen, aes(x = Indikatorwert)) +
 
 ```{r}
 #| label: plot-2-trend
-#| fig-cap: "Figure 2: Ramersdorf-Perlach consistently shows the highest unemployment rates among the four districts, while Maxvorstadt remains the lowest across 2000–2024."
-#| fig-alt: "A faceted line chart showing unemployment rates from 2000 to 2024 for four Munich districts. Ramersdorf-Perlach starts around 8% and remains the highest throughout. Maxvorstadt stays the lowest, peaking around 2005 and declining steadily."
+#| fig-cap: "Figure 2: Unemployment Trends over Time in 4 randomly selected districts"
 #| message: false
 #| warning: false
 
@@ -160,7 +159,6 @@ arbeitslosen %>%
   theme_minimal() +
   labs(
     title = "Unemployment Trends over Time",
-    subtitle = "Ramersdorf-Perlach consistently shows higher rates than Maxvorstadt",
     x = "Year",
     y = "Unemployment Rate (%)",
     caption = "Source: Statistisches Amt München"
@@ -245,7 +243,7 @@ ggplot(annual_means_all, aes(x = Jahr, y = mean_rate)) +
 
 ```{r}
 #| label: rq1-plot-interactive
-#| fig-cap: "Figure 4: Interactive version of Figure 3 — hover over any point to see the exact year and mean unemployment rate for that area."
+#| fig-cap: "Figure 4: Interactive version of Figure 3: hover over any point to see the exact year and mean unemployment rate for that area"
 #| message: false
 #| warning: false
 
@@ -270,7 +268,9 @@ ggplotly(rq1_plot, tooltip = "text")
 
 The interactive version lets readers hover over any point to read the exact year and mean unemployment rate for a given city area, rather than estimating values from the line alone.
 
-**Interpretation:** *(fill in once you've run this on the real data)*
+**Description:** All five regions and the city total show a similar trend. In 2000 all graphs except the center area graph start at around 3.6% and drastically peak in 2005 with almost 7% and only a small decline in 2004. The center area graph has a similar trend but only peaks at around 6% in 2005. After 2005 all graphs show an inconsistent but almost identical decline to about 2.5% in 2019. In 2020 every area graph shows a drastic jump to about 4%, declines again in 2022 but increases from then on to 4% in 2024.
+
+**Interpretation:** The peak in 2005 is explained by a newly introduced reform Hartz IV the same year that counted the unemployed and people on welfare into one number. After this, new rules were introduced where receiving welfare became stricter and so the numbers decreased again.
 
 ## RQ2: Gender differences in South Munich, 2024
 
@@ -330,6 +330,8 @@ null_dist |>
 
 **Result interpretation:** the difference in average unemployment rate between männlich and weiblich in 2024 falls within the high-probability region of the null distribution. The variation between groups can be explained by random sampling variation, and we cannot reject the null hypothesis that there is no systematic gender gap.
 
+p-value:
+
 ```{r}
 #| label: rq2-pvalue
 #| message: false
@@ -341,6 +343,8 @@ p_value <- null_dist |>
 obs_stat
 p_value
 ```
+
+95% CI:
 
 ```{r}
 #| label: rq2-ci

@@ -154,8 +154,8 @@ While a summary statistic includes the same numbers and one could draw the same 
 
 The data showed an abnormal high rate in the year 2005.
 The dataset alone couldn't explain it and so we decided to research.
-It turned out to be this high because of a reform that counted the unemploymed and people on welfare into one number starting in 2005.
-After this the new rules were introduced where receiving welfare became stricter and so the numbers decreased again.
-We deceided to not pursue this question or include it into one of our RQs since it can't be explained by our data alone and we would have to use sources from outside.
+It turned out to be this high because of a reform that counted the unemployed and people on welfare into one number starting in 2005.
+After this new rules were introduced where receiving welfare became stricter and so the numbers decreased again.
+We decided to not pursue this question or include it into one of our RQs since it can't be explained by our data alone and we would have to use sources from outside.
 
 ## Week 9 - Reproducibility, Open Data & renv
