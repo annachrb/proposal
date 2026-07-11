@@ -243,6 +243,33 @@ ggplot(annual_means_all, aes(x = Jahr, y = mean_rate)) +
   )
 ```
 
+```{r}
+#| label: rq1-plot-interactive
+#| fig-cap: "Figure 4: Interactive version of Figure 3 — hover over any point to see the exact year and mean unemployment rate for that area."
+#| message: false
+#| warning: false
+
+library(plotly)
+
+rq1_plot <- ggplot(annual_means_all, 
+                   aes(x = Jahr, y = mean_rate, 
+                       group = area, 
+                       text = paste0("Area: ", area, "<br>Year: ", Jahr, "<br>Rate: ", round(mean_rate, 2), "%"))) +
+  geom_line(color = "forestgreen", linewidth = 0.8) +
+  geom_point(size = 1.2) +
+  facet_wrap(~area, scales = "free_y") +
+  theme_minimal() +
+  labs(
+    title = "Mean Unemployment Rate by City Area",
+    x = "Year", y = "Mean Unemployment Rate (%)",
+    caption = "Source: Statistisches Amt München"
+  )
+
+ggplotly(rq1_plot, tooltip = "text")
+```
+
+The interactive version lets readers hover over any point to read the exact year and mean unemployment rate for a given city area, rather than estimating values from the line alone.
+
 **Interpretation:** *(fill in once you've run this on the real data)*
 
 ## RQ2: Gender differences in South Munich, 2024
