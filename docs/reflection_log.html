@@ -160,6 +160,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#week-3---debugging" id="toc-week-3---debugging" class="nav-link" data-scroll-target="#week-3---debugging">Week 3 - Debugging</a></li>
   <li><a href="#week-4---version-control-collaborative" id="toc-week-4---version-control-collaborative" class="nav-link" data-scroll-target="#week-4---version-control-collaborative">Week 4 - Version Control &amp; Collaborative</a></li>
   <li><a href="#week-5---quarto-websites-collaborative-coding" id="toc-week-5---quarto-websites-collaborative-coding" class="nav-link" data-scroll-target="#week-5---quarto-websites-collaborative-coding">Week 5 - Quarto Websites &amp; <strong>Collaborative Coding</strong></a></li>
+  <li><a href="#week-6---r-packages" id="toc-week-6---r-packages" class="nav-link" data-scroll-target="#week-6---r-packages">Week 6 - <strong>R Packages</strong></a></li>
+  <li><a href="#week-7---initial-data-analysis-data-cleaning" id="toc-week-7---initial-data-analysis-data-cleaning" class="nav-link" data-scroll-target="#week-7---initial-data-analysis-data-cleaning">Week 7 - Initial Data Analysis &amp; Data Cleaning</a></li>
+  <li><a href="#week-9---reproducibility-open-data-renv" id="toc-week-9---reproducibility-open-data-renv" class="nav-link" data-scroll-target="#week-9---reproducibility-open-data-renv">Week 9 - <strong>Reproducibility, Open Data &amp; renv</strong></a></li>
   </ul></li>
   </ul>
 </nav>
@@ -237,23 +240,33 @@ Figure&nbsp;1: Bill length vs Bill depth across penguin species
 </section>
 <section id="week-3---debugging" class="level2">
 <h2 class="anchored" data-anchor-id="week-3---debugging">Week 3 - Debugging</h2>
-<p><em>Did you use an LLM to help debug? What did you share with it, and what approach did it take? Was the answer correct? How did you verify it?</em></p>
+<ol type="1">
+<li><em>Did you use an LLM to help debug? What did you share with it, and what approach did it take? Was the answer correct? How did you verify it?</em></li>
+</ol>
 <p>I had to fix an error and try the debugging methods. The error was shown on RStudio but I couldn’t see what was wrong. I pasted the code and error message into the LLM and asked it to explain the message and find which line is faulty. After I could fix the error myself.</p>
 <p>For testing the debug method I also had the LLM explain the methods first, since I those were new to me. I tried to use the methods myself but couldn’t really figure it out. I asked the LLM on how to actually use them.</p>
 </section>
 <section id="week-4---version-control-collaborative" class="level2">
 <h2 class="anchored" data-anchor-id="week-4---version-control-collaborative">Week 4 - Version Control &amp; Collaborative</h2>
-<p><em>Describe a confusing or frustrating moment with git this week. How did you resolve it? What do you now understand that you didn’t before?</em></p>
+<ol type="1">
+<li><em>Describe a confusing or frustrating moment with git this week. How did you resolve it? What do you now understand that you didn’t before?</em></li>
+</ol>
 <p>A frustrating moment was when initialising git. The main branch was called mian which was a setting mispell. Additionally the README section was filled with ‘statprog’ 4 times which wasn’t supposed to be there. I tried fixing it with the help of an LLM but it did more trouble than good. So I decided to delete the original repository and start over. The same mistake of the missspelled main branch happened again. I decided to look into the settings and found that the name of the original branch, when creating the repository was set to ‘mian’. I was able to set it to ‘main’ and create the original branch with the right name. I moved on to connecting the repository to my folder. It took me a few tries and hours to fix the mistakes, but I was able to get the repository clean.</p>
-<p><em>How does committing code frequently change how you think about your work? Have you noticed yourself structuring tasks differently because of it?</em></p>
+<ol start="2" type="1">
+<li><em>How does committing code frequently change how you think about your work? Have you noticed yourself structuring tasks differently because of it?</em></li>
+</ol>
 <p>It makes me think more structured. Completing / Commiting one task first and then moving on to the next one to ensure that the structure doesn’t get lost and all task get done cleanly.</p>
 </section>
 <section id="week-5---quarto-websites-collaborative-coding" class="level2">
 <h2 class="anchored" data-anchor-id="week-5---quarto-websites-collaborative-coding">Week 5 - Quarto Websites &amp; <strong>Collaborative Coding</strong></h2>
-<p><em>What is the difference between a Quarto document and a Quarto website project? Describe in your own words what <code>_quarto.yml</code> does and how it changes how you think about organising a multi-file project.</em></p>
+<ol type="1">
+<li><em>What is the difference between a Quarto document and a Quarto website project? Describe in your own words what <code>_quarto.yml</code> does and how it changes how you think about organising a multi-file project.</em></li>
+</ol>
 <p>A quarto document is a single page, where as a quarto website is a collection of different quarto documents.</p>
 <p><code>_quarto.yml</code> is the control settings of the whole Quarto website and structures everything. Instead of having to write the settings of the page at the top everytime, it is defined once in the <code>_quarto.yml</code> file. In my opinion, it is much more efficient and gives a structured look since the settings are the same across the website.</p>
-<p><em>Walk through one <code>format:</code> or <code>execute:</code> option you set in <code>_quarto.yml</code> this week. Why did you choose that option, and what effect did it have on the rendered output?</em></p>
+<ol start="2" type="1">
+<li><em>Walk through one <code>format:</code> or <code>execute:</code> option you set in <code>_quarto.yml</code> this week. Why did you choose that option, and what effect did it have on the rendered output?</em></li>
+</ol>
 <p>The format is html because I want the output to be a website.</p>
 <p><strong>code-fold: true</strong> - the code will not be directly shown. The user can click on the expandable to show the code. I chose this because it gives a more clean look instead of having pages of code.</p>
 <p><strong>code-summary: “Show code”</strong> - This message will appear on the expandable to specify that there is code and an option to show it.</p>
@@ -266,7 +279,49 @@ Figure&nbsp;1: Bill length vs Bill depth across penguin species
 </ul>
 <p><strong>css: styles.css</strong> - a file that includes specific, custom style changes that are applied to every page</p>
 <p><strong>toc: true</strong> - Table of contents on the right side</p>
-<p><em>Describe a situation this week where you used a git branch, stash, or pull request. What problem were you solving, and would you approach it the same way again?</em></p>
+<ol start="3" type="1">
+<li><em>Describe a situation this week where you used a git branch, stash, or pull request. What problem were you solving, and would you approach it the same way again?</em></li>
+</ol>
+<p>I was editing the main proposal file and was working on the main branch. Luckily only I was editing and pushing the changes so there were no conflicts but it could happen that the other teammate works on the branch and then it’ll lead to a merge conflict. To avoid this we decided to use individual branches when working on the project since it will lead to a cleaner history.</p>
+<p>++ In week 8 I merged a feature branch into main and deleted the remote branch on GitHub. I continued working on that same branch locally and forgot that the remote tracking was gone. When I tried to push an error message appeared. I was very confused because I didn’t realize the remote branch no longer exists. In my attempt to fix the ‘sync’ issue, I improperly performed a pull that overwrote my local progress. I learned the importance of structured branches and frequent committing and pushing instead of doing the whole project on just one branch and pushing everything at once.</p>
+<p>Next time we could resolve that problem like this:</p>
+<ol type="1">
+<li><p><code>git branch</code> shows I am on main instead of feature branch</p></li>
+<li><p><code>git log —oneline --graph --all -n 10</code> see if commits exist locally</p></li>
+<li><p><code>git fetch origin</code> &amp; <code>git log --oneline origin/branchname..branchname</code> check what was pushed –&gt; If list of commits returns it means those commits exist locally and have not been pushed to the remote branch yet</p></li>
+<li><p><code>git push -u origin branchname</code> –&gt; push changes from the branch I’m actually on</p></li>
+</ol>
+</section>
+<section id="week-6---r-packages" class="level2">
+<h2 class="anchored" data-anchor-id="week-6---r-packages">Week 6 - <strong>R Packages</strong></h2>
+<ol type="1">
+<li><p><em>Can you think of packages you have used that are very large or very small? Why do you think they contain many or few functions?</em></p></li>
+<li><p><em>How do the ideas of outside-in and inside-out function design relate to package design?</em></p></li>
+<li><p><em><code>devtools::load_all()</code> reloads your package without restarting R, whereas <code>source()</code>-ing a file just runs it in the global environment. Did you notice a difference in behaviour when using <code>load_all()</code>? What does it tell you about how packages work differently from plain scripts?</em></p></li>
+<li><p><em>Writing roxygen2 documentation (<code>@param</code>, <code>@returns</code>, <code>@examples</code>) forces you to describe your function from a user’s perspective before you’ve finished writing it. Did documenting a function change how you thought about its interface or arguments?</em></p></li>
+</ol>
+</section>
+<section id="week-7---initial-data-analysis-data-cleaning" class="level2">
+<h2 class="anchored" data-anchor-id="week-7---initial-data-analysis-data-cleaning">Week 7 - Initial Data Analysis &amp; Data Cleaning</h2>
+<ol type="1">
+<li><em>What data format or file type did you encounter that was unfamiliar? How did you read it into R, and what did you learn in the process?</em></li>
+</ol>
+<p>It was unfamiliar that we could just load the data from a different folder inside the project (/data/raw/…). It’s quite logical.</p>
+<ol type="1">
+<li><em>Did you ask an LLM about data licensing, provenance, or quality? What question did you ask, and how did you assess whether the answer was trustworthy?</em></li>
+</ol>
+<p>We didn’t have to ask an LLM since the practical had an example of a licence of a dataset from the same source (Stadt München). We looked into the description and licence section of our Dataset and noticed the two were very similar. So we compared them and it happened to be identical to the licence from the practical. If we do ask LLMs question about our project we make sure to skim the source / information the LLM is refering to. Most of the time we use LLMs to save time so we don’t have to read pages of documentation. The LLM primarely helps find the location of the information.</p>
+<ol type="1">
+<li><em>Describe one visualisation you made during IDA. What did you learn from it that a summary statistic alone wouldn’t have revealed?</em></li>
+</ol>
+<p>We made a visualisation of the unemployment trend over time. It showed us how the rate dropped or increased over the years. While a summary statistic includes the same numbers and one could draw the same conclusions the visualisation shows where the highs and lows were and the overall trend at one glance.</p>
+<ol type="1">
+<li><em>What question did your data raise that you hadn’t anticipated at the start? Do you think it’s worth pursuing, and why?</em></li>
+</ol>
+<p>The data showed an abnormal high rate in the year 2005. The dataset alone couldn’t explain it and so we decided to research. It turned out to be this high because of a reform that counted the unemploymed and people on welfare into one number starting in 2005. After this the new rules were introduced where receiving welfare became stricter and so the numbers decreased again. We deceided to not pursue this question or include it into one of our RQs since it can’t be explained by our data alone and we would have to use sources from outside.</p>
+</section>
+<section id="week-9---reproducibility-open-data-renv" class="level2">
+<h2 class="anchored" data-anchor-id="week-9---reproducibility-open-data-renv">Week 9 - <strong>Reproducibility, Open Data &amp; renv</strong></h2>
 
 
 </section>
