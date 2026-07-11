@@ -27,7 +27,7 @@ ggplot(penguins, aes(x = bill_length_mm, y = bill_depth_mm, color = species)) +
 
 @fig-penguins
 
-## Week 2 - **Scripts, Functions & Refactoring**
+## Week 2 - Scripts, Functions & Refactoring
 
 ## Week 3 - Debugging
 
@@ -62,7 +62,7 @@ It took me a few tries and hours to fix the mistakes, but I was able to get the 
 It makes me think more structured.
 Completing / Commiting one task first and then moving on to the next one to ensure that the structure doesn't get lost and all task get done cleanly.
 
-## Week 5 - Quarto Websites & **Collaborative Coding**
+## Week 5 - Quarto Websites & Collaborative Coding
 
 1.  *What is the difference between a Quarto document and a Quarto website project? Describe in your own words what `_quarto.yml` does and how it changes how you think about organising a multi-file project.*
 
@@ -120,7 +120,7 @@ Next time we could resolve that problem like this:
 
 4.  `git push -u origin branchname` –\> push changes from the branch I'm actually on
 
-## Week 6 - **R Packages**
+## Week 6 - R Packages
 
 1.  *Can you think of packages you have used that are very large or very small? Why do you think they contain many or few functions?*
 
@@ -160,4 +160,4 @@ It turned out to be this high because of a reform that counted the unemploymed a
 After this the new rules were introduced where receiving welfare became stricter and so the numbers decreased again.
 We deceided to not pursue this question or include it into one of our RQs since it can't be explained by our data alone and we would have to use sources from outside.
 
-## Week 9 - **Reproducibility, Open Data & renv**
+## Week 9 - Reproducibility, Open Data & renv
