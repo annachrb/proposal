@@ -53,7 +53,28 @@
     "href": "about.html",
     "title": "About",
     "section": "",
-    "text": "About this site"
+    "text": "This project analyses unemployment trends across Munich’s 25 city districts from 2000 to 2024, using data from the Munich Open Data Portal. It was completed as the group project for StatProg2 (SoSe 2026) at LMU Munich.\nWe explore how unemployment percentages have changed over time by city area and if they differ by gender across South Munich’s districts in 2024. Full details on Proposal page."
+  },
+  {
+    "objectID": "about.html#about-this-project",
+    "href": "about.html#about-this-project",
+    "title": "About",
+    "section": "",
+    "text": "This project analyses unemployment trends across Munich’s 25 city districts from 2000 to 2024, using data from the Munich Open Data Portal. It was completed as the group project for StatProg2 (SoSe 2026) at LMU Munich.\nWe explore how unemployment percentages have changed over time by city area and if they differ by gender across South Munich’s districts in 2024. Full details on Proposal page."
+  },
+  {
+    "objectID": "about.html#group-members",
+    "href": "about.html#group-members",
+    "title": "About",
+    "section": "Group members",
+    "text": "Group members\n\nRebecca Patrick - R.Patrick@campus.lmu.de\nAnna Chrebtov - Anna.Chrebtov@campus.lmu.de"
+  },
+  {
+    "objectID": "about.html#data-source-and-licence",
+    "href": "about.html#data-source-and-licence",
+    "title": "About",
+    "section": "Data source and licence",
+    "text": "Data source and licence\nThe dataset is published under Datenlizenz Deutschland Namensnennung 2.0 and was downloaded from the Munich Open Data Portal on 2026-05-15."
   },
   {
     "objectID": "index.html",
