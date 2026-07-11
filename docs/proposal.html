@@ -104,6 +104,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
+<link href="site_libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+<script src="site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<script src="site_libs/plotly-binding-4.12.0/plotly.js"></script>
+<script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
+<script src="site_libs/jquery-3.5.1/jquery.min.js"></script>
+<link href="site_libs/crosstalk-1.2.2/css/crosstalk.min.css" rel="stylesheet">
+<script src="site_libs/crosstalk-1.2.2/js/crosstalk.min.js"></script>
+<link href="site_libs/plotly-htmlwidgets-css-2.25.2/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="site_libs/plotly-main-2.25.2/plotly-latest.min.js"></script>
 
 
 <link rel="stylesheet" href="styles.css">
@@ -736,6 +745,34 @@ $ `Name Basiswert 2` &lt;chr&gt; "Hauptwohnsitzbevölkerung (15 bis 64 Jahre) (d
 </div>
 </div>
 </div>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="fu">library</span>(plotly)</span>
+<span id="cb15-2"><a href="#cb15-2"></a></span>
+<span id="cb15-3"><a href="#cb15-3"></a>rq1_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(annual_means_all, </span>
+<span id="cb15-4"><a href="#cb15-4"></a>                   <span class="fu">aes</span>(<span class="at">x =</span> Jahr, <span class="at">y =</span> mean_rate, </span>
+<span id="cb15-5"><a href="#cb15-5"></a>                       <span class="at">group =</span> area, </span>
+<span id="cb15-6"><a href="#cb15-6"></a>                       <span class="at">text =</span> <span class="fu">paste0</span>(<span class="st">"Area: "</span>, area, <span class="st">"&lt;br&gt;Year: "</span>, Jahr, <span class="st">"&lt;br&gt;Rate: "</span>, <span class="fu">round</span>(mean_rate, <span class="dv">2</span>), <span class="st">"%"</span>))) <span class="sc">+</span></span>
+<span id="cb15-7"><a href="#cb15-7"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"forestgreen"</span>, <span class="at">linewidth =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb15-8"><a href="#cb15-8"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb15-9"><a href="#cb15-9"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>area, <span class="at">scales =</span> <span class="st">"free_y"</span>) <span class="sc">+</span></span>
+<span id="cb15-10"><a href="#cb15-10"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb15-11"><a href="#cb15-11"></a>  <span class="fu">labs</span>(</span>
+<span id="cb15-12"><a href="#cb15-12"></a>    <span class="at">title =</span> <span class="st">"Mean Unemployment Rate by City Area"</span>,</span>
+<span id="cb15-13"><a href="#cb15-13"></a>    <span class="at">x =</span> <span class="st">"Year"</span>, <span class="at">y =</span> <span class="st">"Mean Unemployment Rate (%)"</span>,</span>
+<span id="cb15-14"><a href="#cb15-14"></a>    <span class="at">caption =</span> <span class="st">"Source: Statistisches Amt München"</span></span>
+<span id="cb15-15"><a href="#cb15-15"></a>  )</span>
+<span id="cb15-16"><a href="#cb15-16"></a></span>
+<span id="cb15-17"><a href="#cb15-17"></a><span class="fu">ggplotly</span>(rq1_plot, <span class="at">tooltip =</span> <span class="st">"text"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-9ba8fc842c3b7f6fd520" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-9ba8fc842c3b7f6fd520">{"x":{"data":[{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[3.6666666666666665,3.6000000000000001,4.7666666666666666,5.5666666666666673,5.166666666666667,5.8666666666666663,4.5,3.5666666666666669,3,3.3999999999999999,3.2000000000000002,2.7999999999999998,2.6333333333333333,2.9333333333333331,3.0333333333333332,2.8333333333333335,2.5333333333333332,2.3333333333333335,2.3333333333333335,2.2333333333333334,3.2000000000000002,2.8999999999999999,2.5333333333333332,2.8999999999999999,3.2333333333333334],"text":["Area: Center<br>Year: 2000<br>Rate: 3.67%","Area: Center<br>Year: 2001<br>Rate: 3.6%","Area: Center<br>Year: 2002<br>Rate: 4.77%","Area: Center<br>Year: 2003<br>Rate: 5.57%","Area: Center<br>Year: 2004<br>Rate: 5.17%","Area: Center<br>Year: 2005<br>Rate: 5.87%","Area: Center<br>Year: 2006<br>Rate: 4.5%","Area: Center<br>Year: 2007<br>Rate: 3.57%","Area: Center<br>Year: 2008<br>Rate: 3%","Area: Center<br>Year: 2009<br>Rate: 3.4%","Area: Center<br>Year: 2010<br>Rate: 3.2%","Area: Center<br>Year: 2011<br>Rate: 2.8%","Area: Center<br>Year: 2012<br>Rate: 2.63%","Area: Center<br>Year: 2013<br>Rate: 2.93%","Area: Center<br>Year: 2014<br>Rate: 3.03%","Area: Center<br>Year: 2015<br>Rate: 2.83%","Area: Center<br>Year: 2016<br>Rate: 2.53%","Area: Center<br>Year: 2017<br>Rate: 2.33%","Area: Center<br>Year: 2018<br>Rate: 2.33%","Area: Center<br>Year: 2019<br>Rate: 2.23%","Area: Center<br>Year: 2020<br>Rate: 3.2%","Area: Center<br>Year: 2021<br>Rate: 2.9%","Area: Center<br>Year: 2022<br>Rate: 2.53%","Area: Center<br>Year: 2023<br>Rate: 2.9%","Area: Center<br>Year: 2024<br>Rate: 3.23%"],"type":"scatter","mode":"lines+markers","line":{"width":3.0236220472440949,"color":"rgba(34,139,34,1)","dash":"solid"},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(0,0,0,1)","opacity":1,"size":4.5354330708661417,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"frame":null},{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[3.48,3.2999999999999998,4.3600000000000003,5.1200000000000001,4.96,6.3799999999999999,5.54,4.4400000000000004,3.8599999999999999,4.3600000000000003,4.0999999999999996,3.7000000000000002,3.7400000000000002,3.8799999999999999,3.8599999999999999,3.6599999999999997,3.5800000000000001,3.4199999999999999,3.1400000000000001,2.96,4.1200000000000001,3.9399999999999999,3.5,3.7399999999999998,4.2599999999999998],"text":["Area: East<br>Year: 2000<br>Rate: 3.48%","Area: East<br>Year: 2001<br>Rate: 3.3%","Area: East<br>Year: 2002<br>Rate: 4.36%","Area: East<br>Year: 2003<br>Rate: 5.12%","Area: East<br>Year: 2004<br>Rate: 4.96%","Area: East<br>Year: 2005<br>Rate: 6.38%","Area: East<br>Year: 2006<br>Rate: 5.54%","Area: East<br>Year: 2007<br>Rate: 4.44%","Area: East<br>Year: 2008<br>Rate: 3.86%","Area: East<br>Year: 2009<br>Rate: 4.36%","Area: East<br>Year: 2010<br>Rate: 4.1%","Area: East<br>Year: 2011<br>Rate: 3.7%","Area: East<br>Year: 2012<br>Rate: 3.74%","Area: East<br>Year: 2013<br>Rate: 3.88%","Area: East<br>Year: 2014<br>Rate: 3.86%","Area: East<br>Year: 2015<br>Rate: 3.66%","Area: East<br>Year: 2016<br>Rate: 3.58%","Area: East<br>Year: 2017<br>Rate: 3.42%","Area: East<br>Year: 2018<br>Rate: 3.14%","Area: East<br>Year: 2019<br>Rate: 2.96%","Area: East<br>Year: 2020<br>Rate: 4.12%","Area: East<br>Year: 2021<br>Rate: 3.94%","Area: East<br>Year: 2022<br>Rate: 3.5%","Area: East<br>Year: 2023<br>Rate: 3.74%","Area: East<br>Year: 2024<br>Rate: 4.26%"],"type":"scatter","mode":"lines+markers","line":{"width":3.0236220472440949,"color":"rgba(34,139,34,1)","dash":"solid"},"hoveron":"points","showlegend":false,"xaxis":"x2","yaxis":"y2","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(0,0,0,1)","opacity":1,"size":4.5354330708661417,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"frame":null},{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[3.7749999999999999,3.5750000000000002,4.5750000000000002,5.375,5.1500000000000004,6.9749999999999996,6.0750000000000002,4.8250000000000002,4.125,4.7249999999999996,4.2750000000000004,3.9249999999999998,3.75,4.0250000000000004,4.0250000000000004,3.9249999999999998,3.625,3.375,3.0499999999999998,2.8250000000000002,3.875,3.7999999999999998,3.3500000000000001,3.5,3.8250000000000002],"text":["Area: North<br>Year: 2000<br>Rate: 3.78%","Area: North<br>Year: 2001<br>Rate: 3.58%","Area: North<br>Year: 2002<br>Rate: 4.58%","Area: North<br>Year: 2003<br>Rate: 5.38%","Area: North<br>Year: 2004<br>Rate: 5.15%","Area: North<br>Year: 2005<br>Rate: 6.97%","Area: North<br>Year: 2006<br>Rate: 6.08%","Area: North<br>Year: 2007<br>Rate: 4.82%","Area: North<br>Year: 2008<br>Rate: 4.12%","Area: North<br>Year: 2009<br>Rate: 4.72%","Area: North<br>Year: 2010<br>Rate: 4.28%","Area: North<br>Year: 2011<br>Rate: 3.92%","Area: North<br>Year: 2012<br>Rate: 3.75%","Area: North<br>Year: 2013<br>Rate: 4.03%","Area: North<br>Year: 2014<br>Rate: 4.03%","Area: North<br>Year: 2015<br>Rate: 3.92%","Area: North<br>Year: 2016<br>Rate: 3.62%","Area: North<br>Year: 2017<br>Rate: 3.38%","Area: North<br>Year: 2018<br>Rate: 3.05%","Area: North<br>Year: 2019<br>Rate: 2.83%","Area: North<br>Year: 2020<br>Rate: 3.88%","Area: North<br>Year: 2021<br>Rate: 3.8%","Area: North<br>Year: 2022<br>Rate: 3.35%","Area: North<br>Year: 2023<br>Rate: 3.5%","Area: North<br>Year: 2024<br>Rate: 3.83%"],"type":"scatter","mode":"lines+markers","line":{"width":3.0236220472440949,"color":"rgba(34,139,34,1)","dash":"solid"},"hoveron":"points","showlegend":false,"xaxis":"x3","yaxis":"y3","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(0,0,0,1)","opacity":1,"size":4.5354330708661417,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"frame":null},{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[3.7166666666666668,3.5333333333333332,4.5166666666666666,5.4333333333333336,5.3833333333333329,6.916666666666667,5.8499999999999996,4.9000000000000004,4.2666666666666666,4.9166666666666661,4.5499999999999998,4.0166666666666666,3.9333333333333331,3.9833333333333334,4,3.8666666666666667,3.5499999999999998,3.3166666666666664,3,2.7833333333333332,3.8999999999999999,3.6833333333333336,3.2333333333333334,3.3999999999999999,3.8166666666666664],"text":["Area: South<br>Year: 2000<br>Rate: 3.72%","Area: South<br>Year: 2001<br>Rate: 3.53%","Area: South<br>Year: 2002<br>Rate: 4.52%","Area: South<br>Year: 2003<br>Rate: 5.43%","Area: South<br>Year: 2004<br>Rate: 5.38%","Area: South<br>Year: 2005<br>Rate: 6.92%","Area: South<br>Year: 2006<br>Rate: 5.85%","Area: South<br>Year: 2007<br>Rate: 4.9%","Area: South<br>Year: 2008<br>Rate: 4.27%","Area: South<br>Year: 2009<br>Rate: 4.92%","Area: South<br>Year: 2010<br>Rate: 4.55%","Area: South<br>Year: 2011<br>Rate: 4.02%","Area: South<br>Year: 2012<br>Rate: 3.93%","Area: South<br>Year: 2013<br>Rate: 3.98%","Area: South<br>Year: 2014<br>Rate: 4%","Area: South<br>Year: 2015<br>Rate: 3.87%","Area: South<br>Year: 2016<br>Rate: 3.55%","Area: South<br>Year: 2017<br>Rate: 3.32%","Area: South<br>Year: 2018<br>Rate: 3%","Area: South<br>Year: 2019<br>Rate: 2.78%","Area: South<br>Year: 2020<br>Rate: 3.9%","Area: South<br>Year: 2021<br>Rate: 3.68%","Area: South<br>Year: 2022<br>Rate: 3.23%","Area: South<br>Year: 2023<br>Rate: 3.4%","Area: South<br>Year: 2024<br>Rate: 3.82%"],"type":"scatter","mode":"lines+markers","line":{"width":3.0236220472440949,"color":"rgba(34,139,34,1)","dash":"solid"},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y4","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(0,0,0,1)","opacity":1,"size":4.5354330708661417,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"frame":null},{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[3.7000000000000002,3.5,4.5,5.2999999999999998,5.2000000000000002,6.7000000000000002,5.7999999999999998,4.5999999999999996,4,4.5999999999999996,4.2999999999999998,3.7999999999999998,3.7000000000000002,3.8999999999999999,3.8999999999999999,3.7000000000000002,3.5,3.2999999999999998,3,2.7999999999999998,3.8999999999999999,3.7999999999999998,3.2999999999999998,3.6000000000000001,3.8999999999999999],"text":["Area: Total<br>Year: 2000<br>Rate: 3.7%","Area: Total<br>Year: 2001<br>Rate: 3.5%","Area: Total<br>Year: 2002<br>Rate: 4.5%","Area: Total<br>Year: 2003<br>Rate: 5.3%","Area: Total<br>Year: 2004<br>Rate: 5.2%","Area: Total<br>Year: 2005<br>Rate: 6.7%","Area: Total<br>Year: 2006<br>Rate: 5.8%","Area: Total<br>Year: 2007<br>Rate: 4.6%","Area: Total<br>Year: 2008<br>Rate: 4%","Area: Total<br>Year: 2009<br>Rate: 4.6%","Area: Total<br>Year: 2010<br>Rate: 4.3%","Area: Total<br>Year: 2011<br>Rate: 3.8%","Area: Total<br>Year: 2012<br>Rate: 3.7%","Area: Total<br>Year: 2013<br>Rate: 3.9%","Area: Total<br>Year: 2014<br>Rate: 3.9%","Area: Total<br>Year: 2015<br>Rate: 3.7%","Area: Total<br>Year: 2016<br>Rate: 3.5%","Area: Total<br>Year: 2017<br>Rate: 3.3%","Area: Total<br>Year: 2018<br>Rate: 3%","Area: Total<br>Year: 2019<br>Rate: 2.8%","Area: Total<br>Year: 2020<br>Rate: 3.9%","Area: Total<br>Year: 2021<br>Rate: 3.8%","Area: Total<br>Year: 2022<br>Rate: 3.3%","Area: Total<br>Year: 2023<br>Rate: 3.6%","Area: Total<br>Year: 2024<br>Rate: 3.9%"],"type":"scatter","mode":"lines","line":{"width":3.0236220472440949,"color":"rgba(34,139,34,1)","dash":"solid"},"hoveron":"points","showlegend":false,"xaxis":"x2","yaxis":"y5","hoverinfo":"text","frame":null},{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[3.6857142857142855,3.3999999999999999,4.3142857142857141,5.1857142857142859,5.0428571428571427,6.5285714285714285,5.8428571428571425,4.5571428571428569,4.0285714285714285,4.6571428571428575,4.2714285714285714,3.7999999999999998,3.657142857142857,3.9714285714285715,3.9857142857142858,3.7571428571428571,3.5,3.2000000000000002,2.9142857142857141,2.7714285714285714,3.9285714285714284,3.9428571428571426,3.4428571428571431,3.657142857142857,4.0142857142857142],"text":["Area: West<br>Year: 2000<br>Rate: 3.69%","Area: West<br>Year: 2001<br>Rate: 3.4%","Area: West<br>Year: 2002<br>Rate: 4.31%","Area: West<br>Year: 2003<br>Rate: 5.19%","Area: West<br>Year: 2004<br>Rate: 5.04%","Area: West<br>Year: 2005<br>Rate: 6.53%","Area: West<br>Year: 2006<br>Rate: 5.84%","Area: West<br>Year: 2007<br>Rate: 4.56%","Area: West<br>Year: 2008<br>Rate: 4.03%","Area: West<br>Year: 2009<br>Rate: 4.66%","Area: West<br>Year: 2010<br>Rate: 4.27%","Area: West<br>Year: 2011<br>Rate: 3.8%","Area: West<br>Year: 2012<br>Rate: 3.66%","Area: West<br>Year: 2013<br>Rate: 3.97%","Area: West<br>Year: 2014<br>Rate: 3.99%","Area: West<br>Year: 2015<br>Rate: 3.76%","Area: West<br>Year: 2016<br>Rate: 3.5%","Area: West<br>Year: 2017<br>Rate: 3.2%","Area: West<br>Year: 2018<br>Rate: 2.91%","Area: West<br>Year: 2019<br>Rate: 2.77%","Area: West<br>Year: 2020<br>Rate: 3.93%","Area: West<br>Year: 2021<br>Rate: 3.94%","Area: West<br>Year: 2022<br>Rate: 3.44%","Area: West<br>Year: 2023<br>Rate: 3.66%","Area: West<br>Year: 2024<br>Rate: 4.01%"],"type":"scatter","mode":"lines+markers","line":{"width":3.0236220472440949,"color":"rgba(34,139,34,1)","dash":"solid"},"hoveron":"points","showlegend":false,"xaxis":"x3","yaxis":"y6","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(0,0,0,1)","opacity":1,"size":4.5354330708661417,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"frame":null},{"x":[2024,2023,2022,2021,2020,2019,2018,2017,2016,2015,2014,2013,2012,2011,2010,2009,2008,2007,2006,2005,2004,2003,2002,2001,2000],"y":[3.8999999999999999,3.6000000000000001,3.2999999999999998,3.7999999999999998,3.8999999999999999,2.7999999999999998,3,3.2999999999999998,3.5,3.7000000000000002,3.8999999999999999,3.8999999999999999,3.7000000000000002,3.7999999999999998,4.2999999999999998,4.5999999999999996,4,4.5999999999999996,5.7999999999999998,6.7000000000000002,5.2000000000000002,5.2999999999999998,4.5,3.5,3.7000000000000002],"text":["Area: Total<br>Year: 2024<br>Rate: 3.9%","Area: Total<br>Year: 2023<br>Rate: 3.6%","Area: Total<br>Year: 2022<br>Rate: 3.3%","Area: Total<br>Year: 2021<br>Rate: 3.8%","Area: Total<br>Year: 2020<br>Rate: 3.9%","Area: Total<br>Year: 2019<br>Rate: 2.8%","Area: Total<br>Year: 2018<br>Rate: 3%","Area: Total<br>Year: 2017<br>Rate: 3.3%","Area: Total<br>Year: 2016<br>Rate: 3.5%","Area: Total<br>Year: 2015<br>Rate: 3.7%","Area: Total<br>Year: 2014<br>Rate: 3.9%","Area: Total<br>Year: 2013<br>Rate: 3.9%","Area: Total<br>Year: 2012<br>Rate: 3.7%","Area: Total<br>Year: 2011<br>Rate: 3.8%","Area: Total<br>Year: 2010<br>Rate: 4.3%","Area: Total<br>Year: 2009<br>Rate: 4.6%","Area: Total<br>Year: 2008<br>Rate: 4%","Area: Total<br>Year: 2007<br>Rate: 4.6%","Area: Total<br>Year: 2006<br>Rate: 5.8%","Area: Total<br>Year: 2005<br>Rate: 6.7%","Area: Total<br>Year: 2004<br>Rate: 5.2%","Area: Total<br>Year: 2003<br>Rate: 5.3%","Area: Total<br>Year: 2002<br>Rate: 4.5%","Area: Total<br>Year: 2001<br>Rate: 3.5%","Area: Total<br>Year: 2000<br>Rate: 3.7%"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,0,0,1)","opacity":1,"size":4.5354330708661417,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"hoveron":"points","showlegend":false,"xaxis":"x2","yaxis":"y5","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":52.529680365296812,"r":7.3059360730593621,"b":37.260273972602747,"l":31.415525114155255},"paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"title":{"text":"Mean Unemployment Rate by City Area","font":{"color":"rgba(0,0,0,1)","family":"","size":17.534246575342465},"x":0,"xref":"paper"},"xaxis":{"domain":[0,0.31376386170906717],"automargin":true,"type":"linear","autorange":false,"range":[1998.8,2025.2],"tickmode":"array","ticktext":["2000","2005","2010","2015","2020","2025"],"tickvals":[2000,2005,2010,2015,2020,2025],"categoryorder":"array","categoryarray":["2000","2005","2010","2015","2020","2025"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y4","title":"","hoverformat":".2f"},"annotations":[{"text":"Year","x":0.5,"y":0,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"top","annotationType":"axis","yshift":-21.917808219178081},{"text":"Mean Unemployment Rate (%)","x":0,"y":0.5,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"xref":"paper","yref":"paper","textangle":-90,"xanchor":"right","yanchor":"center","annotationType":"axis","xshift":-16.073059360730596},{"text":"Center","x":0.15688193085453359,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(26,26,26,1)","family":"","size":11.68949771689498},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"},{"text":"East","x":0.5,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(26,26,26,1)","family":"","size":11.68949771689498},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"},{"text":"North","x":0.84311806914546639,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(26,26,26,1)","family":"","size":11.68949771689498},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"},{"text":"South","x":0.15688193085453359,"y":0.4604261796042618,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(26,26,26,1)","family":"","size":11.68949771689498},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"},{"text":"Total","x":0.5,"y":0.4604261796042618,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(26,26,26,1)","family":"","size":11.68949771689498},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"},{"text":"West","x":0.84311806914546639,"y":0.4604261796042618,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(26,26,26,1)","family":"","size":11.68949771689498},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"}],"yaxis":{"domain":[0.5395738203957382,1],"automargin":true,"type":"linear","autorange":false,"range":[2.0516666666666667,6.0483333333333329],"tickmode":"array","ticktext":["3","4","5","6"],"tickvals":[3,4,5,6],"categoryorder":"array","categoryarray":["3","4","5","6"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":"","hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","layer":"below","x0":0,"x1":0.31376386170906717,"y0":0,"y1":23.37899543378996,"yanchor":1,"ysizemode":"pixel"},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","layer":"below","x0":0.35290280495759946,"x1":0.64709719504240049,"y0":0,"y1":23.37899543378996,"yanchor":1,"ysizemode":"pixel"},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","layer":"below","x0":0.68623613829093277,"x1":1,"y0":0,"y1":23.37899543378996,"yanchor":1,"ysizemode":"pixel"},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","layer":"below","x0":0,"x1":0.31376386170906717,"y0":0,"y1":23.37899543378996,"yanchor":0.4604261796042618,"ysizemode":"pixel"},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","layer":"below","x0":0.35290280495759946,"x1":0.64709719504240049,"y0":0,"y1":23.37899543378996,"yanchor":0.4604261796042618,"ysizemode":"pixel"},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","layer":"below","x0":0.68623613829093277,"x1":1,"y0":0,"y1":23.37899543378996,"yanchor":0.4604261796042618,"ysizemode":"pixel"}],"xaxis2":{"type":"linear","autorange":false,"range":[1998.8,2025.2],"tickmode":"array","ticktext":["2000","2005","2010","2015","2020","2025"],"tickvals":[2000,2005,2010,2015,2020,2025],"categoryorder":"array","categoryarray":["2000","2005","2010","2015","2020","2025"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"domain":[0.35290280495759946,0.64709719504240049],"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y5","title":"","hoverformat":".2f"},"yaxis2":{"type":"linear","autorange":false,"range":[2.7890000000000001,6.5510000000000002],"tickmode":"array","ticktext":["3","4","5","6"],"tickvals":[3,4,5,6],"categoryorder":"array","categoryarray":["3","4","5","6"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"domain":[0.5395738203957382,1],"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x2","title":"","hoverformat":".2f"},"xaxis3":{"type":"linear","autorange":false,"range":[1998.8,2025.2],"tickmode":"array","ticktext":["2000","2005","2010","2015","2020","2025"],"tickvals":[2000,2005,2010,2015,2020,2025],"categoryorder":"array","categoryarray":["2000","2005","2010","2015","2020","2025"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"domain":[0.68623613829093277,1],"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y6","title":"","hoverformat":".2f"},"yaxis3":{"type":"linear","autorange":false,"range":[2.6175000000000002,7.1824999999999992],"tickmode":"array","ticktext":["3","4","5","6","7"],"tickvals":[3,4,5,6,7],"categoryorder":"array","categoryarray":["3","4","5","6","7"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"domain":[0.5395738203957382,1],"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x3","title":"","hoverformat":".2f"},"yaxis4":{"type":"linear","autorange":false,"range":[2.5766666666666667,7.123333333333334],"tickmode":"array","ticktext":["3","4","5","6","7"],"tickvals":[3,4,5,6,7],"categoryorder":"array","categoryarray":["3","4","5","6","7"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"domain":[0,0.4604261796042618],"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":"","hoverformat":".2f"},"yaxis5":{"type":"linear","autorange":false,"range":[2.605,6.8950000000000005],"tickmode":"array","ticktext":["3","4","5","6"],"tickvals":[3,4,5,6],"categoryorder":"array","categoryarray":["3","4","5","6"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"domain":[0,0.4604261796042618],"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x2","title":"","hoverformat":".2f"},"yaxis6":{"type":"linear","autorange":false,"range":[2.5835714285714286,6.7164285714285716],"tickmode":"array","ticktext":["3","4","5","6"],"tickvals":[3,4,5,6],"categoryorder":"array","categoryarray":["3","4","5","6"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"domain":[0,0.4604261796042618],"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x3","title":"","hoverformat":".2f"},"showlegend":false,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"5c076054bf44":{"x":{},"y":{},"text":{},"type":"scatter"},"5c075bd93ac4":{"x":{},"y":{},"text":{}}},"cur_data":"5c076054bf44","visdat":{"5c076054bf44":["function (y) ","x"],"5c075bd93ac4":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p>Figure 4: Interactive version of Figure 3 — hover over any point to see the exact year and mean unemployment rate for that area.</p>
+</div>
+</div>
+<p>The interactive version lets readers hover over any point to read the exact year and mean unemployment rate for a given city area, rather than estimating values from the line alone.</p>
 <p><strong>Interpretation:</strong> <em>(fill in once you’ve run this on the real data)</em></p>
 </section>
 <section id="rq2-gender-differences-in-south-munich-2024" class="level2">
@@ -753,7 +790,7 @@ $ `Name Basiswert 2` &lt;chr&gt; "Hauptwohnsitzbevölkerung (15 bis 64 Jahre) (d
 <div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>arbeitslosen <span class="sc">|&gt;</span> <span class="fu">count</span>(Auspragung)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>arbeitslosen <span class="sc">|&gt;</span> <span class="fu">count</span>(Auspragung)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 5 × 2
@@ -767,7 +804,7 @@ $ `Name Basiswert 2` &lt;chr&gt; "Hauptwohnsitzbevölkerung (15 bis 64 Jahre) (d
 </div>
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>arbeitslosen <span class="sc">|&gt;</span> <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), \(x) <span class="fu">sum</span>(<span class="fu">is.na</span>(x))))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>arbeitslosen <span class="sc">|&gt;</span> <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), \(x) <span class="fu">sum</span>(<span class="fu">is.na</span>(x))))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 5
@@ -781,30 +818,30 @@ $ `Name Basiswert 2` &lt;chr&gt; "Hauptwohnsitzbevölkerung (15 bis 64 Jahre) (d
 <div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="fu">library</span>(infer)</span>
-<span id="cb19-2"><a href="#cb19-2"></a></span>
-<span id="cb19-3"><a href="#cb19-3"></a>south_districts <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">17</span>, <span class="dv">18</span>, <span class="dv">19</span>, <span class="dv">20</span>)</span>
-<span id="cb19-4"><a href="#cb19-4"></a></span>
-<span id="cb19-5"><a href="#cb19-5"></a>arbeitslosen_south <span class="ot">&lt;-</span> arbeitslosen <span class="sc">|&gt;</span></span>
-<span id="cb19-6"><a href="#cb19-6"></a>  <span class="fu">mutate</span>(<span class="at">district_code =</span> <span class="fu">as.numeric</span>(<span class="fu">str_extract</span>(Raumbezug, <span class="st">"^[0-9]+"</span>))) <span class="sc">|&gt;</span></span>
-<span id="cb19-7"><a href="#cb19-7"></a>  <span class="fu">filter</span>(district_code <span class="sc">%in%</span> south_districts)</span>
-<span id="cb19-8"><a href="#cb19-8"></a></span>
-<span id="cb19-9"><a href="#cb19-9"></a>obs_stat <span class="ot">&lt;-</span> arbeitslosen_south <span class="sc">|&gt;</span></span>
-<span id="cb19-10"><a href="#cb19-10"></a>  <span class="fu">filter</span>(Jahr <span class="sc">==</span> <span class="dv">2024</span> <span class="sc">&amp;</span> Auspragung <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"männlich"</span>, <span class="st">"weiblich"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb19-11"><a href="#cb19-11"></a>  <span class="fu">specify</span>(Indikatorwert <span class="sc">~</span> Auspragung) <span class="sc">|&gt;</span></span>
-<span id="cb19-12"><a href="#cb19-12"></a>  <span class="fu">calculate</span>(</span>
-<span id="cb19-13"><a href="#cb19-13"></a>    <span class="at">stat =</span> <span class="st">"diff in means"</span>,</span>
-<span id="cb19-14"><a href="#cb19-14"></a>    <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"männlich"</span>, <span class="st">"weiblich"</span>)</span>
-<span id="cb19-15"><a href="#cb19-15"></a>  )</span>
-<span id="cb19-16"><a href="#cb19-16"></a></span>
-<span id="cb19-17"><a href="#cb19-17"></a>null_dist <span class="ot">&lt;-</span> arbeitslosen_south <span class="sc">|&gt;</span></span>
-<span id="cb19-18"><a href="#cb19-18"></a>  <span class="fu">filter</span>(Auspragung <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"männlich"</span>, <span class="st">"weiblich"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb19-19"><a href="#cb19-19"></a>  <span class="fu">specify</span>(Indikatorwert <span class="sc">~</span> Auspragung) <span class="sc">|&gt;</span></span>
-<span id="cb19-20"><a href="#cb19-20"></a>  <span class="fu">assume</span>(<span class="st">"t"</span>)</span>
-<span id="cb19-21"><a href="#cb19-21"></a></span>
-<span id="cb19-22"><a href="#cb19-22"></a>null_dist <span class="sc">|&gt;</span></span>
-<span id="cb19-23"><a href="#cb19-23"></a>  <span class="fu">visualize</span>() <span class="sc">+</span></span>
-<span id="cb19-24"><a href="#cb19-24"></a>  <span class="fu">shade_p_value</span>(<span class="at">obs_stat =</span> obs_stat, <span class="at">direction =</span> <span class="st">"both"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="fu">library</span>(infer)</span>
+<span id="cb20-2"><a href="#cb20-2"></a></span>
+<span id="cb20-3"><a href="#cb20-3"></a>south_districts <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">17</span>, <span class="dv">18</span>, <span class="dv">19</span>, <span class="dv">20</span>)</span>
+<span id="cb20-4"><a href="#cb20-4"></a></span>
+<span id="cb20-5"><a href="#cb20-5"></a>arbeitslosen_south <span class="ot">&lt;-</span> arbeitslosen <span class="sc">|&gt;</span></span>
+<span id="cb20-6"><a href="#cb20-6"></a>  <span class="fu">mutate</span>(<span class="at">district_code =</span> <span class="fu">as.numeric</span>(<span class="fu">str_extract</span>(Raumbezug, <span class="st">"^[0-9]+"</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb20-7"><a href="#cb20-7"></a>  <span class="fu">filter</span>(district_code <span class="sc">%in%</span> south_districts)</span>
+<span id="cb20-8"><a href="#cb20-8"></a></span>
+<span id="cb20-9"><a href="#cb20-9"></a>obs_stat <span class="ot">&lt;-</span> arbeitslosen_south <span class="sc">|&gt;</span></span>
+<span id="cb20-10"><a href="#cb20-10"></a>  <span class="fu">filter</span>(Jahr <span class="sc">==</span> <span class="dv">2024</span> <span class="sc">&amp;</span> Auspragung <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"männlich"</span>, <span class="st">"weiblich"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb20-11"><a href="#cb20-11"></a>  <span class="fu">specify</span>(Indikatorwert <span class="sc">~</span> Auspragung) <span class="sc">|&gt;</span></span>
+<span id="cb20-12"><a href="#cb20-12"></a>  <span class="fu">calculate</span>(</span>
+<span id="cb20-13"><a href="#cb20-13"></a>    <span class="at">stat =</span> <span class="st">"diff in means"</span>,</span>
+<span id="cb20-14"><a href="#cb20-14"></a>    <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"männlich"</span>, <span class="st">"weiblich"</span>)</span>
+<span id="cb20-15"><a href="#cb20-15"></a>  )</span>
+<span id="cb20-16"><a href="#cb20-16"></a></span>
+<span id="cb20-17"><a href="#cb20-17"></a>null_dist <span class="ot">&lt;-</span> arbeitslosen_south <span class="sc">|&gt;</span></span>
+<span id="cb20-18"><a href="#cb20-18"></a>  <span class="fu">filter</span>(Auspragung <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"männlich"</span>, <span class="st">"weiblich"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb20-19"><a href="#cb20-19"></a>  <span class="fu">specify</span>(Indikatorwert <span class="sc">~</span> Auspragung) <span class="sc">|&gt;</span></span>
+<span id="cb20-20"><a href="#cb20-20"></a>  <span class="fu">assume</span>(<span class="st">"t"</span>)</span>
+<span id="cb20-21"><a href="#cb20-21"></a></span>
+<span id="cb20-22"><a href="#cb20-22"></a>null_dist <span class="sc">|&gt;</span></span>
+<span id="cb20-23"><a href="#cb20-23"></a>  <span class="fu">visualize</span>() <span class="sc">+</span></span>
+<span id="cb20-24"><a href="#cb20-24"></a>  <span class="fu">shade_p_value</span>(<span class="at">obs_stat =</span> obs_stat, <span class="at">direction =</span> <span class="st">"both"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -821,9 +858,9 @@ $ `Name Basiswert 2` &lt;chr&gt; "Hauptwohnsitzbevölkerung (15 bis 64 Jahre) (d
 <div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="fu">library</span>(gt)</span>
-<span id="cb20-2"><a href="#cb20-2"></a></span>
-<span id="cb20-3"><a href="#cb20-3"></a>arbeitslosen_south <span class="sc">|&gt;</span> <span class="fu">count</span>(Auspragung)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a><span class="fu">library</span>(gt)</span>
+<span id="cb21-2"><a href="#cb21-2"></a></span>
+<span id="cb21-3"><a href="#cb21-3"></a>arbeitslosen_south <span class="sc">|&gt;</span> <span class="fu">count</span>(Auspragung)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 5 × 2
@@ -837,7 +874,7 @@ $ `Name Basiswert 2` &lt;chr&gt; "Hauptwohnsitzbevölkerung (15 bis 64 Jahre) (d
 </div>
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a>arbeitslosen_south <span class="sc">|&gt;</span> <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), \(x) <span class="fu">sum</span>(<span class="fu">is.na</span>(x))))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>arbeitslosen_south <span class="sc">|&gt;</span> <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), \(x) <span class="fu">sum</span>(<span class="fu">is.na</span>(x))))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 6
@@ -847,57 +884,57 @@ $ `Name Basiswert 2` &lt;chr&gt; "Hauptwohnsitzbevölkerung (15 bis 64 Jahre) (d
 </div>
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a>arbeitslosen_south <span class="sc">|&gt;</span></span>
-<span id="cb24-2"><a href="#cb24-2"></a>  <span class="fu">filter</span>(</span>
-<span id="cb24-3"><a href="#cb24-3"></a>    Jahr <span class="sc">==</span> <span class="dv">2024</span>,</span>
-<span id="cb24-4"><a href="#cb24-4"></a>    Auspragung <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"männlich"</span>, <span class="st">"weiblich"</span>)</span>
-<span id="cb24-5"><a href="#cb24-5"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb24-6"><a href="#cb24-6"></a>  <span class="fu">group_by</span>(Auspragung) <span class="sc">|&gt;</span></span>
-<span id="cb24-7"><a href="#cb24-7"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb24-8"><a href="#cb24-8"></a>    <span class="at">n =</span> <span class="fu">n</span>(),</span>
-<span id="cb24-9"><a href="#cb24-9"></a>    <span class="at">mean_rate =</span> <span class="fu">mean</span>(Indikatorwert, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb24-10"><a href="#cb24-10"></a>    <span class="at">min_rate =</span> <span class="fu">min</span>(Indikatorwert, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb24-11"><a href="#cb24-11"></a>    <span class="at">max_rate =</span> <span class="fu">max</span>(Indikatorwert, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb24-12"><a href="#cb24-12"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb24-13"><a href="#cb24-13"></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span></span>
-<span id="cb24-14"><a href="#cb24-14"></a>  <span class="fu">fmt_number</span>(<span class="at">columns =</span> <span class="fu">c</span>(mean_rate, min_rate, max_rate), <span class="at">decimals =</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
-<span id="cb24-15"><a href="#cb24-15"></a>  <span class="fu">fmt_integer</span>(<span class="at">columns =</span> n) <span class="sc">|&gt;</span></span>
-<span id="cb24-16"><a href="#cb24-16"></a>  <span class="fu">cols_label</span>(</span>
-<span id="cb24-17"><a href="#cb24-17"></a>    <span class="at">Auspragung =</span> <span class="st">"Gruppe"</span>,</span>
-<span id="cb24-18"><a href="#cb24-18"></a>    <span class="at">n =</span> <span class="st">"Bezirke (n)"</span>,</span>
-<span id="cb24-19"><a href="#cb24-19"></a>    <span class="at">mean_rate =</span> <span class="st">"Mittelwert"</span>,</span>
-<span id="cb24-20"><a href="#cb24-20"></a>    <span class="at">min_rate =</span> <span class="st">"Min"</span>,</span>
-<span id="cb24-21"><a href="#cb24-21"></a>    <span class="at">max_rate =</span> <span class="st">"Max"</span></span>
-<span id="cb24-22"><a href="#cb24-22"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb24-23"><a href="#cb24-23"></a>  <span class="fu">tab_spanner</span>(</span>
-<span id="cb24-24"><a href="#cb24-24"></a>    <span class="at">label =</span> <span class="st">"Arbeitslosenquote (%)"</span>,</span>
-<span id="cb24-25"><a href="#cb24-25"></a>    <span class="at">columns =</span> <span class="fu">c</span>(mean_rate, min_rate, max_rate)</span>
-<span id="cb24-26"><a href="#cb24-26"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb24-27"><a href="#cb24-27"></a>  <span class="fu">cols_align</span>(<span class="at">align =</span> <span class="st">"right"</span>, <span class="at">columns =</span> <span class="fu">where</span>(is.numeric)) <span class="sc">|&gt;</span></span>
-<span id="cb24-28"><a href="#cb24-28"></a>  <span class="fu">tab_header</span>(</span>
-<span id="cb24-29"><a href="#cb24-29"></a>    <span class="at">title =</span> <span class="st">"Arbeitslosenquote nach Geschlecht"</span>,</span>
-<span id="cb24-30"><a href="#cb24-30"></a>    <span class="at">subtitle =</span> <span class="st">"München, 2024"</span></span>
-<span id="cb24-31"><a href="#cb24-31"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb24-32"><a href="#cb24-32"></a>  <span class="fu">tab_source_note</span>(<span class="fu">md</span>(<span class="st">"Quelle: Statistisches Amt München"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a>arbeitslosen_south <span class="sc">|&gt;</span></span>
+<span id="cb25-2"><a href="#cb25-2"></a>  <span class="fu">filter</span>(</span>
+<span id="cb25-3"><a href="#cb25-3"></a>    Jahr <span class="sc">==</span> <span class="dv">2024</span>,</span>
+<span id="cb25-4"><a href="#cb25-4"></a>    Auspragung <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"männlich"</span>, <span class="st">"weiblich"</span>)</span>
+<span id="cb25-5"><a href="#cb25-5"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb25-6"><a href="#cb25-6"></a>  <span class="fu">group_by</span>(Auspragung) <span class="sc">|&gt;</span></span>
+<span id="cb25-7"><a href="#cb25-7"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb25-8"><a href="#cb25-8"></a>    <span class="at">n =</span> <span class="fu">n</span>(),</span>
+<span id="cb25-9"><a href="#cb25-9"></a>    <span class="at">mean_rate =</span> <span class="fu">mean</span>(Indikatorwert, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb25-10"><a href="#cb25-10"></a>    <span class="at">min_rate =</span> <span class="fu">min</span>(Indikatorwert, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb25-11"><a href="#cb25-11"></a>    <span class="at">max_rate =</span> <span class="fu">max</span>(Indikatorwert, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb25-12"><a href="#cb25-12"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb25-13"><a href="#cb25-13"></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span></span>
+<span id="cb25-14"><a href="#cb25-14"></a>  <span class="fu">fmt_number</span>(<span class="at">columns =</span> <span class="fu">c</span>(mean_rate, min_rate, max_rate), <span class="at">decimals =</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb25-15"><a href="#cb25-15"></a>  <span class="fu">fmt_integer</span>(<span class="at">columns =</span> n) <span class="sc">|&gt;</span></span>
+<span id="cb25-16"><a href="#cb25-16"></a>  <span class="fu">cols_label</span>(</span>
+<span id="cb25-17"><a href="#cb25-17"></a>    <span class="at">Auspragung =</span> <span class="st">"Gruppe"</span>,</span>
+<span id="cb25-18"><a href="#cb25-18"></a>    <span class="at">n =</span> <span class="st">"Bezirke (n)"</span>,</span>
+<span id="cb25-19"><a href="#cb25-19"></a>    <span class="at">mean_rate =</span> <span class="st">"Mittelwert"</span>,</span>
+<span id="cb25-20"><a href="#cb25-20"></a>    <span class="at">min_rate =</span> <span class="st">"Min"</span>,</span>
+<span id="cb25-21"><a href="#cb25-21"></a>    <span class="at">max_rate =</span> <span class="st">"Max"</span></span>
+<span id="cb25-22"><a href="#cb25-22"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb25-23"><a href="#cb25-23"></a>  <span class="fu">tab_spanner</span>(</span>
+<span id="cb25-24"><a href="#cb25-24"></a>    <span class="at">label =</span> <span class="st">"Arbeitslosenquote (%)"</span>,</span>
+<span id="cb25-25"><a href="#cb25-25"></a>    <span class="at">columns =</span> <span class="fu">c</span>(mean_rate, min_rate, max_rate)</span>
+<span id="cb25-26"><a href="#cb25-26"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb25-27"><a href="#cb25-27"></a>  <span class="fu">cols_align</span>(<span class="at">align =</span> <span class="st">"right"</span>, <span class="at">columns =</span> <span class="fu">where</span>(is.numeric)) <span class="sc">|&gt;</span></span>
+<span id="cb25-28"><a href="#cb25-28"></a>  <span class="fu">tab_header</span>(</span>
+<span id="cb25-29"><a href="#cb25-29"></a>    <span class="at">title =</span> <span class="st">"Arbeitslosenquote nach Geschlecht"</span>,</span>
+<span id="cb25-30"><a href="#cb25-30"></a>    <span class="at">subtitle =</span> <span class="st">"München, 2024"</span></span>
+<span id="cb25-31"><a href="#cb25-31"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb25-32"><a href="#cb25-32"></a>  <span class="fu">tab_source_note</span>(<span class="fu">md</span>(<span class="st">"Quelle: Statistisches Amt München"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
-<div id="bhdsqssyon" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#bhdsqssyon table {
+<div id="iempvaovvc" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#iempvaovvc table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#bhdsqssyon thead, #bhdsqssyon tbody, #bhdsqssyon tfoot, #bhdsqssyon tr, #bhdsqssyon td, #bhdsqssyon th {
+#iempvaovvc thead, #iempvaovvc tbody, #iempvaovvc tfoot, #iempvaovvc tr, #iempvaovvc td, #iempvaovvc th {
   border-style: none;
 }
 
-#bhdsqssyon p {
+#iempvaovvc p {
   margin: 0;
   padding: 0;
 }
 
-#bhdsqssyon .gt_table {
+#iempvaovvc .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -923,12 +960,12 @@ $ `Name Basiswert 2` &lt;chr&gt; "Hauptwohnsitzbevölkerung (15 bis 64 Jahre) (d
   border-left-color: #D3D3D3;
 }
 
-#bhdsqssyon .gt_caption {
+#iempvaovvc .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#bhdsqssyon .gt_title {
+#iempvaovvc .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -940,7 +977,7 @@ $ `Name Basiswert 2` &lt;chr&gt; "Hauptwohnsitzbevölkerung (15 bis 64 Jahre) (d
   border-bottom-width: 0;
 }
 
-#bhdsqssyon .gt_subtitle {
+#iempvaovvc .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -952,7 +989,7 @@ $ `Name Basiswert 2` &lt;chr&gt; "Hauptwohnsitzbevölkerung (15 bis 64 Jahre) (d
   border-top-width: 0;
 }
 
-#bhdsqssyon .gt_heading {
+#iempvaovvc .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -964,13 +1001,13 @@ $ `Name Basiswert 2` &lt;chr&gt; "Hauptwohnsitzbevölkerung (15 bis 64 Jahre) (d
   border-right-color: #D3D3D3;
 }
 
-#bhdsqssyon .gt_bottom_border {
+#iempvaovvc .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#bhdsqssyon .gt_col_headings {
+#iempvaovvc .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -985,7 +1022,7 @@ $ `Name Basiswert 2` &lt;chr&gt; "Hauptwohnsitzbevölkerung (15 bis 64 Jahre) (d
   border-right-color: #D3D3D3;
 }
 
-#bhdsqssyon .gt_col_heading {
+#iempvaovvc .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1005,7 +1042,7 @@ $ `Name Basiswert 2` &lt;chr&gt; "Hauptwohnsitzbevölkerung (15 bis 64 Jahre) (d
   overflow-x: hidden;
 }
 
-#bhdsqssyon .gt_column_spanner_outer {
+#iempvaovvc .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1017,15 +1054,15 @@ $ `Name Basiswert 2` &lt;chr&gt; "Hauptwohnsitzbevölkerung (15 bis 64 Jahre) (d
   padding-right: 4px;
 }
 
-#bhdsqssyon .gt_column_spanner_outer:first-child {
+#iempvaovvc .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#bhdsqssyon .gt_column_spanner_outer:last-child {
+#iempvaovvc .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#bhdsqssyon .gt_column_spanner {
+#iempvaovvc .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1037,11 +1074,11 @@ $ `Name Basiswert 2` &lt;chr&gt; "Hauptwohnsitzbevölkerung (15 bis 64 Jahre) (d
   width: 100%;
 }
 
-#bhdsqssyon .gt_spanner_row {
+#iempvaovvc .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#bhdsqssyon .gt_group_heading {
+#iempvaovvc .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1067,7 +1104,7 @@ $ `Name Basiswert 2` &lt;chr&gt; "Hauptwohnsitzbevölkerung (15 bis 64 Jahre) (d
   text-align: left;
 }
 
-#bhdsqssyon .gt_empty_group_heading {
+#iempvaovvc .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1082,15 +1119,15 @@ $ `Name Basiswert 2` &lt;chr&gt; "Hauptwohnsitzbevölkerung (15 bis 64 Jahre) (d
   vertical-align: middle;
 }
 
-#bhdsqssyon .gt_from_md > :first-child {
+#iempvaovvc .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#bhdsqssyon .gt_from_md > :last-child {
+#iempvaovvc .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#bhdsqssyon .gt_row {
+#iempvaovvc .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1109,7 +1146,7 @@ $ `Name Basiswert 2` &lt;chr&gt; "Hauptwohnsitzbevölkerung (15 bis 64 Jahre) (d
   overflow-x: hidden;
 }
 
-#bhdsqssyon .gt_stub {
+#iempvaovvc .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1122,7 +1159,7 @@ $ `Name Basiswert 2` &lt;chr&gt; "Hauptwohnsitzbevölkerung (15 bis 64 Jahre) (d
   padding-right: 5px;
 }
 
-#bhdsqssyon .gt_stub_row_group {
+#iempvaovvc .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1136,15 +1173,15 @@ $ `Name Basiswert 2` &lt;chr&gt; "Hauptwohnsitzbevölkerung (15 bis 64 Jahre) (d
   vertical-align: top;
 }
 
-#bhdsqssyon .gt_row_group_first td {
+#iempvaovvc .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#bhdsqssyon .gt_row_group_first th {
+#iempvaovvc .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#bhdsqssyon .gt_summary_row {
+#iempvaovvc .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1154,16 +1191,16 @@ $ `Name Basiswert 2` &lt;chr&gt; "Hauptwohnsitzbevölkerung (15 bis 64 Jahre) (d
   padding-right: 5px;
 }
 
-#bhdsqssyon .gt_first_summary_row {
+#iempvaovvc .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#bhdsqssyon .gt_first_summary_row.thick {
+#iempvaovvc .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#bhdsqssyon .gt_last_summary_row {
+#iempvaovvc .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1173,7 +1210,7 @@ $ `Name Basiswert 2` &lt;chr&gt; "Hauptwohnsitzbevölkerung (15 bis 64 Jahre) (d
   border-bottom-color: #D3D3D3;
 }
 
-#bhdsqssyon .gt_grand_summary_row {
+#iempvaovvc .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1183,7 +1220,7 @@ $ `Name Basiswert 2` &lt;chr&gt; "Hauptwohnsitzbevölkerung (15 bis 64 Jahre) (d
   padding-right: 5px;
 }
 
-#bhdsqssyon .gt_first_grand_summary_row {
+#iempvaovvc .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1193,7 +1230,7 @@ $ `Name Basiswert 2` &lt;chr&gt; "Hauptwohnsitzbevölkerung (15 bis 64 Jahre) (d
   border-top-color: #D3D3D3;
 }
 
-#bhdsqssyon .gt_last_grand_summary_row_top {
+#iempvaovvc .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1203,11 +1240,11 @@ $ `Name Basiswert 2` &lt;chr&gt; "Hauptwohnsitzbevölkerung (15 bis 64 Jahre) (d
   border-bottom-color: #D3D3D3;
 }
 
-#bhdsqssyon .gt_striped {
+#iempvaovvc .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#bhdsqssyon .gt_table_body {
+#iempvaovvc .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1216,7 +1253,7 @@ $ `Name Basiswert 2` &lt;chr&gt; "Hauptwohnsitzbevölkerung (15 bis 64 Jahre) (d
   border-bottom-color: #D3D3D3;
 }
 
-#bhdsqssyon .gt_footnotes {
+#iempvaovvc .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1230,7 +1267,7 @@ $ `Name Basiswert 2` &lt;chr&gt; "Hauptwohnsitzbevölkerung (15 bis 64 Jahre) (d
   border-right-color: #D3D3D3;
 }
 
-#bhdsqssyon .gt_footnote {
+#iempvaovvc .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1239,7 +1276,7 @@ $ `Name Basiswert 2` &lt;chr&gt; "Hauptwohnsitzbevölkerung (15 bis 64 Jahre) (d
   padding-right: 5px;
 }
 
-#bhdsqssyon .gt_sourcenotes {
+#iempvaovvc .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1253,7 +1290,7 @@ $ `Name Basiswert 2` &lt;chr&gt; "Hauptwohnsitzbevölkerung (15 bis 64 Jahre) (d
   border-right-color: #D3D3D3;
 }
 
-#bhdsqssyon .gt_sourcenote {
+#iempvaovvc .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1261,72 +1298,72 @@ $ `Name Basiswert 2` &lt;chr&gt; "Hauptwohnsitzbevölkerung (15 bis 64 Jahre) (d
   padding-right: 5px;
 }
 
-#bhdsqssyon .gt_left {
+#iempvaovvc .gt_left {
   text-align: left;
 }
 
-#bhdsqssyon .gt_center {
+#iempvaovvc .gt_center {
   text-align: center;
 }
 
-#bhdsqssyon .gt_right {
+#iempvaovvc .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#bhdsqssyon .gt_font_normal {
+#iempvaovvc .gt_font_normal {
   font-weight: normal;
 }
 
-#bhdsqssyon .gt_font_bold {
+#iempvaovvc .gt_font_bold {
   font-weight: bold;
 }
 
-#bhdsqssyon .gt_font_italic {
+#iempvaovvc .gt_font_italic {
   font-style: italic;
 }
 
-#bhdsqssyon .gt_super {
+#iempvaovvc .gt_super {
   font-size: 65%;
 }
 
-#bhdsqssyon .gt_footnote_marks {
+#iempvaovvc .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#bhdsqssyon .gt_asterisk {
+#iempvaovvc .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#bhdsqssyon .gt_indent_1 {
+#iempvaovvc .gt_indent_1 {
   text-indent: 5px;
 }
 
-#bhdsqssyon .gt_indent_2 {
+#iempvaovvc .gt_indent_2 {
   text-indent: 10px;
 }
 
-#bhdsqssyon .gt_indent_3 {
+#iempvaovvc .gt_indent_3 {
   text-indent: 15px;
 }
 
-#bhdsqssyon .gt_indent_4 {
+#iempvaovvc .gt_indent_4 {
   text-indent: 20px;
 }
 
-#bhdsqssyon .gt_indent_5 {
+#iempvaovvc .gt_indent_5 {
   text-indent: 25px;
 }
 
-#bhdsqssyon .katex-display {
+#iempvaovvc .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#bhdsqssyon div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#iempvaovvc div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
