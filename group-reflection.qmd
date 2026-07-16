@@ -10,114 +10,212 @@ For each skill area, describe what your group actually used it for. If you did n
 
 *What we did:*
 
+We practices writing functions in `Practical3.qmd`. We wrote a grouped summary function using tidy evaluation (`mean_mass_by()` with `{{ }}` -\> searches for column name not the variable literally named) and a recursive function. We did not use custom functions into the group project itself. The actual analysis in `proposal.qmd` stayed as inline `dplyr` pipe chain code.
+
 *What worked well:*
 
+The practical exercise gave us a understanding of tidy evaluation (`{{ }}`) and recursion, which we hadn't used before. Because it was separate from the project's real analysis, we could focus on understanding without worrying about breaking anything that mattered.
+
 *What was hard:*
+
+Looking back, `proposal.qmd` has two places with duplicated code. The missingness check (`count(Auspragung)` and the NA summary) is repeated almost exactly. We run it once on the full dataset and again on the South Munich subset. The district code extraction (`str_extract(Raumbezug, "^[0-9]+")`) is also repeated. It appears in the RQ1 area mapping and again in the RQ2 South filter.
+
+We didn't notice this while writing the code. By the time we did, the deadline was close. Refactoring working analysis code just to make it tidier felt risky. We decided not to risk introducing a new bug just for style.
 
 ### Debugging (W3)
 
 *What we did:*
 
+An example of a bug we encountered in the project is that rendered plot images were shown as broken/missing on the live GitHub Pages site. Our process through bugs was the same each time. We first read the actual error / looked at the problem and then checked the lecture/practical material for the topic involved (Quarto deployment for images) and attempted fixes ourselves. Only when that didn't resolve it or made things worse, we asked an LLM how we could fix the problem and the cause.
+
+For the broken images bug, trying to fix it ourselves didn't get us far. The cause was a `*_files/` rule in `.gitignore` silently excluding the rendered figure folders from every commit, so the HTML pages referenced image files that had never actually been pushed to the repo. The LLM correctly recognized this from the description alone, which we then confirmed by checking our actual `.gitignore` contents.
+
 *What worked well:*
 
+Trying to solve the problems ourselves first, using the actual error / problem and course materials, meant we had rough ideas what the fix / root could be for each bug before asking for help. This way we didn't blindly trust the LLM and instead could make sense out of the explanation.
+
 *What was hard:*
+
+Most of the times the root causes weren't obvious from what showed up alone. We wouldn't have found the actual culprit by just looking at the code longer. The `.gitignore` was something we had set up at the very start of the project and forgot about since we didn't fully understand what it does until actually deploying a website.
 
 ### Version control & remotes (W4)
 
 *What we did:*
 
+We used Git for version control throughout the project, working with branches, commits, and a remote GitHub repository. Early on we hit a repo setup problem: the default branch was misspelled as "mian" instead of "main," and the README had a stray placeholder word repeated several times. We tried fixing it with an LLM's help, but the fix caused more problems than it solved, so we deleted the repository and started over. The same "mian" typo happened again on the second attempt, which led us to check GitHub's repository creation settings directly rather than trying to fix it after the fact. We found the default branch name setting and corrected it there.
+
 *What worked well:*
 
+Later in the project, we also ran into a remote tracking issue. After merging a feature branch into main and deleting the remote branch on GitHub, one of us kept working on that same branch locally without noticing the remote tracking was gone. A later push failed, and in trying to resolve it, an improper pull overwrote local progress. We learned to check `git branch` and `git status` before continuing working.
+
 *What was hard:*
+
+Once we adopted separate branches per task instead of everyone working directly on `main`, the workflow got noticeably cleaner and we avoided merge conflicts. Committing frequently also made it easier to structure work by finishing and committing one task before moving to the next kept the project from feeling chaotic.
 
 ### Quarto websites & collaborative coding (W5)
 
 *What we did:*
 
+Everyone in the group worked on `_quarto.yml`. We didn't split it up by person. Our workflow was to render the site locally first and check it looked right. Then we pushed it. GitHub Pages only updates from the rendered output, not the source files. So if we forgot to render before pushing, the live site would be out of date.
+
 *What worked well:*
 
+The theme (cosmo + brand) and the sidebar with the TOC worked well right away. No real problems there.
+
 *What was hard:*
+
+It took us a while to get used to the render-then-push workflow. We didn't fully understand at first that GitHub Pages needs the rendered HTML, not just the source files pushed. This caused some early confusion.
 
 ### R packages (W6)
 
 *What we did:*
 
+We agreed on the basic packages as a group early on (tidyverse, readr). As the project went on, everyone added more packages individually when they needed them, like visdat, skimr and naniar for data screening, infer for the hypothesis test, and gt for the summary table.
+
 *What worked well:*
 
+Most packages were straightforward to use since we already knew them from the practicals or the documentation was clear enough (skimr, naniar, gt).
+
 *What was hard:*
+
+`infer` was hard to understand at first. The syntax with `specify()`, `assume("t")` and `shade_p_value()` was not obvious. We followed the practicals template as a sandbox first and tried to understand the functions by testing them there before applying them to our own data in the project.
 
 ### Initial data analysis & data cleaning (W7)
 
 *What we did:*
 
+We used `vis_dat`, `skim`, `miss_var_summary` and `vis_miss` to screen the dataset. We found no unexpected column types, categorical variables were `<chr>` and numbers were `<dbl>`. We identified two data quality issues. First, individual districts and the Stadt München total were mixed in the same `Raumbezug` column. Second, the `Auspragung` column combined gender and totals (`insgesamt`) in one long column. We also found an external metadata PDF linked under the CSV file on the main data page, which explained that `Basiswert 2` changes meaning depending on `Auspragung`, and that Stadt München rows aggregate differently than individual district rows.
+
 *What worked well:*
 
+The screening tools (`skim`, `vis_dat`, `naniar`) gave us a fast overview and made it easy to spot the missingness and structure issues early.
+
 *What was hard:*
+
+Getting familiar with the column names and what they actually meant took time, since names like `Basiswert 1`, `Basiswert 2` and `Auspragung` gave no information on their own. It wasn't hard we got familiar and worked with the data some time.
 
 ### Reproducibility, open data & renv (W9)
 
 *What we did:*
 
+We initialized renv in the project and committed `renv.lock` and the `renv/` folder to the repo. When installing new packages, renv asked for a yes or no confirmation, and we followed that workflow with `snapshot()` to update the lockfile. For the dataset itself, we used data under the Datenlizenz Deutschland Namensnennung 2.0 license, which allows use and redistribution as long as the source is attributed. The license is public, so we didn't run into any issues.
+
 *What worked well:*
 
+Committing the lockfile itself was simple, and `snapshot()` picked up our packages without issues.
+
 *What was hard:*
+
+The renv syntax was confusing at first, especially the yes or no prompts when installing new packages. We also didn't consistently use `renv::restore()` after pulling changes from each other, so we didn't fully close the loop on reproducibility. We mostly relied on installing packages manually if something was missing, instead of restoring from the lockfile. We intend on using `restore()` from now on.
 
 ### Analysis & inference strategies (W10)
 
 *What we did:*
 
+For RQ1, we mapped each district to one of five city areas (Center, North, East, South, West) using the district code, joined that onto the dataset, and calculated annual mean unemployment rates per area from 2000 to 2024. We added Stadt München back in separately as a "Total" line. We produced a faceted line plot, plus an interactive plotly version with hover tooltips showing the exact year and rate.
+
+For RQ2, we ran a difference in means test comparing männlich and weiblich unemployment rates in South Munich for 2024, using `infer` with a theory-based t null distribution, `shade_p_value()`, and a bootstrap 95% confidence interval. We also built a summary gt table.
+
+We originally considered a third question, whether we could build a simple model to predict future unemployment percentages. We cut this to keep the project focused on two questions, in line with the course guidance to limit the proposal to at most two RQs.
+
 *What worked well:*
 
+The area mapping and annual means calculation for RQ1 worked cleanly once we had the district-to-area lookup table set up. The bootstrap confidence interval for RQ2 gave us a concrete range to report alongside the p-value.
+
 *What was hard:*
+
+Our original `infer` code for RQ2 filtered on the whole Munich dataset instead of just South Munich, even though our written research question specifically asked about South Munich districts. We had to catch this mismatch between the stated question and the actual code and fix it by filtering to the South Munich district codes before running the test.
 
 ### Communication & visualisation (W11)
 
 *What we did:*
 
+In the sandbox part with `palmerpenguins`, we practiced deciding when to use a table versus a plot, building a gt summary table, and polishing a default ggplot2 plot. For our own project, we built a gt summary table for the RQ2 gender comparison, improved the captions on our plots, and added `#| warning: false` to clean up the chunk output. We also fixed the duplicate plot issue between `index.qmd` and `proposal.qmd`, keeping the `linewidth` version and removing the older `size` version. We shared the gt table for RQ2 with the group, since it made the difference in means between männlich and weiblich easy to see at a glance instead of just reading it out of the `infer` output.
+
 *What worked well:*
+
+The gt table made the RQ2 result much clearer than the raw `infer` output alone. Once we knew the workflow from the sandbox exercise, applying it to our own table went smoothly.
 
 *What was hard:*
 
+Nothing major here, most of the work was applying what we practiced in the sandbox directly to our own project.
+
 ## Key analytical decisions
 
-Describe 2–3 decisions that had a meaningful effect on your results or workflow.
-
-### Decision 1: \[short title\]
+### Decision 1: **Narrowing RQ2 to South Munich**
 
 *What were we deciding between?*
 
+We were deciding whether to test the gender gap in unemployment across all of Munich, or narrow it to one specific region.
+
 *How did we reason through it?*
+
+We wanted to look at one defined area instead of a broad citywide average, since a citywide number could hide regional differences. South Munich was also personally relevant, since one of our group members lives there. We had this in mind from the start, but our `infer` code initially ran on the full Munich dataset instead of being filtered to South Munich. We had to catch that and fix it to match what we had intended.
 
 *In hindsight, would we decide differently?*
 
-### Decision 2: \[short title\]
+No, we're happy with the South-only scope, since it gave us a clear, focused result instead of a citywide number.
+
+### Decision 2: **Grouping districts into five city areas for RQ1**
 
 *What were we deciding between?*
 
+We were deciding between plotting all 25 districts individually or grouping them into fewer, larger regions.
+
 *How did we reason through it?*
 
+25 individual plots would be hard to interpret at a glance. We built our own mapping of districts into five city areas (Center, North, East, South, West) so we could still see regional differences without having to look at 25 individual plots. We also kept the Stadt München total as its own separate "Total" category for completion.
+
 *In hindsight, would we decide differently?*
+
+No, this grouping is a good balance of not too much detail and not too little.
+
+### Decision 3: **Cutting RQ3**
+
+*What were we deciding between?*
+
+We were deciding between keeping a third research question on predicting future unemployment percentages or limiting the project to just two RQs.
+
+*How did we reason through it?*
+
+We decided to cut it to keep the project focused on two questions, in line with the course guidance to limit the proposal to at most two RQs. We also noticed that a prediction would be risky, because events outside the data, like economic shocks, could have a major impact on the trend and can't be captured by a simple model.
+
+*In hindsight, would we decide differently?*
+
+No, cutting it was the right call, since it let us go deeper on RQ1 and RQ2 instead of spreading effort across three questions.
 
 ## Workflow & collaboration
 
 *How did we divide work across group members?*
 
+We split tasks within each research question rather than assigning whole RQs to one person. For example, for RQ2, Rebecca built the gt table while Anna programmed the `infer` test. This let us work in parallel on the same question instead of one person owning it end to end.
+
 *What branching or Git workflow did we actually use — and did it match the proposal?*
 
+We mostly followed the plan from the proposal, using separate branches per task (e.g. `feature/RQ1`) and having another teammate verify before merging. This didn't always hold up though. When something needed to be fixed fast or done quickly, we pushed directly to main without going through review. So the branching workflow was consistent for planned work but broke down under time pressure.
+
 *What would we change about how we coordinated?*
+
+We would structure task assignment more clearly. Right now we mostly divided work informally, saying things like "I'll do this, you do that, could you look into that," instead of writing tasks down with clear ownership and scope. More structure here would reduce the chance of things falling through the cracks or people working on overlapping parts by accident.
 
 ## LLM usage
 
 Describe up to 5 significant uses of an LLM tool during the project.
 
-### Usage 1: \[task\]
+### Usage 1: Debugging GitHub Pages not updating
 
--   **Tool / model:**
--   **What it produced:**
--   **What we had to correct or verify:**
+-   **Tool / model:** Google Gemini
+-   **What it produced:** A list of possible reasons why the site wasn't updating. After I gave more context (that everything was already pushed to the repository), it narrowed this down further.
+-   **What we had to correct or verify:** The first response was too generic since it didn't account for the fact that we'd already pushed. We had to give it our specific situation before the explanation became useful, and we verified the actual fix ourselves by rendering and then pushing.
 
-### Usage 2: \[task\]
+### Usage 2: Understanding `infer` function syntax
 
--   **Tool / model:**
--   **What it produced:**
--   **What we had to correct or verify:**
+-   **Tool / model:** Google Gemini
+-   **What it produced:** A structured explanation of what each function in the `infer` practical template does (`specify()`, `assume()`, etc.). After we asked for a simpler explanation, it gave a clearer version.
+-   **What we had to correct or verify:** The first explanation was too complex to follow. After getting a simpler version and implementing it ourselves, we ran into errors from using the wrong variable names, which we then debugged with its help. We verified the final code produced the correct output by checking it against our actual research question.
+
+### Usage 3: Grammar and phrasing in written sections
+
+-   **Tool / model:** Claude
+-   **What it produced:** Suggestions for fixing awkward sentence structure and word choice in written sections, while keeping our own meaning.
+-   **What we had to correct or verify:** We explicitly asked it to keep our meaning and only fix grammar and word choice, since we sometimes used words that weren't the precise enough. We reviewed each suggestion and only kept changes that matched what we actually meant. Sometimes we changed word suggestions we felt unnatural with.
