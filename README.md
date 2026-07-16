@@ -49,4 +49,5 @@ renv::restore()
 
 # 2. Render the full website
 quarto::quarto_render()
+
 ```
