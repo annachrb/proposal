@@ -29,3 +29,25 @@ what the chart shows without having to interpret it themselves.
 ## Group Members
 - Rebecca Patrick: R.Patrick@campus.lmu.de
 - Anna Chrebtov: Anna.Chrebtov@campus.lmu.de
+
+## Repository Structure
+
+```
+data/raw/           read-only raw data and licence documentation
+proposal.qmd        project proposal, includes data screening, cleaning, IDA and analysis plan
+index.qmd           homepage, short description of the project with RQs
+about.qmd           about page with group member names
+reflection_log.qmd  weekly reflection log
+docs/               rendered Quarto website output (auto generated, do not edit)
+renv.lock           locked package versions
+```
+
+## How to reproduce
+```r
+# 1. Install dependencies
+renv::restore()
+
+# 2. Render the full website
+quarto::quarto_render()
+
+```
