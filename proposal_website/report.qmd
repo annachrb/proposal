@@ -12,7 +12,7 @@ format:
 
 ## Summary
 
-This statistical report explores the unemployment percentage across Munich's 25 city districts over a 24-year period. By aggregating individual districts into broader geographic areas (North, East, South, West, and Center), we analyze regional trends over time. Additionally, we investigate, whether there is a difference in unemployment percentages between women and men in 2024 in South Munich using inferential statistical methods.
+This statistical report explores the unemployment percentage across Munich's 25 city districts over a 24-year period. By aggregating individual districts into broader geographic areas (North, East, South, West, and Center), we analyze regional trends over time. Additionally, we investigate, whether there is a difference in unemployment percentages between women and men in 2024 in Munich using inferential statistical methods.
 
 ## 1. Introduction & Data Context
 
@@ -20,13 +20,80 @@ This statistical report explores the unemployment percentage across Munich's 25 
 
 Our analysis uses data from the [Munich Open Data Portal](https://opendata.muenchen.de) covering the years 2000 - 2024. The dataset is published under [Datenlizenz Deutschland Namensnennung 2.0](https://www.govdata.de/dl-de/by-2-0) and was downloaded from the Munich Open Data Portal on 2026-05-15. This open government license allows for copying, redistribution, and commercial usage as long as proper attribution is provided.
 
-### Dataset Variables & Cleaning Logic
+### Dataset Variables 
 
-Each row in the dataset uniquely identifies the yearly percentage of unemployed people per district in Munich (`Raumbezug`), further divided by demographic groups (`Auspragung`) such as gender, nationality, or overall total.
+Each row in the dataset represents a specific subpopulation's annual unemployment metric. In our analysis we focus on the variable `Indikatorwert` (unemployment percentage) along its `Auspragung` (demographic category) and `Raumbezug` (district).
 
-We focus on the variable `Indikatorwert` (the unemployment percentage) along with the supporting counts `Basiswert 1` (unemployed individuals) and `Basiswert 2` (working-age population).
+### Data Structure
 
-We map Munich's 25 districts (`Raumbezug`) into five areas based on our own judgment:
+Each row represents the yearly percentage of unemployed people per district in Munich, as well as the total yearly percentage across all districts, further divided into total, German, non-German, male, and female categories.
+
+Columns include the id, indicator name, unemployed-person type (total, male, female, ...), year, Munich district (including the city total), unemployment percentage, unemployed count, and total resident count (15–64 years old).
+
+**Row identification:** year (`Jahr`), district (`Raumbezug`), and demographic group (`Auspragung`) together uniquely identify each row.
+
+Key variables we expect to use are the year, district, unemployment percentage, and both base values.
+
+### Initial Documentation Gaps
+
+During our initial data screening, we identified documentation gaps in the raw dataset:
+
+The Munich Open Data page gives a formula description but no real variable dictionary. Columns like `Auspragung` and `Basiswert 1 / Basiswert 2` are left unexplained.
+
+A separate metadata PDF from the Statistisches Amt München (<https://stadt.muenchen.de/dam/jcr:42312f77-cae6-4995-a534-ff9dfff69480/indikatorenatlas_muenchen_metadaten_2023.pdf>) reveals information not present in the file itself:
+
+`Basiswert 2` changes its meaning depending on `Auspragung` (whether the row concerns gender or nationality), and "Stadt München" rows aggregate geographic data differently than individual district rows.
+
+## 2. Initial Data Analysis
+
+```{r}
+#| label: setup
+#| message: false
+#| warning: false
+
+library(readr)
+library(dplyr)
+library(ggplot2)
+library(visdat)
+library(skimr)
+library(naniar)
+library(stringr)
+
+arbeitslosen <- read_csv("data/raw/Arbeitsmarkt-Arbeitslosen-Anteil.csv")
+```
+
+```{r}
+#| label: data screening
+#| message: false
+#| warning: false
+
+glimpse(arbeitslosen)
+vis_dat(arbeitslosen)
+skim(arbeitslosen)
+```
+
+Dates are read as `<dbl>`, categorical variables are `<chr>` . No column has an unexpected type.
+
+```{r}
+#| label: missingness
+#| message: false
+#| warning: false
+
+miss_var_summary(arbeitslosen)
+vis_miss(arbeitslosen)
+```
+
+There are no missing values in the dataset.
+
+```{r}
+#| label: summary-statistics
+
+summary(arbeitslosen[, c("Jahr", "Raumbezug", "Indikatorwert", "Basiswert 1", "Basiswert 2")])
+```
+
+### Data quality issues
+
+There are no major data quality issues. For our analysis we want to analyze Munich district areas separately. Therefore, we map Munich's 25 districts (`Raumbezug`) into five areas based on our own judgment:
 
 -   **Center**: Districts 1, 2, 3
 
@@ -41,12 +108,10 @@ We map Munich's 25 districts (`Raumbezug`) into five areas based on our own judg
 ```{r}
 #| message: false
 #| warning: false
-#| code-summary: "Initialize Libraries & Clean Dataset"
+#| code-summary: "Clean Dataset"
 
 library(tidyverse)
 library(dplyr)
-
-arbeitslosen <- read_csv("data/raw/Arbeitsmarkt-Arbeitslosen-Anteil.csv")
 
 arbeitslosen_clean <- arbeitslosen |>
   filter(
@@ -77,7 +142,9 @@ arbeitslosen_area <- arbeitslosen |>
   filter(!is.na(area), Auspragung == "insgesamt")
 ```
 
-## 2. RQ1: Unemployment Trends by City Area (2000 - 2024)
+We chose to do an inline cleaning approach within this Quarto document to ensure reproducibility without outer dependencies. This way our project can be run by anyone, just by executing the `.qmd` file. Additionally, our programming is kept transparent and traceable.
+
+## 3. RQ1: Unemployment Trends by City Area (2000 - 2024)
 
 **Research Question 1:** How has the unemployment percentage in Munich changed from 2000 to 2024 overall and when grouped by city area (Center, North, East, South, West)?
 
@@ -95,12 +162,12 @@ The interactive line graph below displays these trends. You can hover over any d
 
 library(plotly)
 
-annual_means_area <- arbeitslosen_area %>%
-  group_by(area, Jahr) %>%
+annual_means_area <- arbeitslosen_area |>
+  group_by(area, Jahr) |>
   summarise(mean_rate = mean(Indikatorwert, na.rm = TRUE), .groups = "drop")
 
-annual_means_total <- arbeitslosen %>%
-  filter(Auspragung == "insgesamt", Raumbezug == "Stadt München") %>%
+annual_means_total <- arbeitslosen |>
+  filter(Auspragung == "insgesamt", Raumbezug == "Stadt München") |>
   transmute(area = "Total", Jahr, mean_rate = Indikatorwert)
 
 annual_means_all <- bind_rows(annual_means_area, annual_means_total)
@@ -127,29 +194,29 @@ ggplotly(rq1_plot, tooltip = "text")
 
 ### Description and Interpretation of the Plot
 
-All five regions and the city-wide total show a similar trend over the 24 year period. In 2000, almsot all graphs start at around 3.6% before peaking dramatically in 2005 at almost 7% and only a small plateu in 2004. The center area graph has the exact same trend but remained consistently lower, peaking at approximately 6% in 2005. After 2005 all graphs show an inconsistent but almost identical decline to about 2.5% in 2019. In 2020, every area graph shows a drastic jump to about 4%, declines again in 2022 but increases from then on to 4% in 2024.
+All five regions and the city-wide total show a similar trend over the 24 year period. In 2000, almost all graphs start at around 3.6% before peaking dramatically in 2005 at almost 7% and only a small plateau in 2004. The center area graph has the exact same trend but remained consistently lower, peaking at approximately 6% in 2005. After 2005 all graphs show an inconsistent but almost identical decline to about 2.5% in 2019. In 2020, every area graph shows a drastic jump to about 4%, declines again in 2022 but increases from then on to 4% in 2024.
 
 The peak in 2005 is explained by the introduction of the major Hartz IV welfare reforms in Germany that same year. The reform merged the statistical registries for traditional unemployment benefits and social welfare into a single metric, which artificially inflated the total count of registered unemployment individuals rather than reflecting a sudden economic collapse. After this, rules for receiving welfare became stricter and combined with a growing economy resulted in an inconsistent but steady decline in unemployment rates.
 
 In 2020, this downward trend was abruptly interrupted by the COVID-19 pandemic, causing a sharp jump.
 
-## 3. RQ2: Gender Disparities in South Munich (2024)
+## 3. RQ2: Gender Disparities in Munich (2024)
 
-**Research Question 2:** Do unemployment percentages in 2024 differ significantly based on gender across the districts of South Munich ?
+**Research Question 2:** Do unemployment percentages in 2024 differ significantly based on gender across Munich ?
 
-To investigate whether there is a systematic difference between male and female unemployment rates in the southern parts of the city, we isolate the 2024 observation year and restrict our sample to the districts classified under the South area.
+To investigate whether there is a systematic difference between male and female unemployment rates in all districts of the city, we isolate the 2024 observation year.
 
 ### Hypotheses
 
 To test this statistically, we define our null and alternative hypotheses:
 
-**Null Hypothesis (**$H_0$**):** In 2024, there is no difference in the mean unemployment rate between males and females in South Munich. $$\mu_{\text{male}} = \mu_{\text{female}}$$
+**Null Hypothesis (**$H_0$**):** In 2024, there is no difference in the mean unemployment rate between males and females in Munich. $$\mu_{\text{male}} = \mu_{\text{female}}$$
 
-**Alternative Hypothesis (**$H_A$**):** In 2024, there is a significant difference in the mean unemployment rate between males and females in South Munich**.**$$\mu_{\text{male}} \neq \mu_{\text{female}}$$
+**Alternative Hypothesis (**$H_A$**):** In 2024, there is a significant difference in the mean unemployment rate between males and females in Munich**.**$$\mu_{\text{male}} \neq \mu_{\text{female}}$$
 
 ### Descriptive Statistics
 
-Before inferential testing, we generate a descriptive summary table using the `{gt}` package. This summarizes the sample sizes, averages, minimums and maximums of the unemployment rates for both demographic groups across the southern districts.
+Before inferential testing, we generate a descriptive summary table using the `{gt}` package. This summarizes the sample sizes, averages, minimums and maximums of the unemployment rates for both demographic groups across all 25 districts.
 
 ```{r}
 #| label: rq2-gt-table
@@ -159,16 +226,16 @@ Before inferential testing, we generate a descriptive summary table using the `{
 
 library(gt)
 
-south_2024_gender <- arbeitslosen |> 
+arbeitslosen_2024_gender <- arbeitslosen |> 
   mutate(district_code = as.numeric(str_extract(Raumbezug, "^[0-9]+"))) |>
   left_join(district_area, by = "district_code") |>
   filter(
     Jahr == 2024,
-    area == "South",
+    !is.na(area),
     Auspragung %in% c("männlich", "weiblich")
   )
 
-south_2024_summary <- south_2024_gender |>
+arbeitslosen_2024_summary <-arbeitslosen_2024_gender |>
   group_by(Auspragung) |>
   summarise(
     n = n(),
@@ -178,7 +245,7 @@ south_2024_summary <- south_2024_gender |>
     .groups = "drop"
   )
 
-south_2024_summary |> 
+arbeitslosen_2024_summary |> 
   gt() |>
   fmt_number(columns = c(mean_rate, min_rate, max_rate), decimals = 1) |>
   fmt_integer(columns = n) |>
@@ -197,7 +264,7 @@ south_2024_summary |>
   cols_align(align = "left", columns = Auspragung) |>
   tab_header(
     title = "Unemployment Rate by Gender",
-    subtitle = "South Munich Districts, 2024"
+    subtitle = "All Munich Districts, 2024"
   ) |>
   tab_source_note(md("Source: Statistisches Amt München"))
 ```
@@ -260,7 +327,7 @@ null_dist |>
 
 -   **The** $p$**-value:** The two-sided permutation test produces a $p$-value of $0.221$ or $22.1\%$.
 
--   **Statistical Decision:** Because our $p$-value ($0.221$) is larger than the significance level $\alpha = 0.05$, we fail reject the null hypothesis ($H_0$).
+-   **Statistical Decision:** Because our $p$-value ($0.221$) is larger than the significance level $\alpha = 0.05$, we fail to reject the null hypothesis ($H_0$).
 
 -   **Conclusion:** We do not have statistically significant evidence of a gender disparity in unemployment rates across Munich's districts in 2024. The observed difference of 0.2 percentage points is minor and can can easily be explained by random district variation.
 

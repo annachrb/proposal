@@ -204,14 +204,20 @@ window.Quarto = {
   <li><a href="#introduction-data-context" id="toc-introduction-data-context" class="nav-link" data-scroll-target="#introduction-data-context">1. Introduction &amp; Data Context</a>
   <ul class="collapse">
   <li><a href="#source-and-licensing" id="toc-source-and-licensing" class="nav-link" data-scroll-target="#source-and-licensing">Source and Licensing</a></li>
-  <li><a href="#dataset-variables-cleaning-logic" id="toc-dataset-variables-cleaning-logic" class="nav-link" data-scroll-target="#dataset-variables-cleaning-logic">Dataset Variables &amp; Cleaning Logic</a></li>
+  <li><a href="#dataset-variables" id="toc-dataset-variables" class="nav-link" data-scroll-target="#dataset-variables">Dataset Variables</a></li>
+  <li><a href="#data-structure" id="toc-data-structure" class="nav-link" data-scroll-target="#data-structure">Data Structure</a></li>
+  <li><a href="#initial-documentation-gaps" id="toc-initial-documentation-gaps" class="nav-link" data-scroll-target="#initial-documentation-gaps">Initial Documentation Gaps</a></li>
   </ul></li>
-  <li><a href="#rq1-unemployment-trends-by-city-area-2000---2024" id="toc-rq1-unemployment-trends-by-city-area-2000---2024" class="nav-link" data-scroll-target="#rq1-unemployment-trends-by-city-area-2000---2024">2. RQ1: Unemployment Trends by City Area (2000 - 2024)</a>
+  <li><a href="#initial-data-analysis" id="toc-initial-data-analysis" class="nav-link" data-scroll-target="#initial-data-analysis">2. Initial Data Analysis</a>
+  <ul class="collapse">
+  <li><a href="#data-quality-issues" id="toc-data-quality-issues" class="nav-link" data-scroll-target="#data-quality-issues">Data quality issues</a></li>
+  </ul></li>
+  <li><a href="#rq1-unemployment-trends-by-city-area-2000---2024" id="toc-rq1-unemployment-trends-by-city-area-2000---2024" class="nav-link" data-scroll-target="#rq1-unemployment-trends-by-city-area-2000---2024">3. RQ1: Unemployment Trends by City Area (2000 - 2024)</a>
   <ul class="collapse">
   <li><a href="#interactive-trend-analysis" id="toc-interactive-trend-analysis" class="nav-link" data-scroll-target="#interactive-trend-analysis">Interactive Trend Analysis</a></li>
   <li><a href="#description-and-interpretation-of-the-plot" id="toc-description-and-interpretation-of-the-plot" class="nav-link" data-scroll-target="#description-and-interpretation-of-the-plot">Description and Interpretation of the Plot</a></li>
   </ul></li>
-  <li><a href="#rq2-gender-disparities-in-south-munich-2024" id="toc-rq2-gender-disparities-in-south-munich-2024" class="nav-link" data-scroll-target="#rq2-gender-disparities-in-south-munich-2024">3. RQ2: Gender Disparities in South Munich (2024)</a>
+  <li><a href="#rq2-gender-disparities-in-munich-2024" id="toc-rq2-gender-disparities-in-munich-2024" class="nav-link" data-scroll-target="#rq2-gender-disparities-in-munich-2024">3. RQ2: Gender Disparities in Munich (2024)</a>
   <ul class="collapse">
   <li><a href="#hypotheses" id="toc-hypotheses" class="nav-link" data-scroll-target="#hypotheses">Hypotheses</a></li>
   <li><a href="#descriptive-statistics" id="toc-descriptive-statistics" class="nav-link" data-scroll-target="#descriptive-statistics">Descriptive Statistics</a></li>
@@ -258,7 +264,7 @@ window.Quarto = {
 
 <section id="summary" class="level2">
 <h2 class="anchored" data-anchor-id="summary">Summary</h2>
-<p>This statistical report explores the unemployment percentage across Munich’s 25 city districts over a 24-year period. By aggregating individual districts into broader geographic areas (North, East, South, West, and Center), we analyze regional trends over time. Additionally, we investigate, whether there is a difference in unemployment percentages between women and men in 2024 in South Munich using inferential statistical methods.</p>
+<p>This statistical report explores the unemployment percentage across Munich’s 25 city districts over a 24-year period. By aggregating individual districts into broader geographic areas (North, East, South, West, and Center), we analyze regional trends over time. Additionally, we investigate, whether there is a difference in unemployment percentages between women and men in 2024 in Munich using inferential statistical methods.</p>
 </section>
 <section id="introduction-data-context" class="level2">
 <h2 class="anchored" data-anchor-id="introduction-data-context">1. Introduction &amp; Data Context</h2>
@@ -266,11 +272,353 @@ window.Quarto = {
 <h3 class="anchored" data-anchor-id="source-and-licensing">Source and Licensing</h3>
 <p>Our analysis uses data from the <a href="https://opendata.muenchen.de">Munich Open Data Portal</a> covering the years 2000 - 2024. The dataset is published under <a href="https://www.govdata.de/dl-de/by-2-0">Datenlizenz Deutschland Namensnennung 2.0</a> and was downloaded from the Munich Open Data Portal on 2026-05-15. This open government license allows for copying, redistribution, and commercial usage as long as proper attribution is provided.</p>
 </section>
-<section id="dataset-variables-cleaning-logic" class="level3">
-<h3 class="anchored" data-anchor-id="dataset-variables-cleaning-logic">Dataset Variables &amp; Cleaning Logic</h3>
-<p>Each row in the dataset uniquely identifies the yearly percentage of unemployed people per district in Munich (<code>Raumbezug</code>), further divided by demographic groups (<code>Auspragung</code>) such as gender, nationality, or overall total.</p>
-<p>We focus on the variable <code>Indikatorwert</code> (the unemployment percentage) along with the supporting counts <code>Basiswert 1</code> (unemployed individuals) and <code>Basiswert 2</code> (working-age population).</p>
-<p>We map Munich’s 25 districts (<code>Raumbezug</code>) into five areas based on our own judgment:</p>
+<section id="dataset-variables" class="level3">
+<h3 class="anchored" data-anchor-id="dataset-variables">Dataset Variables</h3>
+<p>Each row in the dataset represents a specific subpopulation’s annual unemployment metric. In our analysis we focus on the variable <code>Indikatorwert</code> (unemployment percentage) along its <code>Auspragung</code> (demographic category) and <code>Raumbezug</code> (district).</p>
+</section>
+<section id="data-structure" class="level3">
+<h3 class="anchored" data-anchor-id="data-structure">Data Structure</h3>
+<p>Each row represents the yearly percentage of unemployed people per district in Munich, as well as the total yearly percentage across all districts, further divided into total, German, non-German, male, and female categories.</p>
+<p>Columns include the id, indicator name, unemployed-person type (total, male, female, …), year, Munich district (including the city total), unemployment percentage, unemployed count, and total resident count (15–64 years old).</p>
+<p><strong>Row identification:</strong> year (<code>Jahr</code>), district (<code>Raumbezug</code>), and demographic group (<code>Auspragung</code>) together uniquely identify each row.</p>
+<p>Key variables we expect to use are the year, district, unemployment percentage, and both base values.</p>
+</section>
+<section id="initial-documentation-gaps" class="level3">
+<h3 class="anchored" data-anchor-id="initial-documentation-gaps">Initial Documentation Gaps</h3>
+<p>During our initial data screening, we identified documentation gaps in the raw dataset:</p>
+<p>The Munich Open Data page gives a formula description but no real variable dictionary. Columns like <code>Auspragung</code> and <code>Basiswert 1 / Basiswert 2</code> are left unexplained.</p>
+<p>A separate metadata PDF from the Statistisches Amt München (<a href="https://stadt.muenchen.de/dam/jcr:42312f77-cae6-4995-a534-ff9dfff69480/indikatorenatlas_muenchen_metadaten_2023.pdf" class="uri">https://stadt.muenchen.de/dam/jcr:42312f77-cae6-4995-a534-ff9dfff69480/indikatorenatlas_muenchen_metadaten_2023.pdf</a>) reveals information not present in the file itself:</p>
+<p><code>Basiswert 2</code> changes its meaning depending on <code>Auspragung</code> (whether the row concerns gender or nationality), and “Stadt München” rows aggregate geographic data differently than individual district rows.</p>
+</section>
+</section>
+<section id="initial-data-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="initial-data-analysis">2. Initial Data Analysis</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="fu">library</span>(visdat)</span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="fu">library</span>(skimr)</span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="fu">library</span>(naniar)</span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb1-8"><a href="#cb1-8"></a></span>
+<span id="cb1-9"><a href="#cb1-9"></a>arbeitslosen <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/raw/Arbeitsmarkt-Arbeitslosen-Anteil.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">glimpse</span>(arbeitslosen)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 3,250
+Columns: 10
+$ `_id`              &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, …
+$ Indikator          &lt;chr&gt; "Arbeitslose - Anteil", "Arbeitslose - Anteil", "Ar…
+$ Auspragung         &lt;chr&gt; "deutsch", "deutsch", "deutsch", "deutsch", "deutsc…
+$ Jahr               &lt;dbl&gt; 2024, 2024, 2024, 2024, 2024, 2024, 2024, 2024, 202…
+$ Raumbezug          &lt;chr&gt; "Stadt München", "01 Altstadt - Lehel", "02 Ludwigs…
+$ Indikatorwert      &lt;dbl&gt; 3.1, 2.6, 3.0, 2.7, 2.6, 3.1, 3.4, 3.0, 3.5, 2.7, 3…
+$ `Basiswert 1`      &lt;dbl&gt; 22284.8, 284.3, 849.0, 781.0, 932.8, 1077.3, 706.8,…
+$ `Basiswert 2`      &lt;dbl&gt; 726741.0, 11023.5, 28076.8, 29447.0, 35939.0, 34584…
+$ `Name Basiswert 1` &lt;chr&gt; "Arbeitslose (deutsch)", "Arbeitslose (deutsch)", "…
+$ `Name Basiswert 2` &lt;chr&gt; "Hauptwohnsitzbevölkerung (15 bis 64 Jahre) (deutsc…</code></pre>
+</div>
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">vis_dat</span>(arbeitslosen)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="report_files/figure-html/data screening-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">skim</span>(arbeitslosen)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Data summary</caption>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Name</td>
+<td style="text-align: left;">arbeitslosen</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Number of rows</td>
+<td style="text-align: left;">3250</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Number of columns</td>
+<td style="text-align: left;">10</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">_______________________</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Column type frequency:</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">character</td>
+<td style="text-align: left;">5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">numeric</td>
+<td style="text-align: left;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">________________________</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Group variables</td>
+<td style="text-align: left;">None</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: character</strong></p>
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 22%">
+<col style="width: 13%">
+<col style="width: 18%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 8%">
+<col style="width: 12%">
+<col style="width: 14%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">skim_variable</th>
+<th style="text-align: right;">n_missing</th>
+<th style="text-align: right;">complete_rate</th>
+<th style="text-align: right;">min</th>
+<th style="text-align: right;">max</th>
+<th style="text-align: right;">empty</th>
+<th style="text-align: right;">n_unique</th>
+<th style="text-align: right;">whitespace</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Indikator</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Auspragung</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Raumbezug</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">65</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">26</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Name Basiswert 1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: right;">26</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Name Basiswert 2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">52</td>
+<td style="text-align: right;">57</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: numeric</strong></p>
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 9%">
+<col style="width: 13%">
+<col style="width: 8%">
+<col style="width: 9%">
+<col style="width: 6%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 9%">
+<col style="width: 5%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">skim_variable</th>
+<th style="text-align: right;">n_missing</th>
+<th style="text-align: right;">complete_rate</th>
+<th style="text-align: right;">mean</th>
+<th style="text-align: right;">sd</th>
+<th style="text-align: right;">p0</th>
+<th style="text-align: right;">p25</th>
+<th style="text-align: right;">p50</th>
+<th style="text-align: right;">p75</th>
+<th style="text-align: right;">p100</th>
+<th style="text-align: left;">hist</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">_id</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1625.50</td>
+<td style="text-align: right;">938.34</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">813.25</td>
+<td style="text-align: right;">1625.50</td>
+<td style="text-align: right;">2437.75</td>
+<td style="text-align: right;">3250.0</td>
+<td style="text-align: left;">▇▇▇▇▇</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Jahr</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2012.00</td>
+<td style="text-align: right;">7.21</td>
+<td style="text-align: right;">2000.0</td>
+<td style="text-align: right;">2006.00</td>
+<td style="text-align: right;">2012.00</td>
+<td style="text-align: right;">2018.00</td>
+<td style="text-align: right;">2024.0</td>
+<td style="text-align: left;">▇▇▇▇▇</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Indikatorwert</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">4.21</td>
+<td style="text-align: right;">1.46</td>
+<td style="text-align: right;">1.6</td>
+<td style="text-align: right;">3.20</td>
+<td style="text-align: right;">3.90</td>
+<td style="text-align: right;">5.00</td>
+<td style="text-align: right;">13.0</td>
+<td style="text-align: left;">▇▇▂▁▁</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Basiswert 1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1854.35</td>
+<td style="text-align: right;">4880.48</td>
+<td style="text-align: right;">89.0</td>
+<td style="text-align: right;">607.70</td>
+<td style="text-align: right;">841.30</td>
+<td style="text-align: right;">1260.55</td>
+<td style="text-align: right;">60348.8</td>
+<td style="text-align: left;">▇▁▁▁▁</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Basiswert 2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">46214.80</td>
+<td style="text-align: right;">121407.52</td>
+<td style="text-align: right;">3308.8</td>
+<td style="text-align: right;">14788.20</td>
+<td style="text-align: right;">21677.75</td>
+<td style="text-align: right;">33357.25</td>
+<td style="text-align: right;">1117076.3</td>
+<td style="text-align: left;">▇▁▁▁▁</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Dates are read as <code>&lt;dbl&gt;</code>, categorical variables are <code>&lt;chr&gt;</code> . No column has an unexpected type.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">miss_var_summary</span>(arbeitslosen)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 3
+   variable         n_miss pct_miss
+   &lt;chr&gt;             &lt;int&gt;    &lt;num&gt;
+ 1 _id                   0        0
+ 2 Indikator             0        0
+ 3 Auspragung            0        0
+ 4 Jahr                  0        0
+ 5 Raumbezug             0        0
+ 6 Indikatorwert         0        0
+ 7 Basiswert 1           0        0
+ 8 Basiswert 2           0        0
+ 9 Name Basiswert 1      0        0
+10 Name Basiswert 2      0        0</code></pre>
+</div>
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="fu">vis_miss</span>(arbeitslosen)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="report_files/figure-html/missingness-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>There are no missing values in the dataset.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="fu">summary</span>(arbeitslosen[, <span class="fu">c</span>(<span class="st">"Jahr"</span>, <span class="st">"Raumbezug"</span>, <span class="st">"Indikatorwert"</span>, <span class="st">"Basiswert 1"</span>, <span class="st">"Basiswert 2"</span>)])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>      Jahr       Raumbezug         Indikatorwert    Basiswert 1     
+ Min.   :2000   Length:3250        Min.   : 1.60   Min.   :   89.0  
+ 1st Qu.:2006   Class :character   1st Qu.: 3.20   1st Qu.:  607.7  
+ Median :2012   Mode  :character   Median : 3.90   Median :  841.3  
+ Mean   :2012                      Mean   : 4.21   Mean   : 1854.3  
+ 3rd Qu.:2018                      3rd Qu.: 5.00   3rd Qu.: 1260.5  
+ Max.   :2024                      Max.   :13.00   Max.   :60348.8  
+  Basiswert 2     
+ Min.   :   3309  
+ 1st Qu.:  14788  
+ Median :  21678  
+ Mean   :  46215  
+ 3rd Qu.:  33357  
+ Max.   :1117076  </code></pre>
+</div>
+</div>
+<section id="data-quality-issues" class="level3">
+<h3 class="anchored" data-anchor-id="data-quality-issues">Data quality issues</h3>
+<p>There are no major data quality issues. For our analysis we want to analyze Munich district areas separately. Therefore, we map Munich’s 25 districts (<code>Raumbezug</code>) into five areas based on our own judgment:</p>
 <ul>
 <li><p><strong>Center</strong>: Districts 1, 2, 3</p></li>
 <li><p><strong>North</strong>: Districts 4, 11, 12, 24</p></li>
@@ -280,45 +628,44 @@ window.Quarto = {
 </ul>
 <div class="cell">
 <details class="code-fold">
-<summary>Initialize Libraries &amp; Clean Dataset</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb1-3"><a href="#cb1-3"></a></span>
-<span id="cb1-4"><a href="#cb1-4"></a>arbeitslosen <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/raw/Arbeitsmarkt-Arbeitslosen-Anteil.csv"</span>)</span>
-<span id="cb1-5"><a href="#cb1-5"></a></span>
-<span id="cb1-6"><a href="#cb1-6"></a>arbeitslosen_clean <span class="ot">&lt;-</span> arbeitslosen <span class="sc">|&gt;</span></span>
-<span id="cb1-7"><a href="#cb1-7"></a>  <span class="fu">filter</span>(</span>
-<span id="cb1-8"><a href="#cb1-8"></a>    Auspragung <span class="sc">==</span> <span class="st">"insgesamt"</span>,</span>
-<span id="cb1-9"><a href="#cb1-9"></a>    <span class="fu">str_detect</span>(Raumbezug, <span class="st">"^[0-9]+"</span>)</span>
-<span id="cb1-10"><a href="#cb1-10"></a>  )</span>
-<span id="cb1-11"><a href="#cb1-11"></a></span>
-<span id="cb1-12"><a href="#cb1-12"></a>district_area <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tibble</span>(</span>
-<span id="cb1-13"><a href="#cb1-13"></a>  <span class="at">district_code =</span> <span class="fu">c</span>(</span>
-<span id="cb1-14"><a href="#cb1-14"></a>    <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>,                     <span class="co"># Center</span></span>
-<span id="cb1-15"><a href="#cb1-15"></a>    <span class="dv">4</span>, <span class="dv">11</span>, <span class="dv">12</span>, <span class="dv">24</span>,                <span class="co"># North</span></span>
-<span id="cb1-16"><a href="#cb1-16"></a>    <span class="dv">5</span>, <span class="dv">13</span>, <span class="dv">14</span>, <span class="dv">15</span>, <span class="dv">16</span>,            <span class="co"># East</span></span>
-<span id="cb1-17"><a href="#cb1-17"></a>    <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">17</span>, <span class="dv">18</span>, <span class="dv">19</span>, <span class="dv">20</span>,         <span class="co"># South</span></span>
-<span id="cb1-18"><a href="#cb1-18"></a>    <span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">10</span>, <span class="dv">21</span>, <span class="dv">22</span>, <span class="dv">23</span>, <span class="dv">25</span>      <span class="co"># West</span></span>
-<span id="cb1-19"><a href="#cb1-19"></a>  ),</span>
-<span id="cb1-20"><a href="#cb1-20"></a>  <span class="at">area =</span> <span class="fu">c</span>(</span>
-<span id="cb1-21"><a href="#cb1-21"></a>    <span class="fu">rep</span>(<span class="st">"Center"</span>, <span class="dv">3</span>),</span>
-<span id="cb1-22"><a href="#cb1-22"></a>    <span class="fu">rep</span>(<span class="st">"North"</span>, <span class="dv">4</span>),</span>
-<span id="cb1-23"><a href="#cb1-23"></a>    <span class="fu">rep</span>(<span class="st">"East"</span>, <span class="dv">5</span>),</span>
-<span id="cb1-24"><a href="#cb1-24"></a>    <span class="fu">rep</span>(<span class="st">"South"</span>, <span class="dv">6</span>),</span>
-<span id="cb1-25"><a href="#cb1-25"></a>    <span class="fu">rep</span>(<span class="st">"West"</span>, <span class="dv">7</span>)</span>
-<span id="cb1-26"><a href="#cb1-26"></a>  )</span>
-<span id="cb1-27"><a href="#cb1-27"></a>)</span>
-<span id="cb1-28"><a href="#cb1-28"></a></span>
-<span id="cb1-29"><a href="#cb1-29"></a>arbeitslosen_area <span class="ot">&lt;-</span> arbeitslosen <span class="sc">|&gt;</span></span>
-<span id="cb1-30"><a href="#cb1-30"></a>  <span class="fu">mutate</span>(<span class="at">district_code =</span> <span class="fu">as.numeric</span>(<span class="fu">str_extract</span>(Raumbezug, <span class="st">"^[0-9]+"</span>))) <span class="sc">|&gt;</span></span>
-<span id="cb1-31"><a href="#cb1-31"></a>  <span class="fu">left_join</span>(district_area, <span class="at">by =</span> <span class="st">"district_code"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb1-32"><a href="#cb1-32"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(area), Auspragung <span class="sc">==</span> <span class="st">"insgesamt"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<summary>Clean Dataset</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb11-2"><a href="#cb11-2"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb11-3"><a href="#cb11-3"></a></span>
+<span id="cb11-4"><a href="#cb11-4"></a>arbeitslosen_clean <span class="ot">&lt;-</span> arbeitslosen <span class="sc">|&gt;</span></span>
+<span id="cb11-5"><a href="#cb11-5"></a>  <span class="fu">filter</span>(</span>
+<span id="cb11-6"><a href="#cb11-6"></a>    Auspragung <span class="sc">==</span> <span class="st">"insgesamt"</span>,</span>
+<span id="cb11-7"><a href="#cb11-7"></a>    <span class="fu">str_detect</span>(Raumbezug, <span class="st">"^[0-9]+"</span>)</span>
+<span id="cb11-8"><a href="#cb11-8"></a>  )</span>
+<span id="cb11-9"><a href="#cb11-9"></a></span>
+<span id="cb11-10"><a href="#cb11-10"></a>district_area <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tibble</span>(</span>
+<span id="cb11-11"><a href="#cb11-11"></a>  <span class="at">district_code =</span> <span class="fu">c</span>(</span>
+<span id="cb11-12"><a href="#cb11-12"></a>    <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>,                     <span class="co"># Center</span></span>
+<span id="cb11-13"><a href="#cb11-13"></a>    <span class="dv">4</span>, <span class="dv">11</span>, <span class="dv">12</span>, <span class="dv">24</span>,                <span class="co"># North</span></span>
+<span id="cb11-14"><a href="#cb11-14"></a>    <span class="dv">5</span>, <span class="dv">13</span>, <span class="dv">14</span>, <span class="dv">15</span>, <span class="dv">16</span>,            <span class="co"># East</span></span>
+<span id="cb11-15"><a href="#cb11-15"></a>    <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">17</span>, <span class="dv">18</span>, <span class="dv">19</span>, <span class="dv">20</span>,         <span class="co"># South</span></span>
+<span id="cb11-16"><a href="#cb11-16"></a>    <span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">10</span>, <span class="dv">21</span>, <span class="dv">22</span>, <span class="dv">23</span>, <span class="dv">25</span>      <span class="co"># West</span></span>
+<span id="cb11-17"><a href="#cb11-17"></a>  ),</span>
+<span id="cb11-18"><a href="#cb11-18"></a>  <span class="at">area =</span> <span class="fu">c</span>(</span>
+<span id="cb11-19"><a href="#cb11-19"></a>    <span class="fu">rep</span>(<span class="st">"Center"</span>, <span class="dv">3</span>),</span>
+<span id="cb11-20"><a href="#cb11-20"></a>    <span class="fu">rep</span>(<span class="st">"North"</span>, <span class="dv">4</span>),</span>
+<span id="cb11-21"><a href="#cb11-21"></a>    <span class="fu">rep</span>(<span class="st">"East"</span>, <span class="dv">5</span>),</span>
+<span id="cb11-22"><a href="#cb11-22"></a>    <span class="fu">rep</span>(<span class="st">"South"</span>, <span class="dv">6</span>),</span>
+<span id="cb11-23"><a href="#cb11-23"></a>    <span class="fu">rep</span>(<span class="st">"West"</span>, <span class="dv">7</span>)</span>
+<span id="cb11-24"><a href="#cb11-24"></a>  )</span>
+<span id="cb11-25"><a href="#cb11-25"></a>)</span>
+<span id="cb11-26"><a href="#cb11-26"></a></span>
+<span id="cb11-27"><a href="#cb11-27"></a>arbeitslosen_area <span class="ot">&lt;-</span> arbeitslosen <span class="sc">|&gt;</span></span>
+<span id="cb11-28"><a href="#cb11-28"></a>  <span class="fu">mutate</span>(<span class="at">district_code =</span> <span class="fu">as.numeric</span>(<span class="fu">str_extract</span>(Raumbezug, <span class="st">"^[0-9]+"</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb11-29"><a href="#cb11-29"></a>  <span class="fu">left_join</span>(district_area, <span class="at">by =</span> <span class="st">"district_code"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb11-30"><a href="#cb11-30"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(area), Auspragung <span class="sc">==</span> <span class="st">"insgesamt"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
+<p>We chose to do an inline cleaning approach within this Quarto document to ensure reproducibility without outer dependencies. This way our project can be run by anyone, just by executing the <code>.qmd</code> file. Additionally, our programming is kept transparent and traceable.</p>
 </section>
 </section>
 <section id="rq1-unemployment-trends-by-city-area-2000---2024" class="level2">
-<h2 class="anchored" data-anchor-id="rq1-unemployment-trends-by-city-area-2000---2024">2. RQ1: Unemployment Trends by City Area (2000 - 2024)</h2>
+<h2 class="anchored" data-anchor-id="rq1-unemployment-trends-by-city-area-2000---2024">3. RQ1: Unemployment Trends by City Area (2000 - 2024)</h2>
 <p><strong>Research Question 1:</strong> How has the unemployment percentage in Munich changed from 2000 to 2024 overall and when grouped by city area (Center, North, East, South, West)?</p>
 <section id="interactive-trend-analysis" class="level3">
 <h3 class="anchored" data-anchor-id="interactive-trend-analysis">Interactive Trend Analysis</h3>
@@ -327,129 +674,129 @@ window.Quarto = {
 <div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">library</span>(plotly)</span>
-<span id="cb2-2"><a href="#cb2-2"></a></span>
-<span id="cb2-3"><a href="#cb2-3"></a>annual_means_area <span class="ot">&lt;-</span> arbeitslosen_area <span class="sc">%&gt;%</span></span>
-<span id="cb2-4"><a href="#cb2-4"></a>  <span class="fu">group_by</span>(area, Jahr) <span class="sc">%&gt;%</span></span>
-<span id="cb2-5"><a href="#cb2-5"></a>  <span class="fu">summarise</span>(<span class="at">mean_rate =</span> <span class="fu">mean</span>(Indikatorwert, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
-<span id="cb2-6"><a href="#cb2-6"></a></span>
-<span id="cb2-7"><a href="#cb2-7"></a>annual_means_total <span class="ot">&lt;-</span> arbeitslosen <span class="sc">%&gt;%</span></span>
-<span id="cb2-8"><a href="#cb2-8"></a>  <span class="fu">filter</span>(Auspragung <span class="sc">==</span> <span class="st">"insgesamt"</span>, Raumbezug <span class="sc">==</span> <span class="st">"Stadt München"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb2-9"><a href="#cb2-9"></a>  <span class="fu">transmute</span>(<span class="at">area =</span> <span class="st">"Total"</span>, Jahr, <span class="at">mean_rate =</span> Indikatorwert)</span>
-<span id="cb2-10"><a href="#cb2-10"></a></span>
-<span id="cb2-11"><a href="#cb2-11"></a>annual_means_all <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(annual_means_area, annual_means_total)</span>
-<span id="cb2-12"><a href="#cb2-12"></a></span>
-<span id="cb2-13"><a href="#cb2-13"></a>rq1_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(annual_means_all, </span>
-<span id="cb2-14"><a href="#cb2-14"></a>                   <span class="fu">aes</span>(<span class="at">x =</span> Jahr, <span class="at">y =</span> mean_rate, </span>
-<span id="cb2-15"><a href="#cb2-15"></a>                       <span class="at">group =</span> area, </span>
-<span id="cb2-16"><a href="#cb2-16"></a>                       <span class="at">color =</span> area,</span>
-<span id="cb2-17"><a href="#cb2-17"></a>                       <span class="at">text =</span> <span class="fu">paste0</span>(<span class="st">"Area: "</span>, area, <span class="st">"&lt;br&gt;Year: "</span>, Jahr, <span class="st">"&lt;br&gt;Rate: "</span>, <span class="fu">round</span>(mean_rate, <span class="dv">2</span>), <span class="st">"%"</span>))) <span class="sc">+</span></span>
-<span id="cb2-18"><a href="#cb2-18"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
-<span id="cb2-19"><a href="#cb2-19"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
-<span id="cb2-20"><a href="#cb2-20"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>area, <span class="at">scales =</span> <span class="st">"free_y"</span>) <span class="sc">+</span></span>
-<span id="cb2-21"><a href="#cb2-21"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb2-22"><a href="#cb2-22"></a>  <span class="fu">labs</span>(</span>
-<span id="cb2-23"><a href="#cb2-23"></a>    <span class="at">title =</span> <span class="st">"Mean Unemployment Rate by City Area"</span>,</span>
-<span id="cb2-24"><a href="#cb2-24"></a>    <span class="at">x =</span> <span class="st">"Year"</span>, <span class="at">y =</span> <span class="st">"Mean Unemployment Rate (%)"</span>,</span>
-<span id="cb2-25"><a href="#cb2-25"></a>    <span class="at">color =</span> <span class="st">"City Area"</span>,</span>
-<span id="cb2-26"><a href="#cb2-26"></a>    <span class="at">caption =</span> <span class="st">"Source: Statistisches Amt München"</span></span>
-<span id="cb2-27"><a href="#cb2-27"></a>  ) <span class="sc">+</span></span>
-<span id="cb2-28"><a href="#cb2-28"></a>  <span class="fu">scale_color_brewer</span>(<span class="at">palette =</span> <span class="st">"Set2"</span>)</span>
-<span id="cb2-29"><a href="#cb2-29"></a></span>
-<span id="cb2-30"><a href="#cb2-30"></a><span class="fu">ggplotly</span>(rq1_plot, <span class="at">tooltip =</span> <span class="st">"text"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="fu">library</span>(plotly)</span>
+<span id="cb12-2"><a href="#cb12-2"></a></span>
+<span id="cb12-3"><a href="#cb12-3"></a>annual_means_area <span class="ot">&lt;-</span> arbeitslosen_area <span class="sc">|&gt;</span></span>
+<span id="cb12-4"><a href="#cb12-4"></a>  <span class="fu">group_by</span>(area, Jahr) <span class="sc">|&gt;</span></span>
+<span id="cb12-5"><a href="#cb12-5"></a>  <span class="fu">summarise</span>(<span class="at">mean_rate =</span> <span class="fu">mean</span>(Indikatorwert, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
+<span id="cb12-6"><a href="#cb12-6"></a></span>
+<span id="cb12-7"><a href="#cb12-7"></a>annual_means_total <span class="ot">&lt;-</span> arbeitslosen <span class="sc">|&gt;</span></span>
+<span id="cb12-8"><a href="#cb12-8"></a>  <span class="fu">filter</span>(Auspragung <span class="sc">==</span> <span class="st">"insgesamt"</span>, Raumbezug <span class="sc">==</span> <span class="st">"Stadt München"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb12-9"><a href="#cb12-9"></a>  <span class="fu">transmute</span>(<span class="at">area =</span> <span class="st">"Total"</span>, Jahr, <span class="at">mean_rate =</span> Indikatorwert)</span>
+<span id="cb12-10"><a href="#cb12-10"></a></span>
+<span id="cb12-11"><a href="#cb12-11"></a>annual_means_all <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(annual_means_area, annual_means_total)</span>
+<span id="cb12-12"><a href="#cb12-12"></a></span>
+<span id="cb12-13"><a href="#cb12-13"></a>rq1_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(annual_means_all, </span>
+<span id="cb12-14"><a href="#cb12-14"></a>                   <span class="fu">aes</span>(<span class="at">x =</span> Jahr, <span class="at">y =</span> mean_rate, </span>
+<span id="cb12-15"><a href="#cb12-15"></a>                       <span class="at">group =</span> area, </span>
+<span id="cb12-16"><a href="#cb12-16"></a>                       <span class="at">color =</span> area,</span>
+<span id="cb12-17"><a href="#cb12-17"></a>                       <span class="at">text =</span> <span class="fu">paste0</span>(<span class="st">"Area: "</span>, area, <span class="st">"&lt;br&gt;Year: "</span>, Jahr, <span class="st">"&lt;br&gt;Rate: "</span>, <span class="fu">round</span>(mean_rate, <span class="dv">2</span>), <span class="st">"%"</span>))) <span class="sc">+</span></span>
+<span id="cb12-18"><a href="#cb12-18"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb12-19"><a href="#cb12-19"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb12-20"><a href="#cb12-20"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>area, <span class="at">scales =</span> <span class="st">"free_y"</span>) <span class="sc">+</span></span>
+<span id="cb12-21"><a href="#cb12-21"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb12-22"><a href="#cb12-22"></a>  <span class="fu">labs</span>(</span>
+<span id="cb12-23"><a href="#cb12-23"></a>    <span class="at">title =</span> <span class="st">"Mean Unemployment Rate by City Area"</span>,</span>
+<span id="cb12-24"><a href="#cb12-24"></a>    <span class="at">x =</span> <span class="st">"Year"</span>, <span class="at">y =</span> <span class="st">"Mean Unemployment Rate (%)"</span>,</span>
+<span id="cb12-25"><a href="#cb12-25"></a>    <span class="at">color =</span> <span class="st">"City Area"</span>,</span>
+<span id="cb12-26"><a href="#cb12-26"></a>    <span class="at">caption =</span> <span class="st">"Source: Statistisches Amt München"</span></span>
+<span id="cb12-27"><a href="#cb12-27"></a>  ) <span class="sc">+</span></span>
+<span id="cb12-28"><a href="#cb12-28"></a>  <span class="fu">scale_color_brewer</span>(<span class="at">palette =</span> <span class="st">"Set2"</span>)</span>
+<span id="cb12-29"><a href="#cb12-29"></a></span>
+<span id="cb12-30"><a href="#cb12-30"></a><span class="fu">ggplotly</span>(rq1_plot, <span class="at">tooltip =</span> <span class="st">"text"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
-<div class="plotly html-widget html-fill-item" id="htmlwidget-ce04d2e886bcd7cb8421" style="width:100%;height:464px;"></div>
-<script type="application/json" data-for="htmlwidget-ce04d2e886bcd7cb8421">{"x":{"data":[{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[3.6666666666666665,3.6000000000000001,4.7666666666666666,5.5666666666666673,5.166666666666667,5.8666666666666663,4.5,3.5666666666666669,3,3.3999999999999999,3.2000000000000002,2.7999999999999998,2.6333333333333333,2.9333333333333331,3.0333333333333332,2.8333333333333335,2.5333333333333332,2.3333333333333335,2.3333333333333335,2.2333333333333334,3.2000000000000002,2.8999999999999999,2.5333333333333332,2.8999999999999999,3.2333333333333334],"text":["Area: Center<br>Year: 2000<br>Rate: 3.67%","Area: Center<br>Year: 2001<br>Rate: 3.6%","Area: Center<br>Year: 2002<br>Rate: 4.77%","Area: Center<br>Year: 2003<br>Rate: 5.57%","Area: Center<br>Year: 2004<br>Rate: 5.17%","Area: Center<br>Year: 2005<br>Rate: 5.87%","Area: Center<br>Year: 2006<br>Rate: 4.5%","Area: Center<br>Year: 2007<br>Rate: 3.57%","Area: Center<br>Year: 2008<br>Rate: 3%","Area: Center<br>Year: 2009<br>Rate: 3.4%","Area: Center<br>Year: 2010<br>Rate: 3.2%","Area: Center<br>Year: 2011<br>Rate: 2.8%","Area: Center<br>Year: 2012<br>Rate: 2.63%","Area: Center<br>Year: 2013<br>Rate: 2.93%","Area: Center<br>Year: 2014<br>Rate: 3.03%","Area: Center<br>Year: 2015<br>Rate: 2.83%","Area: Center<br>Year: 2016<br>Rate: 2.53%","Area: Center<br>Year: 2017<br>Rate: 2.33%","Area: Center<br>Year: 2018<br>Rate: 2.33%","Area: Center<br>Year: 2019<br>Rate: 2.23%","Area: Center<br>Year: 2020<br>Rate: 3.2%","Area: Center<br>Year: 2021<br>Rate: 2.9%","Area: Center<br>Year: 2022<br>Rate: 2.53%","Area: Center<br>Year: 2023<br>Rate: 2.9%","Area: Center<br>Year: 2024<br>Rate: 3.23%"],"type":"scatter","mode":"lines+markers","line":{"width":3.0236220472440949,"color":"rgba(102,194,165,1)","dash":"solid"},"hoveron":"points","name":"Center","legendgroup":"Center","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(102,194,165,1)","opacity":1,"size":4.5354330708661417,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(102,194,165,1)"}},"frame":null},{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[3.48,3.2999999999999998,4.3600000000000003,5.1200000000000001,4.96,6.3799999999999999,5.54,4.4400000000000004,3.8599999999999999,4.3600000000000003,4.0999999999999996,3.7000000000000002,3.7400000000000002,3.8799999999999999,3.8599999999999999,3.6599999999999997,3.5800000000000001,3.4199999999999999,3.1400000000000001,2.96,4.1200000000000001,3.9399999999999999,3.5,3.7399999999999998,4.2599999999999998],"text":["Area: East<br>Year: 2000<br>Rate: 3.48%","Area: East<br>Year: 2001<br>Rate: 3.3%","Area: East<br>Year: 2002<br>Rate: 4.36%","Area: East<br>Year: 2003<br>Rate: 5.12%","Area: East<br>Year: 2004<br>Rate: 4.96%","Area: East<br>Year: 2005<br>Rate: 6.38%","Area: East<br>Year: 2006<br>Rate: 5.54%","Area: East<br>Year: 2007<br>Rate: 4.44%","Area: East<br>Year: 2008<br>Rate: 3.86%","Area: East<br>Year: 2009<br>Rate: 4.36%","Area: East<br>Year: 2010<br>Rate: 4.1%","Area: East<br>Year: 2011<br>Rate: 3.7%","Area: East<br>Year: 2012<br>Rate: 3.74%","Area: East<br>Year: 2013<br>Rate: 3.88%","Area: East<br>Year: 2014<br>Rate: 3.86%","Area: East<br>Year: 2015<br>Rate: 3.66%","Area: East<br>Year: 2016<br>Rate: 3.58%","Area: East<br>Year: 2017<br>Rate: 3.42%","Area: East<br>Year: 2018<br>Rate: 3.14%","Area: East<br>Year: 2019<br>Rate: 2.96%","Area: East<br>Year: 2020<br>Rate: 4.12%","Area: East<br>Year: 2021<br>Rate: 3.94%","Area: East<br>Year: 2022<br>Rate: 3.5%","Area: East<br>Year: 2023<br>Rate: 3.74%","Area: East<br>Year: 2024<br>Rate: 4.26%"],"type":"scatter","mode":"lines+markers","line":{"width":3.0236220472440949,"color":"rgba(252,141,98,1)","dash":"solid"},"hoveron":"points","name":"East","legendgroup":"East","showlegend":true,"xaxis":"x2","yaxis":"y2","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(252,141,98,1)","opacity":1,"size":4.5354330708661417,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(252,141,98,1)"}},"frame":null},{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[3.7749999999999999,3.5750000000000002,4.5750000000000002,5.375,5.1500000000000004,6.9749999999999996,6.0750000000000002,4.8250000000000002,4.125,4.7249999999999996,4.2750000000000004,3.9249999999999998,3.75,4.0250000000000004,4.0250000000000004,3.9249999999999998,3.625,3.375,3.0499999999999998,2.8250000000000002,3.875,3.7999999999999998,3.3500000000000001,3.5,3.8250000000000002],"text":["Area: North<br>Year: 2000<br>Rate: 3.78%","Area: North<br>Year: 2001<br>Rate: 3.58%","Area: North<br>Year: 2002<br>Rate: 4.58%","Area: North<br>Year: 2003<br>Rate: 5.38%","Area: North<br>Year: 2004<br>Rate: 5.15%","Area: North<br>Year: 2005<br>Rate: 6.97%","Area: North<br>Year: 2006<br>Rate: 6.08%","Area: North<br>Year: 2007<br>Rate: 4.82%","Area: North<br>Year: 2008<br>Rate: 4.12%","Area: North<br>Year: 2009<br>Rate: 4.72%","Area: North<br>Year: 2010<br>Rate: 4.28%","Area: North<br>Year: 2011<br>Rate: 3.92%","Area: North<br>Year: 2012<br>Rate: 3.75%","Area: North<br>Year: 2013<br>Rate: 4.03%","Area: North<br>Year: 2014<br>Rate: 4.03%","Area: North<br>Year: 2015<br>Rate: 3.92%","Area: North<br>Year: 2016<br>Rate: 3.62%","Area: North<br>Year: 2017<br>Rate: 3.38%","Area: North<br>Year: 2018<br>Rate: 3.05%","Area: North<br>Year: 2019<br>Rate: 2.83%","Area: North<br>Year: 2020<br>Rate: 3.88%","Area: North<br>Year: 2021<br>Rate: 3.8%","Area: North<br>Year: 2022<br>Rate: 3.35%","Area: North<br>Year: 2023<br>Rate: 3.5%","Area: North<br>Year: 2024<br>Rate: 3.83%"],"type":"scatter","mode":"lines+markers","line":{"width":3.0236220472440949,"color":"rgba(141,160,203,1)","dash":"solid"},"hoveron":"points","name":"North","legendgroup":"North","showlegend":true,"xaxis":"x3","yaxis":"y3","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(141,160,203,1)","opacity":1,"size":4.5354330708661417,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(141,160,203,1)"}},"frame":null},{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[3.7166666666666668,3.5333333333333332,4.5166666666666666,5.4333333333333336,5.3833333333333329,6.916666666666667,5.8499999999999996,4.9000000000000004,4.2666666666666666,4.9166666666666661,4.5499999999999998,4.0166666666666666,3.9333333333333331,3.9833333333333334,4,3.8666666666666667,3.5499999999999998,3.3166666666666664,3,2.7833333333333332,3.8999999999999999,3.6833333333333336,3.2333333333333334,3.3999999999999999,3.8166666666666664],"text":["Area: South<br>Year: 2000<br>Rate: 3.72%","Area: South<br>Year: 2001<br>Rate: 3.53%","Area: South<br>Year: 2002<br>Rate: 4.52%","Area: South<br>Year: 2003<br>Rate: 5.43%","Area: South<br>Year: 2004<br>Rate: 5.38%","Area: South<br>Year: 2005<br>Rate: 6.92%","Area: South<br>Year: 2006<br>Rate: 5.85%","Area: South<br>Year: 2007<br>Rate: 4.9%","Area: South<br>Year: 2008<br>Rate: 4.27%","Area: South<br>Year: 2009<br>Rate: 4.92%","Area: South<br>Year: 2010<br>Rate: 4.55%","Area: South<br>Year: 2011<br>Rate: 4.02%","Area: South<br>Year: 2012<br>Rate: 3.93%","Area: South<br>Year: 2013<br>Rate: 3.98%","Area: South<br>Year: 2014<br>Rate: 4%","Area: South<br>Year: 2015<br>Rate: 3.87%","Area: South<br>Year: 2016<br>Rate: 3.55%","Area: South<br>Year: 2017<br>Rate: 3.32%","Area: South<br>Year: 2018<br>Rate: 3%","Area: South<br>Year: 2019<br>Rate: 2.78%","Area: South<br>Year: 2020<br>Rate: 3.9%","Area: South<br>Year: 2021<br>Rate: 3.68%","Area: South<br>Year: 2022<br>Rate: 3.23%","Area: South<br>Year: 2023<br>Rate: 3.4%","Area: South<br>Year: 2024<br>Rate: 3.82%"],"type":"scatter","mode":"lines+markers","line":{"width":3.0236220472440949,"color":"rgba(231,138,195,1)","dash":"solid"},"hoveron":"points","name":"South","legendgroup":"South","showlegend":true,"xaxis":"x","yaxis":"y4","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(231,138,195,1)","opacity":1,"size":4.5354330708661417,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(231,138,195,1)"}},"frame":null},{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[3.7000000000000002,3.5,4.5,5.2999999999999998,5.2000000000000002,6.7000000000000002,5.7999999999999998,4.5999999999999996,4,4.5999999999999996,4.2999999999999998,3.7999999999999998,3.7000000000000002,3.8999999999999999,3.8999999999999999,3.7000000000000002,3.5,3.2999999999999998,3,2.7999999999999998,3.8999999999999999,3.7999999999999998,3.2999999999999998,3.6000000000000001,3.8999999999999999],"text":["Area: Total<br>Year: 2000<br>Rate: 3.7%","Area: Total<br>Year: 2001<br>Rate: 3.5%","Area: Total<br>Year: 2002<br>Rate: 4.5%","Area: Total<br>Year: 2003<br>Rate: 5.3%","Area: Total<br>Year: 2004<br>Rate: 5.2%","Area: Total<br>Year: 2005<br>Rate: 6.7%","Area: Total<br>Year: 2006<br>Rate: 5.8%","Area: Total<br>Year: 2007<br>Rate: 4.6%","Area: Total<br>Year: 2008<br>Rate: 4%","Area: Total<br>Year: 2009<br>Rate: 4.6%","Area: Total<br>Year: 2010<br>Rate: 4.3%","Area: Total<br>Year: 2011<br>Rate: 3.8%","Area: Total<br>Year: 2012<br>Rate: 3.7%","Area: Total<br>Year: 2013<br>Rate: 3.9%","Area: Total<br>Year: 2014<br>Rate: 3.9%","Area: Total<br>Year: 2015<br>Rate: 3.7%","Area: Total<br>Year: 2016<br>Rate: 3.5%","Area: Total<br>Year: 2017<br>Rate: 3.3%","Area: Total<br>Year: 2018<br>Rate: 3%","Area: Total<br>Year: 2019<br>Rate: 2.8%","Area: Total<br>Year: 2020<br>Rate: 3.9%","Area: Total<br>Year: 2021<br>Rate: 3.8%","Area: Total<br>Year: 2022<br>Rate: 3.3%","Area: Total<br>Year: 2023<br>Rate: 3.6%","Area: Total<br>Year: 2024<br>Rate: 3.9%"],"type":"scatter","mode":"lines","line":{"width":3.0236220472440949,"color":"rgba(166,216,84,1)","dash":"solid"},"hoveron":"points","name":"Total","legendgroup":"Total","showlegend":true,"xaxis":"x2","yaxis":"y5","hoverinfo":"text","frame":null},{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[3.6857142857142855,3.3999999999999999,4.3142857142857141,5.1857142857142859,5.0428571428571427,6.5285714285714285,5.8428571428571425,4.5571428571428569,4.0285714285714285,4.6571428571428575,4.2714285714285714,3.7999999999999998,3.657142857142857,3.9714285714285715,3.9857142857142858,3.7571428571428571,3.5,3.2000000000000002,2.9142857142857141,2.7714285714285714,3.9285714285714284,3.9428571428571426,3.4428571428571431,3.657142857142857,4.0142857142857142],"text":["Area: West<br>Year: 2000<br>Rate: 3.69%","Area: West<br>Year: 2001<br>Rate: 3.4%","Area: West<br>Year: 2002<br>Rate: 4.31%","Area: West<br>Year: 2003<br>Rate: 5.19%","Area: West<br>Year: 2004<br>Rate: 5.04%","Area: West<br>Year: 2005<br>Rate: 6.53%","Area: West<br>Year: 2006<br>Rate: 5.84%","Area: West<br>Year: 2007<br>Rate: 4.56%","Area: West<br>Year: 2008<br>Rate: 4.03%","Area: West<br>Year: 2009<br>Rate: 4.66%","Area: West<br>Year: 2010<br>Rate: 4.27%","Area: West<br>Year: 2011<br>Rate: 3.8%","Area: West<br>Year: 2012<br>Rate: 3.66%","Area: West<br>Year: 2013<br>Rate: 3.97%","Area: West<br>Year: 2014<br>Rate: 3.99%","Area: West<br>Year: 2015<br>Rate: 3.76%","Area: West<br>Year: 2016<br>Rate: 3.5%","Area: West<br>Year: 2017<br>Rate: 3.2%","Area: West<br>Year: 2018<br>Rate: 2.91%","Area: West<br>Year: 2019<br>Rate: 2.77%","Area: West<br>Year: 2020<br>Rate: 3.93%","Area: West<br>Year: 2021<br>Rate: 3.94%","Area: West<br>Year: 2022<br>Rate: 3.44%","Area: West<br>Year: 2023<br>Rate: 3.66%","Area: West<br>Year: 2024<br>Rate: 4.01%"],"type":"scatter","mode":"lines+markers","line":{"width":3.0236220472440949,"color":"rgba(255,217,47,1)","dash":"solid"},"hoveron":"points","name":"West","legendgroup":"West","showlegend":true,"xaxis":"x3","yaxis":"y6","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(255,217,47,1)","opacity":1,"size":4.5354330708661417,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(255,217,47,1)"}},"frame":null},{"x":[2024,2023,2022,2021,2020,2019,2018,2017,2016,2015,2014,2013,2012,2011,2010,2009,2008,2007,2006,2005,2004,2003,2002,2001,2000],"y":[3.8999999999999999,3.6000000000000001,3.2999999999999998,3.7999999999999998,3.8999999999999999,2.7999999999999998,3,3.2999999999999998,3.5,3.7000000000000002,3.8999999999999999,3.8999999999999999,3.7000000000000002,3.7999999999999998,4.2999999999999998,4.5999999999999996,4,4.5999999999999996,5.7999999999999998,6.7000000000000002,5.2000000000000002,5.2999999999999998,4.5,3.5,3.7000000000000002],"text":["Area: Total<br>Year: 2024<br>Rate: 3.9%","Area: Total<br>Year: 2023<br>Rate: 3.6%","Area: Total<br>Year: 2022<br>Rate: 3.3%","Area: Total<br>Year: 2021<br>Rate: 3.8%","Area: Total<br>Year: 2020<br>Rate: 3.9%","Area: Total<br>Year: 2019<br>Rate: 2.8%","Area: Total<br>Year: 2018<br>Rate: 3%","Area: Total<br>Year: 2017<br>Rate: 3.3%","Area: Total<br>Year: 2016<br>Rate: 3.5%","Area: Total<br>Year: 2015<br>Rate: 3.7%","Area: Total<br>Year: 2014<br>Rate: 3.9%","Area: Total<br>Year: 2013<br>Rate: 3.9%","Area: Total<br>Year: 2012<br>Rate: 3.7%","Area: Total<br>Year: 2011<br>Rate: 3.8%","Area: Total<br>Year: 2010<br>Rate: 4.3%","Area: Total<br>Year: 2009<br>Rate: 4.6%","Area: Total<br>Year: 2008<br>Rate: 4%","Area: Total<br>Year: 2007<br>Rate: 4.6%","Area: Total<br>Year: 2006<br>Rate: 5.8%","Area: Total<br>Year: 2005<br>Rate: 6.7%","Area: Total<br>Year: 2004<br>Rate: 5.2%","Area: Total<br>Year: 2003<br>Rate: 5.3%","Area: Total<br>Year: 2002<br>Rate: 4.5%","Area: Total<br>Year: 2001<br>Rate: 3.5%","Area: Total<br>Year: 2000<br>Rate: 3.7%"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(166,216,84,1)","opacity":1,"size":4.5354330708661417,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(166,216,84,1)"}},"hoveron":"points","name":"Total","legendgroup":"Total","showlegend":false,"xaxis":"x2","yaxis":"y5","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":52.529680365296812,"r":7.3059360730593621,"b":37.260273972602747,"l":31.415525114155255},"paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"title":{"text":"Mean Unemployment Rate by City Area","font":{"color":"rgba(0,0,0,1)","family":"","size":17.534246575342465},"x":0,"xref":"paper"},"xaxis":{"domain":[0,0.31376386170906717],"automargin":true,"type":"linear","autorange":false,"range":[1998.8,2025.2],"tickmode":"array","ticktext":["2000","2005","2010","2015","2020","2025"],"tickvals":[2000,2005,2010,2015,2020,2025],"categoryorder":"array","categoryarray":["2000","2005","2010","2015","2020","2025"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y4","title":"","hoverformat":".2f"},"annotations":[{"text":"Year","x":0.5,"y":0,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"top","annotationType":"axis","yshift":-21.917808219178081},{"text":"Mean Unemployment Rate (%)","x":0,"y":0.5,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"xref":"paper","yref":"paper","textangle":-90,"xanchor":"right","yanchor":"center","annotationType":"axis","xshift":-16.073059360730596},{"text":"Center","x":0.15688193085453359,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(26,26,26,1)","family":"","size":11.68949771689498},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"},{"text":"East","x":0.5,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(26,26,26,1)","family":"","size":11.68949771689498},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"},{"text":"North","x":0.84311806914546639,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(26,26,26,1)","family":"","size":11.68949771689498},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"},{"text":"South","x":0.15688193085453359,"y":0.4604261796042618,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(26,26,26,1)","family":"","size":11.68949771689498},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"},{"text":"Total","x":0.5,"y":0.4604261796042618,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(26,26,26,1)","family":"","size":11.68949771689498},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"},{"text":"West","x":0.84311806914546639,"y":0.4604261796042618,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(26,26,26,1)","family":"","size":11.68949771689498},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"}],"yaxis":{"domain":[0.5395738203957382,1],"automargin":true,"type":"linear","autorange":false,"range":[2.0516666666666667,6.0483333333333329],"tickmode":"array","ticktext":["3","4","5","6"],"tickvals":[3,4,5,6],"categoryorder":"array","categoryarray":["3","4","5","6"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":"","hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","layer":"below","x0":0,"x1":0.31376386170906717,"y0":0,"y1":23.37899543378996,"yanchor":1,"ysizemode":"pixel"},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","layer":"below","x0":0.35290280495759946,"x1":0.64709719504240049,"y0":0,"y1":23.37899543378996,"yanchor":1,"ysizemode":"pixel"},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","layer":"below","x0":0.68623613829093277,"x1":1,"y0":0,"y1":23.37899543378996,"yanchor":1,"ysizemode":"pixel"},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","layer":"below","x0":0,"x1":0.31376386170906717,"y0":0,"y1":23.37899543378996,"yanchor":0.4604261796042618,"ysizemode":"pixel"},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","layer":"below","x0":0.35290280495759946,"x1":0.64709719504240049,"y0":0,"y1":23.37899543378996,"yanchor":0.4604261796042618,"ysizemode":"pixel"},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","layer":"below","x0":0.68623613829093277,"x1":1,"y0":0,"y1":23.37899543378996,"yanchor":0.4604261796042618,"ysizemode":"pixel"}],"xaxis2":{"type":"linear","autorange":false,"range":[1998.8,2025.2],"tickmode":"array","ticktext":["2000","2005","2010","2015","2020","2025"],"tickvals":[2000,2005,2010,2015,2020,2025],"categoryorder":"array","categoryarray":["2000","2005","2010","2015","2020","2025"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"domain":[0.35290280495759946,0.64709719504240049],"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y5","title":"","hoverformat":".2f"},"yaxis2":{"type":"linear","autorange":false,"range":[2.7890000000000001,6.5510000000000002],"tickmode":"array","ticktext":["3","4","5","6"],"tickvals":[3,4,5,6],"categoryorder":"array","categoryarray":["3","4","5","6"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"domain":[0.5395738203957382,1],"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x2","title":"","hoverformat":".2f"},"xaxis3":{"type":"linear","autorange":false,"range":[1998.8,2025.2],"tickmode":"array","ticktext":["2000","2005","2010","2015","2020","2025"],"tickvals":[2000,2005,2010,2015,2020,2025],"categoryorder":"array","categoryarray":["2000","2005","2010","2015","2020","2025"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"domain":[0.68623613829093277,1],"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y6","title":"","hoverformat":".2f"},"yaxis3":{"type":"linear","autorange":false,"range":[2.6175000000000002,7.1824999999999992],"tickmode":"array","ticktext":["3","4","5","6","7"],"tickvals":[3,4,5,6,7],"categoryorder":"array","categoryarray":["3","4","5","6","7"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"domain":[0.5395738203957382,1],"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x3","title":"","hoverformat":".2f"},"yaxis4":{"type":"linear","autorange":false,"range":[2.5766666666666667,7.123333333333334],"tickmode":"array","ticktext":["3","4","5","6","7"],"tickvals":[3,4,5,6,7],"categoryorder":"array","categoryarray":["3","4","5","6","7"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"domain":[0,0.4604261796042618],"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":"","hoverformat":".2f"},"yaxis5":{"type":"linear","autorange":false,"range":[2.605,6.8950000000000005],"tickmode":"array","ticktext":["3","4","5","6"],"tickvals":[3,4,5,6],"categoryorder":"array","categoryarray":["3","4","5","6"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"domain":[0,0.4604261796042618],"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x2","title":"","hoverformat":".2f"},"yaxis6":{"type":"linear","autorange":false,"range":[2.5835714285714286,6.7164285714285716],"tickmode":"array","ticktext":["3","4","5","6"],"tickvals":[3,4,5,6],"categoryorder":"array","categoryarray":["3","4","5","6"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"domain":[0,0.4604261796042618],"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x3","title":"","hoverformat":".2f"},"showlegend":true,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498},"title":{"text":"City Area","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"9fac3a0aeb60":{"x":{},"y":{},"colour":{},"text":{},"type":"scatter"},"9fac22e30965":{"x":{},"y":{},"colour":{},"text":{}}},"cur_data":"9fac3a0aeb60","visdat":{"9fac3a0aeb60":["function (y) ","x"],"9fac22e30965":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-b05fe9c27a417becc28c" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-b05fe9c27a417becc28c">{"x":{"data":[{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[3.6666666666666665,3.6000000000000001,4.7666666666666666,5.5666666666666673,5.166666666666667,5.8666666666666663,4.5,3.5666666666666669,3,3.3999999999999999,3.2000000000000002,2.7999999999999998,2.6333333333333333,2.9333333333333331,3.0333333333333332,2.8333333333333335,2.5333333333333332,2.3333333333333335,2.3333333333333335,2.2333333333333334,3.2000000000000002,2.8999999999999999,2.5333333333333332,2.8999999999999999,3.2333333333333334],"text":["Area: Center<br>Year: 2000<br>Rate: 3.67%","Area: Center<br>Year: 2001<br>Rate: 3.6%","Area: Center<br>Year: 2002<br>Rate: 4.77%","Area: Center<br>Year: 2003<br>Rate: 5.57%","Area: Center<br>Year: 2004<br>Rate: 5.17%","Area: Center<br>Year: 2005<br>Rate: 5.87%","Area: Center<br>Year: 2006<br>Rate: 4.5%","Area: Center<br>Year: 2007<br>Rate: 3.57%","Area: Center<br>Year: 2008<br>Rate: 3%","Area: Center<br>Year: 2009<br>Rate: 3.4%","Area: Center<br>Year: 2010<br>Rate: 3.2%","Area: Center<br>Year: 2011<br>Rate: 2.8%","Area: Center<br>Year: 2012<br>Rate: 2.63%","Area: Center<br>Year: 2013<br>Rate: 2.93%","Area: Center<br>Year: 2014<br>Rate: 3.03%","Area: Center<br>Year: 2015<br>Rate: 2.83%","Area: Center<br>Year: 2016<br>Rate: 2.53%","Area: Center<br>Year: 2017<br>Rate: 2.33%","Area: Center<br>Year: 2018<br>Rate: 2.33%","Area: Center<br>Year: 2019<br>Rate: 2.23%","Area: Center<br>Year: 2020<br>Rate: 3.2%","Area: Center<br>Year: 2021<br>Rate: 2.9%","Area: Center<br>Year: 2022<br>Rate: 2.53%","Area: Center<br>Year: 2023<br>Rate: 2.9%","Area: Center<br>Year: 2024<br>Rate: 3.23%"],"type":"scatter","mode":"lines+markers","line":{"width":3.0236220472440949,"color":"rgba(102,194,165,1)","dash":"solid"},"hoveron":"points","name":"Center","legendgroup":"Center","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(102,194,165,1)","opacity":1,"size":4.5354330708661417,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(102,194,165,1)"}},"frame":null},{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[3.48,3.2999999999999998,4.3600000000000003,5.1200000000000001,4.96,6.3799999999999999,5.54,4.4400000000000004,3.8599999999999999,4.3600000000000003,4.0999999999999996,3.7000000000000002,3.7400000000000002,3.8799999999999999,3.8599999999999999,3.6599999999999997,3.5800000000000001,3.4199999999999999,3.1400000000000001,2.96,4.1200000000000001,3.9399999999999999,3.5,3.7399999999999998,4.2599999999999998],"text":["Area: East<br>Year: 2000<br>Rate: 3.48%","Area: East<br>Year: 2001<br>Rate: 3.3%","Area: East<br>Year: 2002<br>Rate: 4.36%","Area: East<br>Year: 2003<br>Rate: 5.12%","Area: East<br>Year: 2004<br>Rate: 4.96%","Area: East<br>Year: 2005<br>Rate: 6.38%","Area: East<br>Year: 2006<br>Rate: 5.54%","Area: East<br>Year: 2007<br>Rate: 4.44%","Area: East<br>Year: 2008<br>Rate: 3.86%","Area: East<br>Year: 2009<br>Rate: 4.36%","Area: East<br>Year: 2010<br>Rate: 4.1%","Area: East<br>Year: 2011<br>Rate: 3.7%","Area: East<br>Year: 2012<br>Rate: 3.74%","Area: East<br>Year: 2013<br>Rate: 3.88%","Area: East<br>Year: 2014<br>Rate: 3.86%","Area: East<br>Year: 2015<br>Rate: 3.66%","Area: East<br>Year: 2016<br>Rate: 3.58%","Area: East<br>Year: 2017<br>Rate: 3.42%","Area: East<br>Year: 2018<br>Rate: 3.14%","Area: East<br>Year: 2019<br>Rate: 2.96%","Area: East<br>Year: 2020<br>Rate: 4.12%","Area: East<br>Year: 2021<br>Rate: 3.94%","Area: East<br>Year: 2022<br>Rate: 3.5%","Area: East<br>Year: 2023<br>Rate: 3.74%","Area: East<br>Year: 2024<br>Rate: 4.26%"],"type":"scatter","mode":"lines+markers","line":{"width":3.0236220472440949,"color":"rgba(252,141,98,1)","dash":"solid"},"hoveron":"points","name":"East","legendgroup":"East","showlegend":true,"xaxis":"x2","yaxis":"y2","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(252,141,98,1)","opacity":1,"size":4.5354330708661417,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(252,141,98,1)"}},"frame":null},{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[3.7749999999999999,3.5750000000000002,4.5750000000000002,5.375,5.1500000000000004,6.9749999999999996,6.0750000000000002,4.8250000000000002,4.125,4.7249999999999996,4.2750000000000004,3.9249999999999998,3.75,4.0250000000000004,4.0250000000000004,3.9249999999999998,3.625,3.375,3.0499999999999998,2.8250000000000002,3.875,3.7999999999999998,3.3500000000000001,3.5,3.8250000000000002],"text":["Area: North<br>Year: 2000<br>Rate: 3.78%","Area: North<br>Year: 2001<br>Rate: 3.58%","Area: North<br>Year: 2002<br>Rate: 4.58%","Area: North<br>Year: 2003<br>Rate: 5.38%","Area: North<br>Year: 2004<br>Rate: 5.15%","Area: North<br>Year: 2005<br>Rate: 6.97%","Area: North<br>Year: 2006<br>Rate: 6.08%","Area: North<br>Year: 2007<br>Rate: 4.82%","Area: North<br>Year: 2008<br>Rate: 4.12%","Area: North<br>Year: 2009<br>Rate: 4.72%","Area: North<br>Year: 2010<br>Rate: 4.28%","Area: North<br>Year: 2011<br>Rate: 3.92%","Area: North<br>Year: 2012<br>Rate: 3.75%","Area: North<br>Year: 2013<br>Rate: 4.03%","Area: North<br>Year: 2014<br>Rate: 4.03%","Area: North<br>Year: 2015<br>Rate: 3.92%","Area: North<br>Year: 2016<br>Rate: 3.62%","Area: North<br>Year: 2017<br>Rate: 3.38%","Area: North<br>Year: 2018<br>Rate: 3.05%","Area: North<br>Year: 2019<br>Rate: 2.83%","Area: North<br>Year: 2020<br>Rate: 3.88%","Area: North<br>Year: 2021<br>Rate: 3.8%","Area: North<br>Year: 2022<br>Rate: 3.35%","Area: North<br>Year: 2023<br>Rate: 3.5%","Area: North<br>Year: 2024<br>Rate: 3.83%"],"type":"scatter","mode":"lines+markers","line":{"width":3.0236220472440949,"color":"rgba(141,160,203,1)","dash":"solid"},"hoveron":"points","name":"North","legendgroup":"North","showlegend":true,"xaxis":"x3","yaxis":"y3","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(141,160,203,1)","opacity":1,"size":4.5354330708661417,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(141,160,203,1)"}},"frame":null},{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[3.7166666666666668,3.5333333333333332,4.5166666666666666,5.4333333333333336,5.3833333333333329,6.916666666666667,5.8499999999999996,4.9000000000000004,4.2666666666666666,4.9166666666666661,4.5499999999999998,4.0166666666666666,3.9333333333333331,3.9833333333333334,4,3.8666666666666667,3.5499999999999998,3.3166666666666664,3,2.7833333333333332,3.8999999999999999,3.6833333333333336,3.2333333333333334,3.3999999999999999,3.8166666666666664],"text":["Area: South<br>Year: 2000<br>Rate: 3.72%","Area: South<br>Year: 2001<br>Rate: 3.53%","Area: South<br>Year: 2002<br>Rate: 4.52%","Area: South<br>Year: 2003<br>Rate: 5.43%","Area: South<br>Year: 2004<br>Rate: 5.38%","Area: South<br>Year: 2005<br>Rate: 6.92%","Area: South<br>Year: 2006<br>Rate: 5.85%","Area: South<br>Year: 2007<br>Rate: 4.9%","Area: South<br>Year: 2008<br>Rate: 4.27%","Area: South<br>Year: 2009<br>Rate: 4.92%","Area: South<br>Year: 2010<br>Rate: 4.55%","Area: South<br>Year: 2011<br>Rate: 4.02%","Area: South<br>Year: 2012<br>Rate: 3.93%","Area: South<br>Year: 2013<br>Rate: 3.98%","Area: South<br>Year: 2014<br>Rate: 4%","Area: South<br>Year: 2015<br>Rate: 3.87%","Area: South<br>Year: 2016<br>Rate: 3.55%","Area: South<br>Year: 2017<br>Rate: 3.32%","Area: South<br>Year: 2018<br>Rate: 3%","Area: South<br>Year: 2019<br>Rate: 2.78%","Area: South<br>Year: 2020<br>Rate: 3.9%","Area: South<br>Year: 2021<br>Rate: 3.68%","Area: South<br>Year: 2022<br>Rate: 3.23%","Area: South<br>Year: 2023<br>Rate: 3.4%","Area: South<br>Year: 2024<br>Rate: 3.82%"],"type":"scatter","mode":"lines+markers","line":{"width":3.0236220472440949,"color":"rgba(231,138,195,1)","dash":"solid"},"hoveron":"points","name":"South","legendgroup":"South","showlegend":true,"xaxis":"x","yaxis":"y4","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(231,138,195,1)","opacity":1,"size":4.5354330708661417,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(231,138,195,1)"}},"frame":null},{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[3.7000000000000002,3.5,4.5,5.2999999999999998,5.2000000000000002,6.7000000000000002,5.7999999999999998,4.5999999999999996,4,4.5999999999999996,4.2999999999999998,3.7999999999999998,3.7000000000000002,3.8999999999999999,3.8999999999999999,3.7000000000000002,3.5,3.2999999999999998,3,2.7999999999999998,3.8999999999999999,3.7999999999999998,3.2999999999999998,3.6000000000000001,3.8999999999999999],"text":["Area: Total<br>Year: 2000<br>Rate: 3.7%","Area: Total<br>Year: 2001<br>Rate: 3.5%","Area: Total<br>Year: 2002<br>Rate: 4.5%","Area: Total<br>Year: 2003<br>Rate: 5.3%","Area: Total<br>Year: 2004<br>Rate: 5.2%","Area: Total<br>Year: 2005<br>Rate: 6.7%","Area: Total<br>Year: 2006<br>Rate: 5.8%","Area: Total<br>Year: 2007<br>Rate: 4.6%","Area: Total<br>Year: 2008<br>Rate: 4%","Area: Total<br>Year: 2009<br>Rate: 4.6%","Area: Total<br>Year: 2010<br>Rate: 4.3%","Area: Total<br>Year: 2011<br>Rate: 3.8%","Area: Total<br>Year: 2012<br>Rate: 3.7%","Area: Total<br>Year: 2013<br>Rate: 3.9%","Area: Total<br>Year: 2014<br>Rate: 3.9%","Area: Total<br>Year: 2015<br>Rate: 3.7%","Area: Total<br>Year: 2016<br>Rate: 3.5%","Area: Total<br>Year: 2017<br>Rate: 3.3%","Area: Total<br>Year: 2018<br>Rate: 3%","Area: Total<br>Year: 2019<br>Rate: 2.8%","Area: Total<br>Year: 2020<br>Rate: 3.9%","Area: Total<br>Year: 2021<br>Rate: 3.8%","Area: Total<br>Year: 2022<br>Rate: 3.3%","Area: Total<br>Year: 2023<br>Rate: 3.6%","Area: Total<br>Year: 2024<br>Rate: 3.9%"],"type":"scatter","mode":"lines","line":{"width":3.0236220472440949,"color":"rgba(166,216,84,1)","dash":"solid"},"hoveron":"points","name":"Total","legendgroup":"Total","showlegend":true,"xaxis":"x2","yaxis":"y5","hoverinfo":"text","frame":null},{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[3.6857142857142855,3.3999999999999999,4.3142857142857141,5.1857142857142859,5.0428571428571427,6.5285714285714285,5.8428571428571425,4.5571428571428569,4.0285714285714285,4.6571428571428575,4.2714285714285714,3.7999999999999998,3.657142857142857,3.9714285714285715,3.9857142857142858,3.7571428571428571,3.5,3.2000000000000002,2.9142857142857141,2.7714285714285714,3.9285714285714284,3.9428571428571426,3.4428571428571431,3.657142857142857,4.0142857142857142],"text":["Area: West<br>Year: 2000<br>Rate: 3.69%","Area: West<br>Year: 2001<br>Rate: 3.4%","Area: West<br>Year: 2002<br>Rate: 4.31%","Area: West<br>Year: 2003<br>Rate: 5.19%","Area: West<br>Year: 2004<br>Rate: 5.04%","Area: West<br>Year: 2005<br>Rate: 6.53%","Area: West<br>Year: 2006<br>Rate: 5.84%","Area: West<br>Year: 2007<br>Rate: 4.56%","Area: West<br>Year: 2008<br>Rate: 4.03%","Area: West<br>Year: 2009<br>Rate: 4.66%","Area: West<br>Year: 2010<br>Rate: 4.27%","Area: West<br>Year: 2011<br>Rate: 3.8%","Area: West<br>Year: 2012<br>Rate: 3.66%","Area: West<br>Year: 2013<br>Rate: 3.97%","Area: West<br>Year: 2014<br>Rate: 3.99%","Area: West<br>Year: 2015<br>Rate: 3.76%","Area: West<br>Year: 2016<br>Rate: 3.5%","Area: West<br>Year: 2017<br>Rate: 3.2%","Area: West<br>Year: 2018<br>Rate: 2.91%","Area: West<br>Year: 2019<br>Rate: 2.77%","Area: West<br>Year: 2020<br>Rate: 3.93%","Area: West<br>Year: 2021<br>Rate: 3.94%","Area: West<br>Year: 2022<br>Rate: 3.44%","Area: West<br>Year: 2023<br>Rate: 3.66%","Area: West<br>Year: 2024<br>Rate: 4.01%"],"type":"scatter","mode":"lines+markers","line":{"width":3.0236220472440949,"color":"rgba(255,217,47,1)","dash":"solid"},"hoveron":"points","name":"West","legendgroup":"West","showlegend":true,"xaxis":"x3","yaxis":"y6","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(255,217,47,1)","opacity":1,"size":4.5354330708661417,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(255,217,47,1)"}},"frame":null},{"x":[2024,2023,2022,2021,2020,2019,2018,2017,2016,2015,2014,2013,2012,2011,2010,2009,2008,2007,2006,2005,2004,2003,2002,2001,2000],"y":[3.8999999999999999,3.6000000000000001,3.2999999999999998,3.7999999999999998,3.8999999999999999,2.7999999999999998,3,3.2999999999999998,3.5,3.7000000000000002,3.8999999999999999,3.8999999999999999,3.7000000000000002,3.7999999999999998,4.2999999999999998,4.5999999999999996,4,4.5999999999999996,5.7999999999999998,6.7000000000000002,5.2000000000000002,5.2999999999999998,4.5,3.5,3.7000000000000002],"text":["Area: Total<br>Year: 2024<br>Rate: 3.9%","Area: Total<br>Year: 2023<br>Rate: 3.6%","Area: Total<br>Year: 2022<br>Rate: 3.3%","Area: Total<br>Year: 2021<br>Rate: 3.8%","Area: Total<br>Year: 2020<br>Rate: 3.9%","Area: Total<br>Year: 2019<br>Rate: 2.8%","Area: Total<br>Year: 2018<br>Rate: 3%","Area: Total<br>Year: 2017<br>Rate: 3.3%","Area: Total<br>Year: 2016<br>Rate: 3.5%","Area: Total<br>Year: 2015<br>Rate: 3.7%","Area: Total<br>Year: 2014<br>Rate: 3.9%","Area: Total<br>Year: 2013<br>Rate: 3.9%","Area: Total<br>Year: 2012<br>Rate: 3.7%","Area: Total<br>Year: 2011<br>Rate: 3.8%","Area: Total<br>Year: 2010<br>Rate: 4.3%","Area: Total<br>Year: 2009<br>Rate: 4.6%","Area: Total<br>Year: 2008<br>Rate: 4%","Area: Total<br>Year: 2007<br>Rate: 4.6%","Area: Total<br>Year: 2006<br>Rate: 5.8%","Area: Total<br>Year: 2005<br>Rate: 6.7%","Area: Total<br>Year: 2004<br>Rate: 5.2%","Area: Total<br>Year: 2003<br>Rate: 5.3%","Area: Total<br>Year: 2002<br>Rate: 4.5%","Area: Total<br>Year: 2001<br>Rate: 3.5%","Area: Total<br>Year: 2000<br>Rate: 3.7%"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(166,216,84,1)","opacity":1,"size":4.5354330708661417,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(166,216,84,1)"}},"hoveron":"points","name":"Total","legendgroup":"Total","showlegend":false,"xaxis":"x2","yaxis":"y5","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":52.529680365296812,"r":7.3059360730593621,"b":37.260273972602747,"l":31.415525114155255},"paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"title":{"text":"Mean Unemployment Rate by City Area","font":{"color":"rgba(0,0,0,1)","family":"","size":17.534246575342465},"x":0,"xref":"paper"},"xaxis":{"domain":[0,0.31376386170906717],"automargin":true,"type":"linear","autorange":false,"range":[1998.8,2025.2],"tickmode":"array","ticktext":["2000","2005","2010","2015","2020","2025"],"tickvals":[2000,2005,2010,2015,2020,2025],"categoryorder":"array","categoryarray":["2000","2005","2010","2015","2020","2025"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y4","title":"","hoverformat":".2f"},"annotations":[{"text":"Year","x":0.5,"y":0,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"top","annotationType":"axis","yshift":-21.917808219178081},{"text":"Mean Unemployment Rate (%)","x":0,"y":0.5,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"xref":"paper","yref":"paper","textangle":-90,"xanchor":"right","yanchor":"center","annotationType":"axis","xshift":-16.073059360730596},{"text":"Center","x":0.15688193085453359,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(26,26,26,1)","family":"","size":11.68949771689498},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"},{"text":"East","x":0.5,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(26,26,26,1)","family":"","size":11.68949771689498},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"},{"text":"North","x":0.84311806914546639,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(26,26,26,1)","family":"","size":11.68949771689498},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"},{"text":"South","x":0.15688193085453359,"y":0.4604261796042618,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(26,26,26,1)","family":"","size":11.68949771689498},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"},{"text":"Total","x":0.5,"y":0.4604261796042618,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(26,26,26,1)","family":"","size":11.68949771689498},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"},{"text":"West","x":0.84311806914546639,"y":0.4604261796042618,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(26,26,26,1)","family":"","size":11.68949771689498},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"}],"yaxis":{"domain":[0.5395738203957382,1],"automargin":true,"type":"linear","autorange":false,"range":[2.0516666666666667,6.0483333333333329],"tickmode":"array","ticktext":["3","4","5","6"],"tickvals":[3,4,5,6],"categoryorder":"array","categoryarray":["3","4","5","6"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":"","hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","layer":"below","x0":0,"x1":0.31376386170906717,"y0":0,"y1":23.37899543378996,"yanchor":1,"ysizemode":"pixel"},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","layer":"below","x0":0.35290280495759946,"x1":0.64709719504240049,"y0":0,"y1":23.37899543378996,"yanchor":1,"ysizemode":"pixel"},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","layer":"below","x0":0.68623613829093277,"x1":1,"y0":0,"y1":23.37899543378996,"yanchor":1,"ysizemode":"pixel"},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","layer":"below","x0":0,"x1":0.31376386170906717,"y0":0,"y1":23.37899543378996,"yanchor":0.4604261796042618,"ysizemode":"pixel"},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","layer":"below","x0":0.35290280495759946,"x1":0.64709719504240049,"y0":0,"y1":23.37899543378996,"yanchor":0.4604261796042618,"ysizemode":"pixel"},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","layer":"below","x0":0.68623613829093277,"x1":1,"y0":0,"y1":23.37899543378996,"yanchor":0.4604261796042618,"ysizemode":"pixel"}],"xaxis2":{"type":"linear","autorange":false,"range":[1998.8,2025.2],"tickmode":"array","ticktext":["2000","2005","2010","2015","2020","2025"],"tickvals":[2000,2005,2010,2015,2020,2025],"categoryorder":"array","categoryarray":["2000","2005","2010","2015","2020","2025"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"domain":[0.35290280495759946,0.64709719504240049],"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y5","title":"","hoverformat":".2f"},"yaxis2":{"type":"linear","autorange":false,"range":[2.7890000000000001,6.5510000000000002],"tickmode":"array","ticktext":["3","4","5","6"],"tickvals":[3,4,5,6],"categoryorder":"array","categoryarray":["3","4","5","6"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"domain":[0.5395738203957382,1],"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x2","title":"","hoverformat":".2f"},"xaxis3":{"type":"linear","autorange":false,"range":[1998.8,2025.2],"tickmode":"array","ticktext":["2000","2005","2010","2015","2020","2025"],"tickvals":[2000,2005,2010,2015,2020,2025],"categoryorder":"array","categoryarray":["2000","2005","2010","2015","2020","2025"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"domain":[0.68623613829093277,1],"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y6","title":"","hoverformat":".2f"},"yaxis3":{"type":"linear","autorange":false,"range":[2.6175000000000002,7.1824999999999992],"tickmode":"array","ticktext":["3","4","5","6","7"],"tickvals":[3,4,5,6,7],"categoryorder":"array","categoryarray":["3","4","5","6","7"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"domain":[0.5395738203957382,1],"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x3","title":"","hoverformat":".2f"},"yaxis4":{"type":"linear","autorange":false,"range":[2.5766666666666667,7.123333333333334],"tickmode":"array","ticktext":["3","4","5","6","7"],"tickvals":[3,4,5,6,7],"categoryorder":"array","categoryarray":["3","4","5","6","7"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"domain":[0,0.4604261796042618],"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":"","hoverformat":".2f"},"yaxis5":{"type":"linear","autorange":false,"range":[2.605,6.8950000000000005],"tickmode":"array","ticktext":["3","4","5","6"],"tickvals":[3,4,5,6],"categoryorder":"array","categoryarray":["3","4","5","6"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"domain":[0,0.4604261796042618],"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x2","title":"","hoverformat":".2f"},"yaxis6":{"type":"linear","autorange":false,"range":[2.5835714285714286,6.7164285714285716],"tickmode":"array","ticktext":["3","4","5","6"],"tickvals":[3,4,5,6],"categoryorder":"array","categoryarray":["3","4","5","6"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"domain":[0,0.4604261796042618],"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x3","title":"","hoverformat":".2f"},"showlegend":true,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498},"title":{"text":"City Area","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"a34c31768c43":{"x":{},"y":{},"colour":{},"text":{},"type":"scatter"},"a34c5df29c13":{"x":{},"y":{},"colour":{},"text":{}}},"cur_data":"a34c31768c43","visdat":{"a34c31768c43":["function (y) ","x"],"a34c5df29c13":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 <p>Figure 1: Interactive mean unemployment rate by Munich city area, 2000-2024</p>
 </div>
 </div>
 </section>
 <section id="description-and-interpretation-of-the-plot" class="level3">
 <h3 class="anchored" data-anchor-id="description-and-interpretation-of-the-plot">Description and Interpretation of the Plot</h3>
-<p>All five regions and the city-wide total show a similar trend over the 24 year period. In 2000, almsot all graphs start at around 3.6% before peaking dramatically in 2005 at almost 7% and only a small plateu in 2004. The center area graph has the exact same trend but remained consistently lower, peaking at approximately 6% in 2005. After 2005 all graphs show an inconsistent but almost identical decline to about 2.5% in 2019. In 2020, every area graph shows a drastic jump to about 4%, declines again in 2022 but increases from then on to 4% in 2024.</p>
+<p>All five regions and the city-wide total show a similar trend over the 24 year period. In 2000, almost all graphs start at around 3.6% before peaking dramatically in 2005 at almost 7% and only a small plateau in 2004. The center area graph has the exact same trend but remained consistently lower, peaking at approximately 6% in 2005. After 2005 all graphs show an inconsistent but almost identical decline to about 2.5% in 2019. In 2020, every area graph shows a drastic jump to about 4%, declines again in 2022 but increases from then on to 4% in 2024.</p>
 <p>The peak in 2005 is explained by the introduction of the major Hartz IV welfare reforms in Germany that same year. The reform merged the statistical registries for traditional unemployment benefits and social welfare into a single metric, which artificially inflated the total count of registered unemployment individuals rather than reflecting a sudden economic collapse. After this, rules for receiving welfare became stricter and combined with a growing economy resulted in an inconsistent but steady decline in unemployment rates.</p>
 <p>In 2020, this downward trend was abruptly interrupted by the COVID-19 pandemic, causing a sharp jump.</p>
 </section>
 </section>
-<section id="rq2-gender-disparities-in-south-munich-2024" class="level2">
-<h2 class="anchored" data-anchor-id="rq2-gender-disparities-in-south-munich-2024">3. RQ2: Gender Disparities in South Munich (2024)</h2>
-<p><strong>Research Question 2:</strong> Do unemployment percentages in 2024 differ significantly based on gender across the districts of South Munich ?</p>
-<p>To investigate whether there is a systematic difference between male and female unemployment rates in the southern parts of the city, we isolate the 2024 observation year and restrict our sample to the districts classified under the South area.</p>
+<section id="rq2-gender-disparities-in-munich-2024" class="level2">
+<h2 class="anchored" data-anchor-id="rq2-gender-disparities-in-munich-2024">3. RQ2: Gender Disparities in Munich (2024)</h2>
+<p><strong>Research Question 2:</strong> Do unemployment percentages in 2024 differ significantly based on gender across Munich ?</p>
+<p>To investigate whether there is a systematic difference between male and female unemployment rates in all districts of the city, we isolate the 2024 observation year.</p>
 <section id="hypotheses" class="level3">
 <h3 class="anchored" data-anchor-id="hypotheses">Hypotheses</h3>
 <p>To test this statistically, we define our null and alternative hypotheses:</p>
-<p><strong>Null Hypothesis (</strong><span class="math inline">\(H_0\)</span><strong>):</strong> In 2024, there is no difference in the mean unemployment rate between males and females in South Munich. <span class="math display">\[\mu_{\text{male}} = \mu_{\text{female}}\]</span></p>
-<p><strong>Alternative Hypothesis (</strong><span class="math inline">\(H_A\)</span><strong>):</strong> In 2024, there is a significant difference in the mean unemployment rate between males and females in South Munich<strong>.</strong><span class="math display">\[\mu_{\text{male}} \neq \mu_{\text{female}}\]</span></p>
+<p><strong>Null Hypothesis (</strong><span class="math inline">\(H_0\)</span><strong>):</strong> In 2024, there is no difference in the mean unemployment rate between males and females in Munich. <span class="math display">\[\mu_{\text{male}} = \mu_{\text{female}}\]</span></p>
+<p><strong>Alternative Hypothesis (</strong><span class="math inline">\(H_A\)</span><strong>):</strong> In 2024, there is a significant difference in the mean unemployment rate between males and females in Munich<strong>.</strong><span class="math display">\[\mu_{\text{male}} \neq \mu_{\text{female}}\]</span></p>
 </section>
 <section id="descriptive-statistics" class="level3">
 <h3 class="anchored" data-anchor-id="descriptive-statistics">Descriptive Statistics</h3>
-<p>Before inferential testing, we generate a descriptive summary table using the <code>{gt}</code> package. This summarizes the sample sizes, averages, minimums and maximums of the unemployment rates for both demographic groups across the southern districts.</p>
+<p>Before inferential testing, we generate a descriptive summary table using the <code>{gt}</code> package. This summarizes the sample sizes, averages, minimums and maximums of the unemployment rates for both demographic groups across all 25 districts.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">library</span>(gt)</span>
-<span id="cb3-2"><a href="#cb3-2"></a></span>
-<span id="cb3-3"><a href="#cb3-3"></a>south_2024_gender <span class="ot">&lt;-</span> arbeitslosen <span class="sc">|&gt;</span> </span>
-<span id="cb3-4"><a href="#cb3-4"></a>  <span class="fu">mutate</span>(<span class="at">district_code =</span> <span class="fu">as.numeric</span>(<span class="fu">str_extract</span>(Raumbezug, <span class="st">"^[0-9]+"</span>))) <span class="sc">|&gt;</span></span>
-<span id="cb3-5"><a href="#cb3-5"></a>  <span class="fu">left_join</span>(district_area, <span class="at">by =</span> <span class="st">"district_code"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb3-6"><a href="#cb3-6"></a>  <span class="fu">filter</span>(</span>
-<span id="cb3-7"><a href="#cb3-7"></a>    Jahr <span class="sc">==</span> <span class="dv">2024</span>,</span>
-<span id="cb3-8"><a href="#cb3-8"></a>    area <span class="sc">==</span> <span class="st">"South"</span>,</span>
-<span id="cb3-9"><a href="#cb3-9"></a>    Auspragung <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"männlich"</span>, <span class="st">"weiblich"</span>)</span>
-<span id="cb3-10"><a href="#cb3-10"></a>  )</span>
-<span id="cb3-11"><a href="#cb3-11"></a></span>
-<span id="cb3-12"><a href="#cb3-12"></a>south_2024_summary <span class="ot">&lt;-</span> south_2024_gender <span class="sc">|&gt;</span></span>
-<span id="cb3-13"><a href="#cb3-13"></a>  <span class="fu">group_by</span>(Auspragung) <span class="sc">|&gt;</span></span>
-<span id="cb3-14"><a href="#cb3-14"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb3-15"><a href="#cb3-15"></a>    <span class="at">n =</span> <span class="fu">n</span>(),</span>
-<span id="cb3-16"><a href="#cb3-16"></a>    <span class="at">mean_rate =</span> <span class="fu">mean</span>(Indikatorwert, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb3-17"><a href="#cb3-17"></a>    <span class="at">min_rate =</span> <span class="fu">min</span>(Indikatorwert, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb3-18"><a href="#cb3-18"></a>    <span class="at">max_rate =</span> <span class="fu">max</span>(Indikatorwert, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb3-19"><a href="#cb3-19"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
-<span id="cb3-20"><a href="#cb3-20"></a>  )</span>
-<span id="cb3-21"><a href="#cb3-21"></a></span>
-<span id="cb3-22"><a href="#cb3-22"></a>south_2024_summary <span class="sc">|&gt;</span> </span>
-<span id="cb3-23"><a href="#cb3-23"></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span></span>
-<span id="cb3-24"><a href="#cb3-24"></a>  <span class="fu">fmt_number</span>(<span class="at">columns =</span> <span class="fu">c</span>(mean_rate, min_rate, max_rate), <span class="at">decimals =</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
-<span id="cb3-25"><a href="#cb3-25"></a>  <span class="fu">fmt_integer</span>(<span class="at">columns =</span> n) <span class="sc">|&gt;</span></span>
-<span id="cb3-26"><a href="#cb3-26"></a>  <span class="fu">cols_label</span>(</span>
-<span id="cb3-27"><a href="#cb3-27"></a>    <span class="at">Auspragung =</span> <span class="st">"Group / Gender"</span>,</span>
-<span id="cb3-28"><a href="#cb3-28"></a>    <span class="at">n =</span> <span class="st">"Districts (n)"</span>,</span>
-<span id="cb3-29"><a href="#cb3-29"></a>    <span class="at">mean_rate =</span> <span class="st">"Mean (%)"</span>,</span>
-<span id="cb3-30"><a href="#cb3-30"></a>    <span class="at">min_rate =</span> <span class="st">"Min (%)"</span>,</span>
-<span id="cb3-31"><a href="#cb3-31"></a>    <span class="at">max_rate =</span> <span class="st">"Max(%)"</span></span>
-<span id="cb3-32"><a href="#cb3-32"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb3-33"><a href="#cb3-33"></a>  <span class="fu">tab_spanner</span>(</span>
-<span id="cb3-34"><a href="#cb3-34"></a>    <span class="at">label =</span> <span class="st">"Unemployment Rate (%)"</span>,</span>
-<span id="cb3-35"><a href="#cb3-35"></a>    <span class="at">columns =</span> <span class="fu">c</span>(mean_rate, min_rate, max_rate)</span>
-<span id="cb3-36"><a href="#cb3-36"></a>  ) <span class="sc">%&gt;%</span> </span>
-<span id="cb3-37"><a href="#cb3-37"></a>  <span class="fu">cols_align</span>(<span class="at">align =</span> <span class="st">"right"</span>, <span class="at">columns =</span> <span class="fu">where</span>(is.numeric)) <span class="sc">|&gt;</span></span>
-<span id="cb3-38"><a href="#cb3-38"></a>  <span class="fu">cols_align</span>(<span class="at">align =</span> <span class="st">"left"</span>, <span class="at">columns =</span> Auspragung) <span class="sc">|&gt;</span></span>
-<span id="cb3-39"><a href="#cb3-39"></a>  <span class="fu">tab_header</span>(</span>
-<span id="cb3-40"><a href="#cb3-40"></a>    <span class="at">title =</span> <span class="st">"Unemployment Rate by Gender"</span>,</span>
-<span id="cb3-41"><a href="#cb3-41"></a>    <span class="at">subtitle =</span> <span class="st">"South Munich Districts, 2024"</span></span>
-<span id="cb3-42"><a href="#cb3-42"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb3-43"><a href="#cb3-43"></a>  <span class="fu">tab_source_note</span>(<span class="fu">md</span>(<span class="st">"Source: Statistisches Amt München"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="fu">library</span>(gt)</span>
+<span id="cb13-2"><a href="#cb13-2"></a></span>
+<span id="cb13-3"><a href="#cb13-3"></a>arbeitslosen_2024_gender <span class="ot">&lt;-</span> arbeitslosen <span class="sc">|&gt;</span> </span>
+<span id="cb13-4"><a href="#cb13-4"></a>  <span class="fu">mutate</span>(<span class="at">district_code =</span> <span class="fu">as.numeric</span>(<span class="fu">str_extract</span>(Raumbezug, <span class="st">"^[0-9]+"</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb13-5"><a href="#cb13-5"></a>  <span class="fu">left_join</span>(district_area, <span class="at">by =</span> <span class="st">"district_code"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb13-6"><a href="#cb13-6"></a>  <span class="fu">filter</span>(</span>
+<span id="cb13-7"><a href="#cb13-7"></a>    Jahr <span class="sc">==</span> <span class="dv">2024</span>,</span>
+<span id="cb13-8"><a href="#cb13-8"></a>    <span class="sc">!</span><span class="fu">is.na</span>(area),</span>
+<span id="cb13-9"><a href="#cb13-9"></a>    Auspragung <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"männlich"</span>, <span class="st">"weiblich"</span>)</span>
+<span id="cb13-10"><a href="#cb13-10"></a>  )</span>
+<span id="cb13-11"><a href="#cb13-11"></a></span>
+<span id="cb13-12"><a href="#cb13-12"></a>arbeitslosen_2024_summary <span class="ot">&lt;-</span>arbeitslosen_2024_gender <span class="sc">|&gt;</span></span>
+<span id="cb13-13"><a href="#cb13-13"></a>  <span class="fu">group_by</span>(Auspragung) <span class="sc">|&gt;</span></span>
+<span id="cb13-14"><a href="#cb13-14"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb13-15"><a href="#cb13-15"></a>    <span class="at">n =</span> <span class="fu">n</span>(),</span>
+<span id="cb13-16"><a href="#cb13-16"></a>    <span class="at">mean_rate =</span> <span class="fu">mean</span>(Indikatorwert, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb13-17"><a href="#cb13-17"></a>    <span class="at">min_rate =</span> <span class="fu">min</span>(Indikatorwert, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb13-18"><a href="#cb13-18"></a>    <span class="at">max_rate =</span> <span class="fu">max</span>(Indikatorwert, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb13-19"><a href="#cb13-19"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb13-20"><a href="#cb13-20"></a>  )</span>
+<span id="cb13-21"><a href="#cb13-21"></a></span>
+<span id="cb13-22"><a href="#cb13-22"></a>arbeitslosen_2024_summary <span class="sc">|&gt;</span> </span>
+<span id="cb13-23"><a href="#cb13-23"></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span></span>
+<span id="cb13-24"><a href="#cb13-24"></a>  <span class="fu">fmt_number</span>(<span class="at">columns =</span> <span class="fu">c</span>(mean_rate, min_rate, max_rate), <span class="at">decimals =</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb13-25"><a href="#cb13-25"></a>  <span class="fu">fmt_integer</span>(<span class="at">columns =</span> n) <span class="sc">|&gt;</span></span>
+<span id="cb13-26"><a href="#cb13-26"></a>  <span class="fu">cols_label</span>(</span>
+<span id="cb13-27"><a href="#cb13-27"></a>    <span class="at">Auspragung =</span> <span class="st">"Group / Gender"</span>,</span>
+<span id="cb13-28"><a href="#cb13-28"></a>    <span class="at">n =</span> <span class="st">"Districts (n)"</span>,</span>
+<span id="cb13-29"><a href="#cb13-29"></a>    <span class="at">mean_rate =</span> <span class="st">"Mean (%)"</span>,</span>
+<span id="cb13-30"><a href="#cb13-30"></a>    <span class="at">min_rate =</span> <span class="st">"Min (%)"</span>,</span>
+<span id="cb13-31"><a href="#cb13-31"></a>    <span class="at">max_rate =</span> <span class="st">"Max(%)"</span></span>
+<span id="cb13-32"><a href="#cb13-32"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb13-33"><a href="#cb13-33"></a>  <span class="fu">tab_spanner</span>(</span>
+<span id="cb13-34"><a href="#cb13-34"></a>    <span class="at">label =</span> <span class="st">"Unemployment Rate (%)"</span>,</span>
+<span id="cb13-35"><a href="#cb13-35"></a>    <span class="at">columns =</span> <span class="fu">c</span>(mean_rate, min_rate, max_rate)</span>
+<span id="cb13-36"><a href="#cb13-36"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-37"><a href="#cb13-37"></a>  <span class="fu">cols_align</span>(<span class="at">align =</span> <span class="st">"right"</span>, <span class="at">columns =</span> <span class="fu">where</span>(is.numeric)) <span class="sc">|&gt;</span></span>
+<span id="cb13-38"><a href="#cb13-38"></a>  <span class="fu">cols_align</span>(<span class="at">align =</span> <span class="st">"left"</span>, <span class="at">columns =</span> Auspragung) <span class="sc">|&gt;</span></span>
+<span id="cb13-39"><a href="#cb13-39"></a>  <span class="fu">tab_header</span>(</span>
+<span id="cb13-40"><a href="#cb13-40"></a>    <span class="at">title =</span> <span class="st">"Unemployment Rate by Gender"</span>,</span>
+<span id="cb13-41"><a href="#cb13-41"></a>    <span class="at">subtitle =</span> <span class="st">"All Munich Districts, 2024"</span></span>
+<span id="cb13-42"><a href="#cb13-42"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb13-43"><a href="#cb13-43"></a>  <span class="fu">tab_source_note</span>(<span class="fu">md</span>(<span class="st">"Source: Statistisches Amt München"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
-<div id="oesigxlebl" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#oesigxlebl table {
+<div id="qjcbmcmjva" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#qjcbmcmjva table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#oesigxlebl thead, #oesigxlebl tbody, #oesigxlebl tfoot, #oesigxlebl tr, #oesigxlebl td, #oesigxlebl th {
+#qjcbmcmjva thead, #qjcbmcmjva tbody, #qjcbmcmjva tfoot, #qjcbmcmjva tr, #qjcbmcmjva td, #qjcbmcmjva th {
   border-style: none;
 }
 
-#oesigxlebl p {
+#qjcbmcmjva p {
   margin: 0;
   padding: 0;
 }
 
-#oesigxlebl .gt_table {
+#qjcbmcmjva .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -475,12 +822,12 @@ window.Quarto = {
   border-left-color: #D3D3D3;
 }
 
-#oesigxlebl .gt_caption {
+#qjcbmcmjva .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#oesigxlebl .gt_title {
+#qjcbmcmjva .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -492,7 +839,7 @@ window.Quarto = {
   border-bottom-width: 0;
 }
 
-#oesigxlebl .gt_subtitle {
+#qjcbmcmjva .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -504,7 +851,7 @@ window.Quarto = {
   border-top-width: 0;
 }
 
-#oesigxlebl .gt_heading {
+#qjcbmcmjva .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -516,13 +863,13 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#oesigxlebl .gt_bottom_border {
+#qjcbmcmjva .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#oesigxlebl .gt_col_headings {
+#qjcbmcmjva .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -537,7 +884,7 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#oesigxlebl .gt_col_heading {
+#qjcbmcmjva .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -557,7 +904,7 @@ window.Quarto = {
   overflow-x: hidden;
 }
 
-#oesigxlebl .gt_column_spanner_outer {
+#qjcbmcmjva .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -569,15 +916,15 @@ window.Quarto = {
   padding-right: 4px;
 }
 
-#oesigxlebl .gt_column_spanner_outer:first-child {
+#qjcbmcmjva .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#oesigxlebl .gt_column_spanner_outer:last-child {
+#qjcbmcmjva .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#oesigxlebl .gt_column_spanner {
+#qjcbmcmjva .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -589,11 +936,11 @@ window.Quarto = {
   width: 100%;
 }
 
-#oesigxlebl .gt_spanner_row {
+#qjcbmcmjva .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#oesigxlebl .gt_group_heading {
+#qjcbmcmjva .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -619,7 +966,7 @@ window.Quarto = {
   text-align: left;
 }
 
-#oesigxlebl .gt_empty_group_heading {
+#qjcbmcmjva .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -634,15 +981,15 @@ window.Quarto = {
   vertical-align: middle;
 }
 
-#oesigxlebl .gt_from_md > :first-child {
+#qjcbmcmjva .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#oesigxlebl .gt_from_md > :last-child {
+#qjcbmcmjva .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#oesigxlebl .gt_row {
+#qjcbmcmjva .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -661,7 +1008,7 @@ window.Quarto = {
   overflow-x: hidden;
 }
 
-#oesigxlebl .gt_stub {
+#qjcbmcmjva .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -674,7 +1021,7 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#oesigxlebl .gt_stub_row_group {
+#qjcbmcmjva .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -688,15 +1035,15 @@ window.Quarto = {
   vertical-align: top;
 }
 
-#oesigxlebl .gt_row_group_first td {
+#qjcbmcmjva .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#oesigxlebl .gt_row_group_first th {
+#qjcbmcmjva .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#oesigxlebl .gt_summary_row {
+#qjcbmcmjva .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -706,16 +1053,16 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#oesigxlebl .gt_first_summary_row {
+#qjcbmcmjva .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#oesigxlebl .gt_first_summary_row.thick {
+#qjcbmcmjva .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#oesigxlebl .gt_last_summary_row {
+#qjcbmcmjva .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -725,7 +1072,7 @@ window.Quarto = {
   border-bottom-color: #D3D3D3;
 }
 
-#oesigxlebl .gt_grand_summary_row {
+#qjcbmcmjva .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -735,7 +1082,7 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#oesigxlebl .gt_first_grand_summary_row {
+#qjcbmcmjva .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -745,7 +1092,7 @@ window.Quarto = {
   border-top-color: #D3D3D3;
 }
 
-#oesigxlebl .gt_last_grand_summary_row_top {
+#qjcbmcmjva .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -755,11 +1102,11 @@ window.Quarto = {
   border-bottom-color: #D3D3D3;
 }
 
-#oesigxlebl .gt_striped {
+#qjcbmcmjva .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#oesigxlebl .gt_table_body {
+#qjcbmcmjva .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -768,7 +1115,7 @@ window.Quarto = {
   border-bottom-color: #D3D3D3;
 }
 
-#oesigxlebl .gt_footnotes {
+#qjcbmcmjva .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -782,7 +1129,7 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#oesigxlebl .gt_footnote {
+#qjcbmcmjva .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -791,7 +1138,7 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#oesigxlebl .gt_sourcenotes {
+#qjcbmcmjva .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -805,7 +1152,7 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#oesigxlebl .gt_sourcenote {
+#qjcbmcmjva .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -813,72 +1160,72 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#oesigxlebl .gt_left {
+#qjcbmcmjva .gt_left {
   text-align: left;
 }
 
-#oesigxlebl .gt_center {
+#qjcbmcmjva .gt_center {
   text-align: center;
 }
 
-#oesigxlebl .gt_right {
+#qjcbmcmjva .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#oesigxlebl .gt_font_normal {
+#qjcbmcmjva .gt_font_normal {
   font-weight: normal;
 }
 
-#oesigxlebl .gt_font_bold {
+#qjcbmcmjva .gt_font_bold {
   font-weight: bold;
 }
 
-#oesigxlebl .gt_font_italic {
+#qjcbmcmjva .gt_font_italic {
   font-style: italic;
 }
 
-#oesigxlebl .gt_super {
+#qjcbmcmjva .gt_super {
   font-size: 65%;
 }
 
-#oesigxlebl .gt_footnote_marks {
+#qjcbmcmjva .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#oesigxlebl .gt_asterisk {
+#qjcbmcmjva .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#oesigxlebl .gt_indent_1 {
+#qjcbmcmjva .gt_indent_1 {
   text-indent: 5px;
 }
 
-#oesigxlebl .gt_indent_2 {
+#qjcbmcmjva .gt_indent_2 {
   text-indent: 10px;
 }
 
-#oesigxlebl .gt_indent_3 {
+#qjcbmcmjva .gt_indent_3 {
   text-indent: 15px;
 }
 
-#oesigxlebl .gt_indent_4 {
+#qjcbmcmjva .gt_indent_4 {
   text-indent: 20px;
 }
 
-#oesigxlebl .gt_indent_5 {
+#qjcbmcmjva .gt_indent_5 {
   text-indent: 25px;
 }
 
-#oesigxlebl .katex-display {
+#qjcbmcmjva .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#oesigxlebl div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#qjcbmcmjva div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -896,7 +1243,7 @@ window.Quarto = {
 <td colspan="5" class="gt_heading gt_title gt_font_normal">Unemployment Rate by Gender</td>
 </tr>
 <tr class="gt_heading even">
-<td colspan="5" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border">South Munich Districts, 2024</td>
+<td colspan="5" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border">All Munich Districts, 2024</td>
 </tr>
 <tr class="gt_col_headings gt_spanner_row header">
 <th rowspan="2" id="Auspragung" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Group / Gender</th>
@@ -914,17 +1261,17 @@ Unemployment Rate (%)
 <tbody class="gt_table_body">
 <tr class="odd">
 <td class="gt_row gt_left" headers="Auspragung">männlich</td>
-<td class="gt_row gt_right" headers="n">6</td>
-<td class="gt_row gt_right" headers="mean_rate">4.1</td>
-<td class="gt_row gt_right" headers="min_rate">3.7</td>
-<td class="gt_row gt_right" headers="max_rate">4.4</td>
+<td class="gt_row gt_right" headers="n">25</td>
+<td class="gt_row gt_right" headers="mean_rate">4.0</td>
+<td class="gt_row gt_right" headers="min_rate">2.9</td>
+<td class="gt_row gt_right" headers="max_rate">5.5</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Auspragung">weiblich</td>
-<td class="gt_row gt_right" headers="n">6</td>
-<td class="gt_row gt_right" headers="mean_rate">3.6</td>
-<td class="gt_row gt_right" headers="min_rate">3.2</td>
-<td class="gt_row gt_right" headers="max_rate">3.9</td>
+<td class="gt_row gt_right" headers="n">25</td>
+<td class="gt_row gt_right" headers="mean_rate">3.8</td>
+<td class="gt_row gt_right" headers="min_rate">2.9</td>
+<td class="gt_row gt_right" headers="max_rate">4.9</td>
 </tr>
 </tbody><tfoot>
 <tr class="gt_sourcenotes odd">
@@ -947,40 +1294,40 @@ Unemployment Rate (%)
 <div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">library</span>(infer)</span>
-<span id="cb4-2"><a href="#cb4-2"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb4-3"><a href="#cb4-3"></a></span>
-<span id="cb4-4"><a href="#cb4-4"></a>unemployment_2024 <span class="ot">&lt;-</span> arbeitslosen <span class="sc">|&gt;</span></span>
-<span id="cb4-5"><a href="#cb4-5"></a>  <span class="fu">filter</span>(</span>
-<span id="cb4-6"><a href="#cb4-6"></a>    Jahr <span class="sc">==</span> <span class="dv">2024</span>,</span>
-<span id="cb4-7"><a href="#cb4-7"></a>    Auspragung <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"männlich"</span>, <span class="st">"weiblich"</span>)</span>
-<span id="cb4-8"><a href="#cb4-8"></a>  )</span>
-<span id="cb4-9"><a href="#cb4-9"></a></span>
-<span id="cb4-10"><a href="#cb4-10"></a>observed_diff <span class="ot">&lt;-</span> unemployment_2024 <span class="sc">|&gt;</span></span>
-<span id="cb4-11"><a href="#cb4-11"></a>  <span class="fu">specify</span>(Indikatorwert <span class="sc">~</span> Auspragung) <span class="sc">|&gt;</span></span>
-<span id="cb4-12"><a href="#cb4-12"></a>  <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"diff in means"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"männlich"</span>, <span class="st">"weiblich"</span>))</span>
-<span id="cb4-13"><a href="#cb4-13"></a></span>
-<span id="cb4-14"><a href="#cb4-14"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb4-15"><a href="#cb4-15"></a>null_dist <span class="ot">&lt;-</span> unemployment_2024 <span class="sc">|&gt;</span></span>
-<span id="cb4-16"><a href="#cb4-16"></a>  <span class="fu">specify</span>(Indikatorwert <span class="sc">~</span> Auspragung) <span class="sc">|&gt;</span></span>
-<span id="cb4-17"><a href="#cb4-17"></a>  <span class="fu">hypothesize</span>(<span class="at">null =</span> <span class="st">"independence"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb4-18"><a href="#cb4-18"></a>  <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">5000</span>, <span class="at">type =</span> <span class="st">"permute"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb4-19"><a href="#cb4-19"></a>  <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"diff in means"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"männlich"</span>, <span class="st">"weiblich"</span>))</span>
-<span id="cb4-20"><a href="#cb4-20"></a></span>
-<span id="cb4-21"><a href="#cb4-21"></a>p_value_val <span class="ot">&lt;-</span> null_dist <span class="sc">|&gt;</span></span>
-<span id="cb4-22"><a href="#cb4-22"></a>  <span class="fu">get_p_value</span>(<span class="at">obs_stat =</span> observed_diff, <span class="at">direction =</span> <span class="st">"two-sided"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb4-23"><a href="#cb4-23"></a>  <span class="fu">pull</span>(p_value)</span>
-<span id="cb4-24"><a href="#cb4-24"></a></span>
-<span id="cb4-25"><a href="#cb4-25"></a>null_dist <span class="sc">|&gt;</span> </span>
-<span id="cb4-26"><a href="#cb4-26"></a>  <span class="fu">visualize</span>() <span class="sc">+</span></span>
-<span id="cb4-27"><a href="#cb4-27"></a>  <span class="fu">shade_p_value</span>(<span class="at">obs_stat =</span> observed_diff, <span class="at">direction =</span> <span class="st">"both"</span>, <span class="at">fill =</span> <span class="st">"pink"</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
-<span id="cb4-28"><a href="#cb4-28"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb4-29"><a href="#cb4-29"></a>  <span class="fu">labs</span>(</span>
-<span id="cb4-30"><a href="#cb4-30"></a>    <span class="at">title =</span> <span class="st">"Permutation Null Distribution (All Munich Districts)"</span>,</span>
-<span id="cb4-31"><a href="#cb4-31"></a>    <span class="at">subtitle =</span> <span class="fu">paste</span>(<span class="st">"Observed Difference ="</span>, <span class="fu">round</span>(observed_diff<span class="sc">$</span>stat, <span class="dv">3</span>), <span class="st">"percentage points | p-value ="</span>, <span class="fu">round</span>(p_value_val, <span class="dv">3</span>)),</span>
-<span id="cb4-32"><a href="#cb4-32"></a>    <span class="at">x =</span> <span class="st">"Difference in Mean Unemployment Rate (Male - Female)"</span>,</span>
-<span id="cb4-33"><a href="#cb4-33"></a>    <span class="at">y =</span> <span class="st">"Frequency"</span></span>
-<span id="cb4-34"><a href="#cb4-34"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="fu">library</span>(infer)</span>
+<span id="cb14-2"><a href="#cb14-2"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb14-3"><a href="#cb14-3"></a></span>
+<span id="cb14-4"><a href="#cb14-4"></a>unemployment_2024 <span class="ot">&lt;-</span> arbeitslosen <span class="sc">|&gt;</span></span>
+<span id="cb14-5"><a href="#cb14-5"></a>  <span class="fu">filter</span>(</span>
+<span id="cb14-6"><a href="#cb14-6"></a>    Jahr <span class="sc">==</span> <span class="dv">2024</span>,</span>
+<span id="cb14-7"><a href="#cb14-7"></a>    Auspragung <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"männlich"</span>, <span class="st">"weiblich"</span>)</span>
+<span id="cb14-8"><a href="#cb14-8"></a>  )</span>
+<span id="cb14-9"><a href="#cb14-9"></a></span>
+<span id="cb14-10"><a href="#cb14-10"></a>observed_diff <span class="ot">&lt;-</span> unemployment_2024 <span class="sc">|&gt;</span></span>
+<span id="cb14-11"><a href="#cb14-11"></a>  <span class="fu">specify</span>(Indikatorwert <span class="sc">~</span> Auspragung) <span class="sc">|&gt;</span></span>
+<span id="cb14-12"><a href="#cb14-12"></a>  <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"diff in means"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"männlich"</span>, <span class="st">"weiblich"</span>))</span>
+<span id="cb14-13"><a href="#cb14-13"></a></span>
+<span id="cb14-14"><a href="#cb14-14"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb14-15"><a href="#cb14-15"></a>null_dist <span class="ot">&lt;-</span> unemployment_2024 <span class="sc">|&gt;</span></span>
+<span id="cb14-16"><a href="#cb14-16"></a>  <span class="fu">specify</span>(Indikatorwert <span class="sc">~</span> Auspragung) <span class="sc">|&gt;</span></span>
+<span id="cb14-17"><a href="#cb14-17"></a>  <span class="fu">hypothesize</span>(<span class="at">null =</span> <span class="st">"independence"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb14-18"><a href="#cb14-18"></a>  <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">5000</span>, <span class="at">type =</span> <span class="st">"permute"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb14-19"><a href="#cb14-19"></a>  <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"diff in means"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"männlich"</span>, <span class="st">"weiblich"</span>))</span>
+<span id="cb14-20"><a href="#cb14-20"></a></span>
+<span id="cb14-21"><a href="#cb14-21"></a>p_value_val <span class="ot">&lt;-</span> null_dist <span class="sc">|&gt;</span></span>
+<span id="cb14-22"><a href="#cb14-22"></a>  <span class="fu">get_p_value</span>(<span class="at">obs_stat =</span> observed_diff, <span class="at">direction =</span> <span class="st">"two-sided"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb14-23"><a href="#cb14-23"></a>  <span class="fu">pull</span>(p_value)</span>
+<span id="cb14-24"><a href="#cb14-24"></a></span>
+<span id="cb14-25"><a href="#cb14-25"></a>null_dist <span class="sc">|&gt;</span> </span>
+<span id="cb14-26"><a href="#cb14-26"></a>  <span class="fu">visualize</span>() <span class="sc">+</span></span>
+<span id="cb14-27"><a href="#cb14-27"></a>  <span class="fu">shade_p_value</span>(<span class="at">obs_stat =</span> observed_diff, <span class="at">direction =</span> <span class="st">"both"</span>, <span class="at">fill =</span> <span class="st">"pink"</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb14-28"><a href="#cb14-28"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb14-29"><a href="#cb14-29"></a>  <span class="fu">labs</span>(</span>
+<span id="cb14-30"><a href="#cb14-30"></a>    <span class="at">title =</span> <span class="st">"Permutation Null Distribution (All Munich Districts)"</span>,</span>
+<span id="cb14-31"><a href="#cb14-31"></a>    <span class="at">subtitle =</span> <span class="fu">paste</span>(<span class="st">"Observed Difference ="</span>, <span class="fu">round</span>(observed_diff<span class="sc">$</span>stat, <span class="dv">3</span>), <span class="st">"percentage points | p-value ="</span>, <span class="fu">round</span>(p_value_val, <span class="dv">3</span>)),</span>
+<span id="cb14-32"><a href="#cb14-32"></a>    <span class="at">x =</span> <span class="st">"Difference in Mean Unemployment Rate (Male - Female)"</span>,</span>
+<span id="cb14-33"><a href="#cb14-33"></a>    <span class="at">y =</span> <span class="st">"Frequency"</span></span>
+<span id="cb14-34"><a href="#cb14-34"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -998,7 +1345,7 @@ Unemployment Rate (%)
 <li><p><strong>Observed Difference:</strong> In 2024, the observed difference in mean unemployment rates between men and women across all 25 districts of Munich is 0.2 percentage points (with males having a slightly higher average unemployment rate than females).</p></li>
 <li><p><strong>Null Distribution:</strong> Our generated null distribution represents a scenario where gender has no systematic impact on unemployment rates. Shuffling the gender 5000 times shows that differences around 0.2 percentage points are common under the null hypothesis.</p></li>
 <li><p><strong>The</strong> <span class="math inline">\(p\)</span><strong>-value:</strong> The two-sided permutation test produces a <span class="math inline">\(p\)</span>-value of <span class="math inline">\(0.221\)</span> or <span class="math inline">\(22.1\%\)</span>.</p></li>
-<li><p><strong>Statistical Decision:</strong> Because our <span class="math inline">\(p\)</span>-value (<span class="math inline">\(0.221\)</span>) is larger than the significance level <span class="math inline">\(\alpha = 0.05\)</span>, we fail reject the null hypothesis (<span class="math inline">\(H_0\)</span>).</p></li>
+<li><p><strong>Statistical Decision:</strong> Because our <span class="math inline">\(p\)</span>-value (<span class="math inline">\(0.221\)</span>) is larger than the significance level <span class="math inline">\(\alpha = 0.05\)</span>, we fail to reject the null hypothesis (<span class="math inline">\(H_0\)</span>).</p></li>
 <li><p><strong>Conclusion:</strong> We do not have statistically significant evidence of a gender disparity in unemployment rates across Munich’s districts in 2024. The observed difference of 0.2 percentage points is minor and can can easily be explained by random district variation.</p></li>
 </ul>
 </section>

@@ -64,7 +64,7 @@ We originally considered a third, predictive research question ("Can we build a 
 
 **Purpose:** analysis of trends in each district to plan resources and aid for unemployed citizens, and to design additional support such as seminars tailored to each district.
 
-**Presentation:** a visual presentation of Munich's districts and locations with concrete numbers and evidence.
+**Presentation:** statistical report
 
 ## Why we chose the dataset
 
