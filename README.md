@@ -40,6 +40,7 @@ about.qmd           about page with group member names
 reflection_log.qmd  weekly reflection log
 docs/               rendered Quarto website output (auto generated, do not edit)
 renv.lock           locked package versions
+report.qmd          final statistical report
 ```
 
 ## How to reproduce
