@@ -165,6 +165,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#week-6---r-packages" id="toc-week-6---r-packages" class="nav-link" data-scroll-target="#week-6---r-packages">Week 6 - R Packages</a></li>
   <li><a href="#week-7---initial-data-analysis-data-cleaning" id="toc-week-7---initial-data-analysis-data-cleaning" class="nav-link" data-scroll-target="#week-7---initial-data-analysis-data-cleaning">Week 7 - Initial Data Analysis &amp; Data Cleaning</a></li>
   <li><a href="#week-9---reproducibility-open-data-renv" id="toc-week-9---reproducibility-open-data-renv" class="nav-link" data-scroll-target="#week-9---reproducibility-open-data-renv">Week 9 - Reproducibility, Open Data &amp; renv</a></li>
+  <li><a href="#week-10---analysis-inference" id="toc-week-10---analysis-inference" class="nav-link" data-scroll-target="#week-10---analysis-inference">Week 10 - <strong>Analysis &amp; Inference</strong></a></li>
+  <li><a href="#week-11-statistical-communication-visualisation" id="toc-week-11-statistical-communication-visualisation" class="nav-link" data-scroll-target="#week-11-statistical-communication-visualisation"><strong>Week 11 — Statistical Communication &amp; Visualisation</strong></a></li>
   </ul>
 </nav>
     </div>
@@ -236,6 +238,122 @@ Figure&nbsp;1: Bill length vs Bill depth across penguin species
 </section>
 <section id="week-2---scripts-functions-refactoring" class="level2">
 <h2 class="anchored" data-anchor-id="week-2---scripts-functions-refactoring">Week 2 - Scripts, Functions &amp; Refactoring</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">library</span>(palmerpenguins)</span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="fu">library</span>(dplyr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attache Paket: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Die folgenden Objekte sind maskiert von 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Die folgenden Objekte sind maskiert von 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>mean_mass_by <span class="ot">&lt;-</span> <span class="cf">function</span>(data, group_var) {</span>
+<span id="cb8-2"><a href="#cb8-2"></a>  data <span class="sc">|&gt;</span></span>
+<span id="cb8-3"><a href="#cb8-3"></a>    <span class="fu">group_by</span>({{group_var}}) <span class="sc">|&gt;</span></span>
+<span id="cb8-4"><a href="#cb8-4"></a>    <span class="fu">summarise</span>(<span class="at">mean_mass =</span> <span class="fu">mean</span>(body_mass_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb8-5"><a href="#cb8-5"></a>}</span>
+<span id="cb8-6"><a href="#cb8-6"></a></span>
+<span id="cb8-7"><a href="#cb8-7"></a><span class="fu">mean_mass_by</span>(penguins, species)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 2
+  species   mean_mass
+  &lt;fct&gt;         &lt;dbl&gt;
+1 Adelie        3701.
+2 Chinstrap     3733.
+3 Gentoo        5076.</code></pre>
+</div>
+</div>
+<p><strong>Expected to do:</strong> calculate the mean mass of penguins grouped by species</p>
+<p><strong>What might go wrong:</strong> group_var is not treated as an variable that will be inserted but as an actual “name”.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>summarise_species <span class="ot">&lt;-</span> <span class="cf">function</span>(data) {</span>
+<span id="cb10-2"><a href="#cb10-2"></a>  data <span class="sc">|&gt;</span></span>
+<span id="cb10-3"><a href="#cb10-3"></a>    <span class="fu">group_by</span>(species) <span class="sc">|&gt;</span></span>
+<span id="cb10-4"><a href="#cb10-4"></a>    <span class="fu">summarise</span>(<span class="at">mean_mass =</span> <span class="fu">mean_body_mass</span>(body_mass_g))</span>
+<span id="cb10-5"><a href="#cb10-5"></a>}</span>
+<span id="cb10-6"><a href="#cb10-6"></a> </span>
+<span id="cb10-7"><a href="#cb10-7"></a>mean_body_mass <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb10-8"><a href="#cb10-8"></a>  <span class="fu">mean</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)   </span>
+<span id="cb10-9"><a href="#cb10-9"></a>}</span>
+<span id="cb10-10"><a href="#cb10-10"></a> </span>
+<span id="cb10-11"><a href="#cb10-11"></a><span class="fu">summarise_species</span>(penguins)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 2
+  species   mean_mass
+  &lt;fct&gt;         &lt;dbl&gt;
+1 Adelie        3701.
+2 Chinstrap     3733.
+3 Gentoo        5076.</code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>my_factorial <span class="ot">&lt;-</span> <span class="cf">function</span>(n) {</span>
+<span id="cb12-2"><a href="#cb12-2"></a>  <span class="fu">stopifnot</span>( n <span class="sc">&gt;=</span> <span class="dv">0</span>, n <span class="sc">==</span> <span class="fu">as.integer</span>(n))</span>
+<span id="cb12-3"><a href="#cb12-3"></a>  <span class="cf">if</span> (n <span class="sc">&lt;=</span> <span class="dv">1</span>) <span class="fu">return</span>(<span class="dv">1</span>)</span>
+<span id="cb12-4"><a href="#cb12-4"></a>  <span class="fu">return</span>(n <span class="sc">*</span> <span class="fu">my_factorial</span>(n <span class="sc">-</span> <span class="dv">1</span>))</span>
+<span id="cb12-5"><a href="#cb12-5"></a>}</span>
+<span id="cb12-6"><a href="#cb12-6"></a></span>
+<span id="cb12-7"><a href="#cb12-7"></a><span class="fu">my_factorial</span>(<span class="dv">5</span>)   <span class="co"># returns 120 — correct</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 120</code></pre>
+</div>
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="fu">my_factorial</span>(<span class="dv">0</span>)   <span class="co"># hangs / errors</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1</code></pre>
+</div>
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="co"># my_factorial(3.5) # also wrong</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>standardise <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb17-2"><a href="#cb17-2"></a>  (x <span class="sc">-</span> <span class="fu">mean</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">/</span> <span class="fu">sd</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb17-3"><a href="#cb17-3"></a>}</span>
+<span id="cb17-4"><a href="#cb17-4"></a></span>
+<span id="cb17-5"><a href="#cb17-5"></a><span class="fu">standardise</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>))   <span class="co"># fine</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -1.2649111 -0.6324555  0.0000000  0.6324555  1.2649111</code></pre>
+</div>
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="fu">standardise</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="cn">NA</span>, <span class="dv">4</span>, <span class="dv">5</span>))  <span class="co"># returns all NAs — why?</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -1.0954451 -0.5477226         NA  0.5477226  1.0954451</code></pre>
+</div>
+</div>
+<p><strong>debugonce()</strong> enters debugging once after the function is called and then never again.</p>
+<p><strong>debug(standardise)</strong> enters debugging everytime the function standardise is called. To not enter debugging after calling standardise you have to call undebug(standardise)</p>
+<p><strong>Scenario where debug() is prefered over debugonce():</strong></p>
+<p>When fixing a bug and planning on calling the function many times over.</p>
+<p>You are debugging&nbsp;<code>standardise()</code>&nbsp;inside a larger analysis pipeline, and each small code change requires rerunning the function to see whether the problem is fixed.</p>
 </section>
 <section id="week-3---debugging" class="level2">
 <h2 class="anchored" data-anchor-id="week-3---debugging">Week 3 - Debugging</h2>
@@ -303,24 +421,46 @@ Figure&nbsp;1: Bill length vs Bill depth across penguin species
 <section id="week-7---initial-data-analysis-data-cleaning" class="level2">
 <h2 class="anchored" data-anchor-id="week-7---initial-data-analysis-data-cleaning">Week 7 - Initial Data Analysis &amp; Data Cleaning</h2>
 <ol type="1">
-<li><em>What data format or file type did you encounter that was unfamiliar? How did you read it into R, and what did you learn in the process?</em></li>
+<li><p><em>What data format or file type did you encounter that was unfamiliar? How did you read it into R, and what did you learn in the process?</em></p>
+<p>It was unfamiliar that we could just load the data from a different folder inside the project (/data/raw/…). It’s quite logical.</p></li>
+<li><p><em>Did you ask an LLM about data licensing, provenance, or quality? What question did you ask, and how did you assess whether the answer was trustworthy?</em></p>
+<p>We didn’t have to ask an LLM since the practical had an example of a licence of a dataset from the same source (Stadt München). We looked into the description and licence section of our Dataset and noticed the two were very similar. So we compared them and it happened to be identical to the licence from the practical. If we do ask LLMs question about our project we make sure to skim the source / information the LLM is refering to. Most of the time we use LLMs to save time so we don’t have to read pages of documentation. The LLM primarely helps find the location of the information.</p></li>
+<li><p><em>Describe one visualisation you made during IDA. What did you learn from it that a summary statistic alone wouldn’t have revealed?</em></p>
+<p>We made a visualisation of the unemployment trend over time. It showed us how the rate dropped or increased over the years. While a summary statistic includes the same numbers and one could draw the same conclusions the visualisation shows where the highs and lows were and the overall trend at one glance.</p></li>
+<li><p><em>What question did your data raise that you hadn’t anticipated at the start? Do you think it’s worth pursuing, and why?</em></p>
+<p>The data showed an abnormal high rate in the year 2005. The dataset alone couldn’t explain it and so we decided to research. It turned out to be this high because of a reform that counted the unemployed and people on welfare into one number starting in 2005. After this new rules were introduced where receiving welfare became stricter and so the numbers decreased again. We decided to not pursue this question or include it into one of our RQs since it can’t be explained by our data alone and we would have to use sources from outside.</p></li>
 </ol>
-<p>It was unfamiliar that we could just load the data from a different folder inside the project (/data/raw/…). It’s quite logical.</p>
-<ol type="1">
-<li><em>Did you ask an LLM about data licensing, provenance, or quality? What question did you ask, and how did you assess whether the answer was trustworthy?</em></li>
-</ol>
-<p>We didn’t have to ask an LLM since the practical had an example of a licence of a dataset from the same source (Stadt München). We looked into the description and licence section of our Dataset and noticed the two were very similar. So we compared them and it happened to be identical to the licence from the practical. If we do ask LLMs question about our project we make sure to skim the source / information the LLM is refering to. Most of the time we use LLMs to save time so we don’t have to read pages of documentation. The LLM primarely helps find the location of the information.</p>
-<ol type="1">
-<li><em>Describe one visualisation you made during IDA. What did you learn from it that a summary statistic alone wouldn’t have revealed?</em></li>
-</ol>
-<p>We made a visualisation of the unemployment trend over time. It showed us how the rate dropped or increased over the years. While a summary statistic includes the same numbers and one could draw the same conclusions the visualisation shows where the highs and lows were and the overall trend at one glance.</p>
-<ol type="1">
-<li><em>What question did your data raise that you hadn’t anticipated at the start? Do you think it’s worth pursuing, and why?</em></li>
-</ol>
-<p>The data showed an abnormal high rate in the year 2005. The dataset alone couldn’t explain it and so we decided to research. It turned out to be this high because of a reform that counted the unemployed and people on welfare into one number starting in 2005. After this new rules were introduced where receiving welfare became stricter and so the numbers decreased again. We decided to not pursue this question or include it into one of our RQs since it can’t be explained by our data alone and we would have to use sources from outside.</p>
 </section>
 <section id="week-9---reproducibility-open-data-renv" class="level2">
 <h2 class="anchored" data-anchor-id="week-9---reproducibility-open-data-renv">Week 9 - Reproducibility, Open Data &amp; renv</h2>
+<ol type="1">
+<li><p>Have you set up renv in a project (course or personal)? Describe one dependency or reproducibility issue it helped you avoid or document — or one challenge you encountered when getting it to work.</p>
+<p>Yes, we set up renv in our project. It helped us document our package versions in renv.lock, so the project can run the same way for everyone. I mostly used snapshot() after installing new packages. I didn’t use restore() consistently yet, so I sometimes installed missing packages manually instead. That’s something I want to fix going forward.</p></li>
+<li><p>Did you use a dataset with an explicit open licence (e.g.&nbsp;CC-BY, ODbL, PDDL)? What did the licence allow or restrict, and did that affect how you plan to share or cite it in your final project?</p>
+<p>Yes, we used a dataset under the Datenlizenz Deutschland Namensnennung 2.0 licence. It allows us to copy, use and redistribute the data, even commercially, as long as we attribute the source. This means we just need to cite Statistisches Amt München properly in our final project. This way it doesn’t affect our final project.</p></li>
+<li><p>Describe one documentation gap you discovered in your own or a team member’s analysis — something a future reader could not have reproduced or verified without asking you. How did you (or would you) fill it?</p>
+<p>One gap was in the column explenation. The raw file has columns like Basiswert 1, Basiswert 2 and Auspragung with no clear explanation of what they mean. A future reader couldn’t reproduce our filtering choices without the external metadata PDF, since it explains that Basiswert 2 changes meaning depending on Auspragung. We filled this gap by documenting it directly in our proposal, so readers don’t have to track down the PDF themselves.</p></li>
+</ol>
+</section>
+<section id="week-10---analysis-inference" class="level2">
+<h2 class="anchored" data-anchor-id="week-10---analysis-inference">Week 10 - <strong>Analysis &amp; Inference</strong></h2>
+<ol type="1">
+<li><p>Describe an analysis decision you made — model choice, variable inclusion, aggregation level, etc. What alternatives did you consider, and why did you choose what you did?</p>
+<p>For RQ1, we decided to group the 25 districts into five city areas instead of plotting all districts individually. We considered keeping all 25 districts separate, but that would need 25 plots and be hard to interpret. Grouping into five areas let us still see regional differences without overfitting to noise at the individual district level.</p></li>
+<li><p>If you used an LLM to help reason through a statistical question, describe the exchange. Did the LLM’s reasoning hold up? Where did it help, and where did you need to apply your own judgement?</p>
+<p>We used Gemini to help understand the infer function syntax, like specify() and assume(“t”). The first explanation was too complex, so we asked for a simpler version. That helped us understand what each function does, but we still had to apply our own judgement when debugging, since we had errors from using the wrong variable names. The LLM helped explain the syntax, not the actual statistical reasoning behind our result.</p></li>
+</ol>
+</section>
+<section id="week-11-statistical-communication-visualisation" class="level2">
+<h2 class="anchored" data-anchor-id="week-11-statistical-communication-visualisation"><strong>Week 11 — Statistical Communication &amp; Visualisation</strong></h2>
+<ol type="1">
+<li><p>What visualisation principle or technique did you apply this week that you hadn’t used before? Where did you learn it (lecture, reading, LLM, experimentation)?</p>
+<p>We applied the table versus plot decision this week. Before, we would default to plots for everything. Now we used a gt table specifically for the RQ2 comparison, because a table showed the exact means more clearly than a plot would. We learned this in the W11 lecture and practiced it first on the palmerpenguins sandbox in the practical.</p></li>
+<li><p>Describe a figure you revised or improved. What changed between the first and final version, and what drove each change?</p>
+<p>We revised our RQ plots by adding captions and interpretations to them. The first versions just showed the plot with a title and no further context. In the lecture and practical, we were taught to add captions and descriptions so a reader can understand the finding without having to interpret the plot themselves. This drove us to add captions and short interpretation sentences to our RQ1 and RQ2 plots, so each figure states what it actually shows instead of leaving that up to the reader.</p></li>
+<li><p>Think of a table or plot you made (or encountered) this week. Would the other format have communicated the same information better or worse — and why? If you used {gt}, what was one formatting choice you made deliberately (column labels, decimal places, spanners, source notes) and what guided it?</p>
+<p>For RQ2, a gt table communicated the difference in means better than a plot would, since the exact mean values are displayed. If we had used a plot instead, it would be harder to read off precise numbers. One deliberate gt choice was setting decimals to 1 for the rate columns, since more decimals would be false precision for a percentage like this.</p></li>
+</ol>
 
 
 </section>

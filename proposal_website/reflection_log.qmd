@@ -27,6 +27,70 @@ ggplot(penguins, aes(x = bill_length_mm, y = bill_depth_mm, color = species)) +
 
 ## Week 2 - Scripts, Functions & Refactoring
 
+```{r}
+library(palmerpenguins)
+library(dplyr)
+
+mean_mass_by <- function(data, group_var) {
+  data |>
+    group_by({{group_var}}) |>
+    summarise(mean_mass = mean(body_mass_g, na.rm = TRUE))
+}
+
+mean_mass_by(penguins, species)
+```
+
+**Expected to do:** calculate the mean mass of penguins grouped by species
+
+**What might go wrong:** group_var is not treated as an variable that will be inserted but as an actual "name".
+
+```{r}
+summarise_species <- function(data) {
+  data |>
+    group_by(species) |>
+    summarise(mean_mass = mean_body_mass(body_mass_g))
+}
+ 
+mean_body_mass <- function(x) {
+  mean(x, na.rm = TRUE)   
+}
+ 
+summarise_species(penguins)
+
+```
+
+```{r}
+my_factorial <- function(n) {
+  stopifnot( n >= 0, n == as.integer(n))
+  if (n <= 1) return(1)
+  return(n * my_factorial(n - 1))
+}
+
+my_factorial(5)   # returns 120 — correct
+my_factorial(0)   # hangs / errors
+# my_factorial(3.5) # also wrong
+```
+
+```{r}
+standardise <- function(x) {
+  (x - mean(x, na.rm = TRUE)) / sd(x, na.rm = TRUE)
+}
+
+standardise(c(1, 2, 3, 4, 5))   # fine
+standardise(c(1, 2, NA, 4, 5))  # returns all NAs — why?
+```
+
+**debugonce()** enters debugging once after the function is called and then never again.
+
+**debug(standardise)** enters debugging everytime the function standardise is called.
+To not enter debugging after calling standardise you have to call undebug(standardise)
+
+**Scenario where debug() is prefered over debugonce():**
+
+When fixing a bug and planning on calling the function many times over.
+
+You are debugging `standardise()` inside a larger analysis pipeline, and each small code change requires rerunning the function to see whether the problem is fixed.
+
 ## Week 3 - Debugging
 
 1.  *Did you use an LLM to help debug? What did you share with it, and what approach did it take? Was the answer correct? How did you verify it?*
@@ -132,30 +196,54 @@ Next time we could resolve that problem like this:
 
 1.  *What data format or file type did you encounter that was unfamiliar? How did you read it into R, and what did you learn in the process?*
 
-It was unfamiliar that we could just load the data from a different folder inside the project (/data/raw/...).
-It's quite logical.
+    It was unfamiliar that we could just load the data from a different folder inside the project (/data/raw/...). It's quite logical.
 
-1.  *Did you ask an LLM about data licensing, provenance, or quality? What question did you ask, and how did you assess whether the answer was trustworthy?*
+2.  *Did you ask an LLM about data licensing, provenance, or quality? What question did you ask, and how did you assess whether the answer was trustworthy?*
 
-We didn't have to ask an LLM since the practical had an example of a licence of a dataset from the same source (Stadt München).
-We looked into the description and licence section of our Dataset and noticed the two were very similar.
-So we compared them and it happened to be identical to the licence from the practical.
-If we do ask LLMs question about our project we make sure to skim the source / information the LLM is refering to.
-Most of the time we use LLMs to save time so we don't have to read pages of documentation.
-The LLM primarely helps find the location of the information.
+    We didn't have to ask an LLM since the practical had an example of a licence of a dataset from the same source (Stadt München). We looked into the description and licence section of our Dataset and noticed the two were very similar. So we compared them and it happened to be identical to the licence from the practical. If we do ask LLMs question about our project we make sure to skim the source / information the LLM is refering to. Most of the time we use LLMs to save time so we don't have to read pages of documentation. The LLM primarely helps find the location of the information.
 
-1.  *Describe one visualisation you made during IDA. What did you learn from it that a summary statistic alone wouldn't have revealed?*
+3.  *Describe one visualisation you made during IDA. What did you learn from it that a summary statistic alone wouldn't have revealed?*
 
-We made a visualisation of the unemployment trend over time.
-It showed us how the rate dropped or increased over the years.
-While a summary statistic includes the same numbers and one could draw the same conclusions the visualisation shows where the highs and lows were and the overall trend at one glance.
+    We made a visualisation of the unemployment trend over time. It showed us how the rate dropped or increased over the years. While a summary statistic includes the same numbers and one could draw the same conclusions the visualisation shows where the highs and lows were and the overall trend at one glance.
 
-1.  *What question did your data raise that you hadn't anticipated at the start? Do you think it's worth pursuing, and why?*
+4.  *What question did your data raise that you hadn't anticipated at the start? Do you think it's worth pursuing, and why?*
 
-The data showed an abnormal high rate in the year 2005.
-The dataset alone couldn't explain it and so we decided to research.
-It turned out to be this high because of a reform that counted the unemployed and people on welfare into one number starting in 2005.
-After this new rules were introduced where receiving welfare became stricter and so the numbers decreased again.
-We decided to not pursue this question or include it into one of our RQs since it can't be explained by our data alone and we would have to use sources from outside.
+    The data showed an abnormal high rate in the year 2005. The dataset alone couldn't explain it and so we decided to research. It turned out to be this high because of a reform that counted the unemployed and people on welfare into one number starting in 2005. After this new rules were introduced where receiving welfare became stricter and so the numbers decreased again. We decided to not pursue this question or include it into one of our RQs since it can't be explained by our data alone and we would have to use sources from outside.
 
 ## Week 9 - Reproducibility, Open Data & renv
+
+1.  Have you set up renv in a project (course or personal)? Describe one dependency or reproducibility issue it helped you avoid or document — or one challenge you encountered when getting it to work.
+
+    Yes, we set up renv in our project. It helped us document our package versions in renv.lock, so the project can run the same way for everyone. I mostly used snapshot() after installing new packages. I didn't use restore() consistently yet, so I sometimes installed missing packages manually instead. That's something I want to fix going forward.
+
+2.  Did you use a dataset with an explicit open licence (e.g. CC-BY, ODbL, PDDL)? What did the licence allow or restrict, and did that affect how you plan to share or cite it in your final project?
+
+    Yes, we used a dataset under the Datenlizenz Deutschland Namensnennung 2.0 licence. It allows us to copy, use and redistribute the data, even commercially, as long as we attribute the source. This means we just need to cite Statistisches Amt München properly in our final project. This way it doesn't affect our final project.
+
+3.  Describe one documentation gap you discovered in your own or a team member's analysis — something a future reader could not have reproduced or verified without asking you. How did you (or would you) fill it?
+
+    One gap was in the column explenation. The raw file has columns like Basiswert 1, Basiswert 2 and Auspragung with no clear explanation of what they mean. A future reader couldn't reproduce our filtering choices without the external metadata PDF, since it explains that Basiswert 2 changes meaning depending on Auspragung. We filled this gap by documenting it directly in our proposal, so readers don't have to track down the PDF themselves.
+
+## Week 10 - **Analysis & Inference**
+
+1.  Describe an analysis decision you made — model choice, variable inclusion, aggregation level, etc. What alternatives did you consider, and why did you choose what you did?
+
+    For RQ1, we decided to group the 25 districts into five city areas instead of plotting all districts individually. We considered keeping all 25 districts separate, but that would need 25 plots and be hard to interpret. Grouping into five areas let us still see regional differences without overfitting to noise at the individual district level.
+
+2.  If you used an LLM to help reason through a statistical question, describe the exchange. Did the LLM's reasoning hold up? Where did it help, and where did you need to apply your own judgement?
+
+    We used Gemini to help understand the infer function syntax, like specify() and assume("t"). The first explanation was too complex, so we asked for a simpler version. That helped us understand what each function does, but we still had to apply our own judgement when debugging, since we had errors from using the wrong variable names. The LLM helped explain the syntax, not the actual statistical reasoning behind our result.
+
+## **Week 11 — Statistical Communication & Visualisation**
+
+1.  What visualisation principle or technique did you apply this week that you hadn't used before? Where did you learn it (lecture, reading, LLM, experimentation)?
+
+    We applied the table versus plot decision this week. Before, we would default to plots for everything. Now we used a gt table specifically for the RQ2 comparison, because a table showed the exact means more clearly than a plot would. We learned this in the W11 lecture and practiced it first on the palmerpenguins sandbox in the practical.
+
+2.  Describe a figure you revised or improved. What changed between the first and final version, and what drove each change?
+
+    We revised our RQ plots by adding captions and interpretations to them. The first versions just showed the plot with a title and no further context. In the lecture and practical, we were taught to add captions and descriptions so a reader can understand the finding without having to interpret the plot themselves. This drove us to add captions and short interpretation sentences to our RQ1 and RQ2 plots, so each figure states what it actually shows instead of leaving that up to the reader.
+
+3.  Think of a table or plot you made (or encountered) this week. Would the other format have communicated the same information better or worse — and why? If you used {gt}, what was one formatting choice you made deliberately (column labels, decimal places, spanners, source notes) and what guided it?
+
+    For RQ2, a gt table communicated the difference in means better than a plot would, since the exact mean values are displayed. If we had used a plot instead, it would be harder to read off precise numbers. One deliberate gt choice was setting decimals to 1 for the rate columns, since more decimals would be false precision for a percentage like this.
