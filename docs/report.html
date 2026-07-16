@@ -1,0 +1,1438 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Anna Chrebtov &amp; Rebecca Patrick">
+
+<title>Munich Unemployment Analysis (2000 - 2024) – Proposal</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-5b4ad623e5705c0698d39aec6f10cf02.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<link href="site_libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+<script src="site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<script src="site_libs/plotly-binding-4.12.0/plotly.js"></script>
+<script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
+<script src="site_libs/jquery-3.5.1/jquery.min.js"></script>
+<link href="site_libs/crosstalk-1.2.2/css/crosstalk.min.css" rel="stylesheet">
+<script src="site_libs/crosstalk-1.2.2/js/crosstalk.min.js"></script>
+<link href="site_libs/plotly-htmlwidgets-css-2.25.2/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="site_libs/plotly-main-2.25.2/plotly-latest.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Proposal</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./proposal.html"> 
+<span class="menu-text">Proposal</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="./report.html" aria-current="page"> 
+<span class="menu-text">Statistical Report</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./reflection_log.html"> 
+<span class="menu-text">Reflection Log</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#summary" id="toc-summary" class="nav-link active" data-scroll-target="#summary">Summary</a></li>
+  <li><a href="#introduction-data-context" id="toc-introduction-data-context" class="nav-link" data-scroll-target="#introduction-data-context">1. Introduction &amp; Data Context</a>
+  <ul class="collapse">
+  <li><a href="#source-and-licensing" id="toc-source-and-licensing" class="nav-link" data-scroll-target="#source-and-licensing">Source and Licensing</a></li>
+  <li><a href="#dataset-variables-cleaning-logic" id="toc-dataset-variables-cleaning-logic" class="nav-link" data-scroll-target="#dataset-variables-cleaning-logic">Dataset Variables &amp; Cleaning Logic</a></li>
+  </ul></li>
+  <li><a href="#rq1-unemployment-trends-by-city-area-2000---2024" id="toc-rq1-unemployment-trends-by-city-area-2000---2024" class="nav-link" data-scroll-target="#rq1-unemployment-trends-by-city-area-2000---2024">2. RQ1: Unemployment Trends by City Area (2000 - 2024)</a>
+  <ul class="collapse">
+  <li><a href="#interactive-trend-analysis" id="toc-interactive-trend-analysis" class="nav-link" data-scroll-target="#interactive-trend-analysis">Interactive Trend Analysis</a></li>
+  <li><a href="#description-and-interpretation-of-the-plot" id="toc-description-and-interpretation-of-the-plot" class="nav-link" data-scroll-target="#description-and-interpretation-of-the-plot">Description and Interpretation of the Plot</a></li>
+  </ul></li>
+  <li><a href="#rq2-gender-disparities-in-south-munich-2024" id="toc-rq2-gender-disparities-in-south-munich-2024" class="nav-link" data-scroll-target="#rq2-gender-disparities-in-south-munich-2024">3. RQ2: Gender Disparities in South Munich (2024)</a>
+  <ul class="collapse">
+  <li><a href="#hypotheses" id="toc-hypotheses" class="nav-link" data-scroll-target="#hypotheses">Hypotheses</a></li>
+  <li><a href="#descriptive-statistics" id="toc-descriptive-statistics" class="nav-link" data-scroll-target="#descriptive-statistics">Descriptive Statistics</a></li>
+  <li><a href="#inferential-analysis-permutation-test" id="toc-inferential-analysis-permutation-test" class="nav-link" data-scroll-target="#inferential-analysis-permutation-test">Inferential Analysis (Permutation Test)</a></li>
+  <li><a href="#interpretation-of-the-permutation-test-results" id="toc-interpretation-of-the-permutation-test-results" class="nav-link" data-scroll-target="#interpretation-of-the-permutation-test-results">Interpretation of the Permutation Test Results</a></li>
+  </ul></li>
+  <li><a href="#conclusion-and-discussion" id="toc-conclusion-and-discussion" class="nav-link" data-scroll-target="#conclusion-and-discussion">4. Conclusion and Discussion</a>
+  <ul class="collapse">
+  <li><a href="#key-findings" id="toc-key-findings" class="nav-link" data-scroll-target="#key-findings">Key Findings</a></li>
+  <li><a href="#key-takeaways" id="toc-key-takeaways" class="nav-link" data-scroll-target="#key-takeaways">Key Takeaways</a></li>
+  <li><a href="#final-summary" id="toc-final-summary" class="nav-link" data-scroll-target="#final-summary">Final Summary</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Munich Unemployment Analysis (2000 - 2024)</h1>
+<p class="subtitle lead">A Spatial and Demographic Study of City Districts</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Anna Chrebtov &amp; Rebecca Patrick </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<p>This statistical report explores the unemployment percentage across Munich’s 25 city districts over a 24-year period. By aggregating individual districts into broader geographic areas (North, East, South, West, and Center), we analyze regional trends over time. Additionally, we investigate, whether there is a difference in unemployment percentages between women and men in 2024 in South Munich using inferential statistical methods.</p>
+</section>
+<section id="introduction-data-context" class="level2">
+<h2 class="anchored" data-anchor-id="introduction-data-context">1. Introduction &amp; Data Context</h2>
+<section id="source-and-licensing" class="level3">
+<h3 class="anchored" data-anchor-id="source-and-licensing">Source and Licensing</h3>
+<p>Our analysis uses data from the <a href="https://opendata.muenchen.de">Munich Open Data Portal</a> covering the years 2000 - 2024. The dataset is published under <a href="https://www.govdata.de/dl-de/by-2-0">Datenlizenz Deutschland Namensnennung 2.0</a> and was downloaded from the Munich Open Data Portal on 2026-05-15. This open government license allows for copying, redistribution, and commercial usage as long as proper attribution is provided.</p>
+</section>
+<section id="dataset-variables-cleaning-logic" class="level3">
+<h3 class="anchored" data-anchor-id="dataset-variables-cleaning-logic">Dataset Variables &amp; Cleaning Logic</h3>
+<p>Each row in the dataset uniquely identifies the yearly percentage of unemployed people per district in Munich (<code>Raumbezug</code>), further divided by demographic groups (<code>Auspragung</code>) such as gender, nationality, or overall total.</p>
+<p>We focus on the variable <code>Indikatorwert</code> (the unemployment percentage) along with the supporting counts <code>Basiswert 1</code> (unemployed individuals) and <code>Basiswert 2</code> (working-age population).</p>
+<p>We map Munich’s 25 districts (<code>Raumbezug</code>) into five areas based on our own judgment:</p>
+<ul>
+<li><p><strong>Center</strong>: Districts 1, 2, 3</p></li>
+<li><p><strong>North</strong>: Districts 4, 11, 12, 24</p></li>
+<li><p><strong>East</strong>: Districts 5, 13, 14, 15, 16</p></li>
+<li><p><strong>South</strong>: Districts 6, 7, 17, 18, 19, 20</p></li>
+<li><p><strong>West</strong>: Districts 8, 9, 10, 21, 22, 23, 25</p></li>
+</ul>
+<div class="cell">
+<details class="code-fold">
+<summary>Initialize Libraries &amp; Clean Dataset</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-3"><a href="#cb1-3"></a></span>
+<span id="cb1-4"><a href="#cb1-4"></a>arbeitslosen <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/raw/Arbeitsmarkt-Arbeitslosen-Anteil.csv"</span>)</span>
+<span id="cb1-5"><a href="#cb1-5"></a></span>
+<span id="cb1-6"><a href="#cb1-6"></a>arbeitslosen_clean <span class="ot">&lt;-</span> arbeitslosen <span class="sc">|&gt;</span></span>
+<span id="cb1-7"><a href="#cb1-7"></a>  <span class="fu">filter</span>(</span>
+<span id="cb1-8"><a href="#cb1-8"></a>    Auspragung <span class="sc">==</span> <span class="st">"insgesamt"</span>,</span>
+<span id="cb1-9"><a href="#cb1-9"></a>    <span class="fu">str_detect</span>(Raumbezug, <span class="st">"^[0-9]+"</span>)</span>
+<span id="cb1-10"><a href="#cb1-10"></a>  )</span>
+<span id="cb1-11"><a href="#cb1-11"></a></span>
+<span id="cb1-12"><a href="#cb1-12"></a>district_area <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tibble</span>(</span>
+<span id="cb1-13"><a href="#cb1-13"></a>  <span class="at">district_code =</span> <span class="fu">c</span>(</span>
+<span id="cb1-14"><a href="#cb1-14"></a>    <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>,                     <span class="co"># Center</span></span>
+<span id="cb1-15"><a href="#cb1-15"></a>    <span class="dv">4</span>, <span class="dv">11</span>, <span class="dv">12</span>, <span class="dv">24</span>,                <span class="co"># North</span></span>
+<span id="cb1-16"><a href="#cb1-16"></a>    <span class="dv">5</span>, <span class="dv">13</span>, <span class="dv">14</span>, <span class="dv">15</span>, <span class="dv">16</span>,            <span class="co"># East</span></span>
+<span id="cb1-17"><a href="#cb1-17"></a>    <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">17</span>, <span class="dv">18</span>, <span class="dv">19</span>, <span class="dv">20</span>,         <span class="co"># South</span></span>
+<span id="cb1-18"><a href="#cb1-18"></a>    <span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">10</span>, <span class="dv">21</span>, <span class="dv">22</span>, <span class="dv">23</span>, <span class="dv">25</span>      <span class="co"># West</span></span>
+<span id="cb1-19"><a href="#cb1-19"></a>  ),</span>
+<span id="cb1-20"><a href="#cb1-20"></a>  <span class="at">area =</span> <span class="fu">c</span>(</span>
+<span id="cb1-21"><a href="#cb1-21"></a>    <span class="fu">rep</span>(<span class="st">"Center"</span>, <span class="dv">3</span>),</span>
+<span id="cb1-22"><a href="#cb1-22"></a>    <span class="fu">rep</span>(<span class="st">"North"</span>, <span class="dv">4</span>),</span>
+<span id="cb1-23"><a href="#cb1-23"></a>    <span class="fu">rep</span>(<span class="st">"East"</span>, <span class="dv">5</span>),</span>
+<span id="cb1-24"><a href="#cb1-24"></a>    <span class="fu">rep</span>(<span class="st">"South"</span>, <span class="dv">6</span>),</span>
+<span id="cb1-25"><a href="#cb1-25"></a>    <span class="fu">rep</span>(<span class="st">"West"</span>, <span class="dv">7</span>)</span>
+<span id="cb1-26"><a href="#cb1-26"></a>  )</span>
+<span id="cb1-27"><a href="#cb1-27"></a>)</span>
+<span id="cb1-28"><a href="#cb1-28"></a></span>
+<span id="cb1-29"><a href="#cb1-29"></a>arbeitslosen_area <span class="ot">&lt;-</span> arbeitslosen <span class="sc">|&gt;</span></span>
+<span id="cb1-30"><a href="#cb1-30"></a>  <span class="fu">mutate</span>(<span class="at">district_code =</span> <span class="fu">as.numeric</span>(<span class="fu">str_extract</span>(Raumbezug, <span class="st">"^[0-9]+"</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb1-31"><a href="#cb1-31"></a>  <span class="fu">left_join</span>(district_area, <span class="at">by =</span> <span class="st">"district_code"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb1-32"><a href="#cb1-32"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(area), Auspragung <span class="sc">==</span> <span class="st">"insgesamt"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+</section>
+<section id="rq1-unemployment-trends-by-city-area-2000---2024" class="level2">
+<h2 class="anchored" data-anchor-id="rq1-unemployment-trends-by-city-area-2000---2024">2. RQ1: Unemployment Trends by City Area (2000 - 2024)</h2>
+<p><strong>Research Question 1:</strong> How has the unemployment percentage in Munich changed from 2000 to 2024 overall and when grouped by city area (Center, North, East, South, West)?</p>
+<section id="interactive-trend-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="interactive-trend-analysis">Interactive Trend Analysis</h3>
+<p>To analyze the unemployment trends over the 24 year period, we calculate the annual average of the unemployment percentage (<code>Indikatorwert</code>) across the mapped districts for each geographic city area. We also include the city-wide total (“Stadt München”).</p>
+<p>The interactive line graph below displays these trends. You can hover over any data point to inspect the exact year and mean unemployment rate or double click the legend to isolate specific regions.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">library</span>(plotly)</span>
+<span id="cb2-2"><a href="#cb2-2"></a></span>
+<span id="cb2-3"><a href="#cb2-3"></a>annual_means_area <span class="ot">&lt;-</span> arbeitslosen_area <span class="sc">%&gt;%</span></span>
+<span id="cb2-4"><a href="#cb2-4"></a>  <span class="fu">group_by</span>(area, Jahr) <span class="sc">%&gt;%</span></span>
+<span id="cb2-5"><a href="#cb2-5"></a>  <span class="fu">summarise</span>(<span class="at">mean_rate =</span> <span class="fu">mean</span>(Indikatorwert, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
+<span id="cb2-6"><a href="#cb2-6"></a></span>
+<span id="cb2-7"><a href="#cb2-7"></a>annual_means_total <span class="ot">&lt;-</span> arbeitslosen <span class="sc">%&gt;%</span></span>
+<span id="cb2-8"><a href="#cb2-8"></a>  <span class="fu">filter</span>(Auspragung <span class="sc">==</span> <span class="st">"insgesamt"</span>, Raumbezug <span class="sc">==</span> <span class="st">"Stadt München"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-9"><a href="#cb2-9"></a>  <span class="fu">transmute</span>(<span class="at">area =</span> <span class="st">"Total"</span>, Jahr, <span class="at">mean_rate =</span> Indikatorwert)</span>
+<span id="cb2-10"><a href="#cb2-10"></a></span>
+<span id="cb2-11"><a href="#cb2-11"></a>annual_means_all <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(annual_means_area, annual_means_total)</span>
+<span id="cb2-12"><a href="#cb2-12"></a></span>
+<span id="cb2-13"><a href="#cb2-13"></a>rq1_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(annual_means_all, </span>
+<span id="cb2-14"><a href="#cb2-14"></a>                   <span class="fu">aes</span>(<span class="at">x =</span> Jahr, <span class="at">y =</span> mean_rate, </span>
+<span id="cb2-15"><a href="#cb2-15"></a>                       <span class="at">group =</span> area, </span>
+<span id="cb2-16"><a href="#cb2-16"></a>                       <span class="at">color =</span> area,</span>
+<span id="cb2-17"><a href="#cb2-17"></a>                       <span class="at">text =</span> <span class="fu">paste0</span>(<span class="st">"Area: "</span>, area, <span class="st">"&lt;br&gt;Year: "</span>, Jahr, <span class="st">"&lt;br&gt;Rate: "</span>, <span class="fu">round</span>(mean_rate, <span class="dv">2</span>), <span class="st">"%"</span>))) <span class="sc">+</span></span>
+<span id="cb2-18"><a href="#cb2-18"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb2-19"><a href="#cb2-19"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb2-20"><a href="#cb2-20"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>area, <span class="at">scales =</span> <span class="st">"free_y"</span>) <span class="sc">+</span></span>
+<span id="cb2-21"><a href="#cb2-21"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb2-22"><a href="#cb2-22"></a>  <span class="fu">labs</span>(</span>
+<span id="cb2-23"><a href="#cb2-23"></a>    <span class="at">title =</span> <span class="st">"Mean Unemployment Rate by City Area"</span>,</span>
+<span id="cb2-24"><a href="#cb2-24"></a>    <span class="at">x =</span> <span class="st">"Year"</span>, <span class="at">y =</span> <span class="st">"Mean Unemployment Rate (%)"</span>,</span>
+<span id="cb2-25"><a href="#cb2-25"></a>    <span class="at">color =</span> <span class="st">"City Area"</span>,</span>
+<span id="cb2-26"><a href="#cb2-26"></a>    <span class="at">caption =</span> <span class="st">"Source: Statistisches Amt München"</span></span>
+<span id="cb2-27"><a href="#cb2-27"></a>  ) <span class="sc">+</span></span>
+<span id="cb2-28"><a href="#cb2-28"></a>  <span class="fu">scale_color_brewer</span>(<span class="at">palette =</span> <span class="st">"Set2"</span>)</span>
+<span id="cb2-29"><a href="#cb2-29"></a></span>
+<span id="cb2-30"><a href="#cb2-30"></a><span class="fu">ggplotly</span>(rq1_plot, <span class="at">tooltip =</span> <span class="st">"text"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-ce04d2e886bcd7cb8421" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-ce04d2e886bcd7cb8421">{"x":{"data":[{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[3.6666666666666665,3.6000000000000001,4.7666666666666666,5.5666666666666673,5.166666666666667,5.8666666666666663,4.5,3.5666666666666669,3,3.3999999999999999,3.2000000000000002,2.7999999999999998,2.6333333333333333,2.9333333333333331,3.0333333333333332,2.8333333333333335,2.5333333333333332,2.3333333333333335,2.3333333333333335,2.2333333333333334,3.2000000000000002,2.8999999999999999,2.5333333333333332,2.8999999999999999,3.2333333333333334],"text":["Area: Center<br>Year: 2000<br>Rate: 3.67%","Area: Center<br>Year: 2001<br>Rate: 3.6%","Area: Center<br>Year: 2002<br>Rate: 4.77%","Area: Center<br>Year: 2003<br>Rate: 5.57%","Area: Center<br>Year: 2004<br>Rate: 5.17%","Area: Center<br>Year: 2005<br>Rate: 5.87%","Area: Center<br>Year: 2006<br>Rate: 4.5%","Area: Center<br>Year: 2007<br>Rate: 3.57%","Area: Center<br>Year: 2008<br>Rate: 3%","Area: Center<br>Year: 2009<br>Rate: 3.4%","Area: Center<br>Year: 2010<br>Rate: 3.2%","Area: Center<br>Year: 2011<br>Rate: 2.8%","Area: Center<br>Year: 2012<br>Rate: 2.63%","Area: Center<br>Year: 2013<br>Rate: 2.93%","Area: Center<br>Year: 2014<br>Rate: 3.03%","Area: Center<br>Year: 2015<br>Rate: 2.83%","Area: Center<br>Year: 2016<br>Rate: 2.53%","Area: Center<br>Year: 2017<br>Rate: 2.33%","Area: Center<br>Year: 2018<br>Rate: 2.33%","Area: Center<br>Year: 2019<br>Rate: 2.23%","Area: Center<br>Year: 2020<br>Rate: 3.2%","Area: Center<br>Year: 2021<br>Rate: 2.9%","Area: Center<br>Year: 2022<br>Rate: 2.53%","Area: Center<br>Year: 2023<br>Rate: 2.9%","Area: Center<br>Year: 2024<br>Rate: 3.23%"],"type":"scatter","mode":"lines+markers","line":{"width":3.0236220472440949,"color":"rgba(102,194,165,1)","dash":"solid"},"hoveron":"points","name":"Center","legendgroup":"Center","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(102,194,165,1)","opacity":1,"size":4.5354330708661417,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(102,194,165,1)"}},"frame":null},{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[3.48,3.2999999999999998,4.3600000000000003,5.1200000000000001,4.96,6.3799999999999999,5.54,4.4400000000000004,3.8599999999999999,4.3600000000000003,4.0999999999999996,3.7000000000000002,3.7400000000000002,3.8799999999999999,3.8599999999999999,3.6599999999999997,3.5800000000000001,3.4199999999999999,3.1400000000000001,2.96,4.1200000000000001,3.9399999999999999,3.5,3.7399999999999998,4.2599999999999998],"text":["Area: East<br>Year: 2000<br>Rate: 3.48%","Area: East<br>Year: 2001<br>Rate: 3.3%","Area: East<br>Year: 2002<br>Rate: 4.36%","Area: East<br>Year: 2003<br>Rate: 5.12%","Area: East<br>Year: 2004<br>Rate: 4.96%","Area: East<br>Year: 2005<br>Rate: 6.38%","Area: East<br>Year: 2006<br>Rate: 5.54%","Area: East<br>Year: 2007<br>Rate: 4.44%","Area: East<br>Year: 2008<br>Rate: 3.86%","Area: East<br>Year: 2009<br>Rate: 4.36%","Area: East<br>Year: 2010<br>Rate: 4.1%","Area: East<br>Year: 2011<br>Rate: 3.7%","Area: East<br>Year: 2012<br>Rate: 3.74%","Area: East<br>Year: 2013<br>Rate: 3.88%","Area: East<br>Year: 2014<br>Rate: 3.86%","Area: East<br>Year: 2015<br>Rate: 3.66%","Area: East<br>Year: 2016<br>Rate: 3.58%","Area: East<br>Year: 2017<br>Rate: 3.42%","Area: East<br>Year: 2018<br>Rate: 3.14%","Area: East<br>Year: 2019<br>Rate: 2.96%","Area: East<br>Year: 2020<br>Rate: 4.12%","Area: East<br>Year: 2021<br>Rate: 3.94%","Area: East<br>Year: 2022<br>Rate: 3.5%","Area: East<br>Year: 2023<br>Rate: 3.74%","Area: East<br>Year: 2024<br>Rate: 4.26%"],"type":"scatter","mode":"lines+markers","line":{"width":3.0236220472440949,"color":"rgba(252,141,98,1)","dash":"solid"},"hoveron":"points","name":"East","legendgroup":"East","showlegend":true,"xaxis":"x2","yaxis":"y2","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(252,141,98,1)","opacity":1,"size":4.5354330708661417,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(252,141,98,1)"}},"frame":null},{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[3.7749999999999999,3.5750000000000002,4.5750000000000002,5.375,5.1500000000000004,6.9749999999999996,6.0750000000000002,4.8250000000000002,4.125,4.7249999999999996,4.2750000000000004,3.9249999999999998,3.75,4.0250000000000004,4.0250000000000004,3.9249999999999998,3.625,3.375,3.0499999999999998,2.8250000000000002,3.875,3.7999999999999998,3.3500000000000001,3.5,3.8250000000000002],"text":["Area: North<br>Year: 2000<br>Rate: 3.78%","Area: North<br>Year: 2001<br>Rate: 3.58%","Area: North<br>Year: 2002<br>Rate: 4.58%","Area: North<br>Year: 2003<br>Rate: 5.38%","Area: North<br>Year: 2004<br>Rate: 5.15%","Area: North<br>Year: 2005<br>Rate: 6.97%","Area: North<br>Year: 2006<br>Rate: 6.08%","Area: North<br>Year: 2007<br>Rate: 4.82%","Area: North<br>Year: 2008<br>Rate: 4.12%","Area: North<br>Year: 2009<br>Rate: 4.72%","Area: North<br>Year: 2010<br>Rate: 4.28%","Area: North<br>Year: 2011<br>Rate: 3.92%","Area: North<br>Year: 2012<br>Rate: 3.75%","Area: North<br>Year: 2013<br>Rate: 4.03%","Area: North<br>Year: 2014<br>Rate: 4.03%","Area: North<br>Year: 2015<br>Rate: 3.92%","Area: North<br>Year: 2016<br>Rate: 3.62%","Area: North<br>Year: 2017<br>Rate: 3.38%","Area: North<br>Year: 2018<br>Rate: 3.05%","Area: North<br>Year: 2019<br>Rate: 2.83%","Area: North<br>Year: 2020<br>Rate: 3.88%","Area: North<br>Year: 2021<br>Rate: 3.8%","Area: North<br>Year: 2022<br>Rate: 3.35%","Area: North<br>Year: 2023<br>Rate: 3.5%","Area: North<br>Year: 2024<br>Rate: 3.83%"],"type":"scatter","mode":"lines+markers","line":{"width":3.0236220472440949,"color":"rgba(141,160,203,1)","dash":"solid"},"hoveron":"points","name":"North","legendgroup":"North","showlegend":true,"xaxis":"x3","yaxis":"y3","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(141,160,203,1)","opacity":1,"size":4.5354330708661417,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(141,160,203,1)"}},"frame":null},{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[3.7166666666666668,3.5333333333333332,4.5166666666666666,5.4333333333333336,5.3833333333333329,6.916666666666667,5.8499999999999996,4.9000000000000004,4.2666666666666666,4.9166666666666661,4.5499999999999998,4.0166666666666666,3.9333333333333331,3.9833333333333334,4,3.8666666666666667,3.5499999999999998,3.3166666666666664,3,2.7833333333333332,3.8999999999999999,3.6833333333333336,3.2333333333333334,3.3999999999999999,3.8166666666666664],"text":["Area: South<br>Year: 2000<br>Rate: 3.72%","Area: South<br>Year: 2001<br>Rate: 3.53%","Area: South<br>Year: 2002<br>Rate: 4.52%","Area: South<br>Year: 2003<br>Rate: 5.43%","Area: South<br>Year: 2004<br>Rate: 5.38%","Area: South<br>Year: 2005<br>Rate: 6.92%","Area: South<br>Year: 2006<br>Rate: 5.85%","Area: South<br>Year: 2007<br>Rate: 4.9%","Area: South<br>Year: 2008<br>Rate: 4.27%","Area: South<br>Year: 2009<br>Rate: 4.92%","Area: South<br>Year: 2010<br>Rate: 4.55%","Area: South<br>Year: 2011<br>Rate: 4.02%","Area: South<br>Year: 2012<br>Rate: 3.93%","Area: South<br>Year: 2013<br>Rate: 3.98%","Area: South<br>Year: 2014<br>Rate: 4%","Area: South<br>Year: 2015<br>Rate: 3.87%","Area: South<br>Year: 2016<br>Rate: 3.55%","Area: South<br>Year: 2017<br>Rate: 3.32%","Area: South<br>Year: 2018<br>Rate: 3%","Area: South<br>Year: 2019<br>Rate: 2.78%","Area: South<br>Year: 2020<br>Rate: 3.9%","Area: South<br>Year: 2021<br>Rate: 3.68%","Area: South<br>Year: 2022<br>Rate: 3.23%","Area: South<br>Year: 2023<br>Rate: 3.4%","Area: South<br>Year: 2024<br>Rate: 3.82%"],"type":"scatter","mode":"lines+markers","line":{"width":3.0236220472440949,"color":"rgba(231,138,195,1)","dash":"solid"},"hoveron":"points","name":"South","legendgroup":"South","showlegend":true,"xaxis":"x","yaxis":"y4","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(231,138,195,1)","opacity":1,"size":4.5354330708661417,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(231,138,195,1)"}},"frame":null},{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[3.7000000000000002,3.5,4.5,5.2999999999999998,5.2000000000000002,6.7000000000000002,5.7999999999999998,4.5999999999999996,4,4.5999999999999996,4.2999999999999998,3.7999999999999998,3.7000000000000002,3.8999999999999999,3.8999999999999999,3.7000000000000002,3.5,3.2999999999999998,3,2.7999999999999998,3.8999999999999999,3.7999999999999998,3.2999999999999998,3.6000000000000001,3.8999999999999999],"text":["Area: Total<br>Year: 2000<br>Rate: 3.7%","Area: Total<br>Year: 2001<br>Rate: 3.5%","Area: Total<br>Year: 2002<br>Rate: 4.5%","Area: Total<br>Year: 2003<br>Rate: 5.3%","Area: Total<br>Year: 2004<br>Rate: 5.2%","Area: Total<br>Year: 2005<br>Rate: 6.7%","Area: Total<br>Year: 2006<br>Rate: 5.8%","Area: Total<br>Year: 2007<br>Rate: 4.6%","Area: Total<br>Year: 2008<br>Rate: 4%","Area: Total<br>Year: 2009<br>Rate: 4.6%","Area: Total<br>Year: 2010<br>Rate: 4.3%","Area: Total<br>Year: 2011<br>Rate: 3.8%","Area: Total<br>Year: 2012<br>Rate: 3.7%","Area: Total<br>Year: 2013<br>Rate: 3.9%","Area: Total<br>Year: 2014<br>Rate: 3.9%","Area: Total<br>Year: 2015<br>Rate: 3.7%","Area: Total<br>Year: 2016<br>Rate: 3.5%","Area: Total<br>Year: 2017<br>Rate: 3.3%","Area: Total<br>Year: 2018<br>Rate: 3%","Area: Total<br>Year: 2019<br>Rate: 2.8%","Area: Total<br>Year: 2020<br>Rate: 3.9%","Area: Total<br>Year: 2021<br>Rate: 3.8%","Area: Total<br>Year: 2022<br>Rate: 3.3%","Area: Total<br>Year: 2023<br>Rate: 3.6%","Area: Total<br>Year: 2024<br>Rate: 3.9%"],"type":"scatter","mode":"lines","line":{"width":3.0236220472440949,"color":"rgba(166,216,84,1)","dash":"solid"},"hoveron":"points","name":"Total","legendgroup":"Total","showlegend":true,"xaxis":"x2","yaxis":"y5","hoverinfo":"text","frame":null},{"x":[2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[3.6857142857142855,3.3999999999999999,4.3142857142857141,5.1857142857142859,5.0428571428571427,6.5285714285714285,5.8428571428571425,4.5571428571428569,4.0285714285714285,4.6571428571428575,4.2714285714285714,3.7999999999999998,3.657142857142857,3.9714285714285715,3.9857142857142858,3.7571428571428571,3.5,3.2000000000000002,2.9142857142857141,2.7714285714285714,3.9285714285714284,3.9428571428571426,3.4428571428571431,3.657142857142857,4.0142857142857142],"text":["Area: West<br>Year: 2000<br>Rate: 3.69%","Area: West<br>Year: 2001<br>Rate: 3.4%","Area: West<br>Year: 2002<br>Rate: 4.31%","Area: West<br>Year: 2003<br>Rate: 5.19%","Area: West<br>Year: 2004<br>Rate: 5.04%","Area: West<br>Year: 2005<br>Rate: 6.53%","Area: West<br>Year: 2006<br>Rate: 5.84%","Area: West<br>Year: 2007<br>Rate: 4.56%","Area: West<br>Year: 2008<br>Rate: 4.03%","Area: West<br>Year: 2009<br>Rate: 4.66%","Area: West<br>Year: 2010<br>Rate: 4.27%","Area: West<br>Year: 2011<br>Rate: 3.8%","Area: West<br>Year: 2012<br>Rate: 3.66%","Area: West<br>Year: 2013<br>Rate: 3.97%","Area: West<br>Year: 2014<br>Rate: 3.99%","Area: West<br>Year: 2015<br>Rate: 3.76%","Area: West<br>Year: 2016<br>Rate: 3.5%","Area: West<br>Year: 2017<br>Rate: 3.2%","Area: West<br>Year: 2018<br>Rate: 2.91%","Area: West<br>Year: 2019<br>Rate: 2.77%","Area: West<br>Year: 2020<br>Rate: 3.93%","Area: West<br>Year: 2021<br>Rate: 3.94%","Area: West<br>Year: 2022<br>Rate: 3.44%","Area: West<br>Year: 2023<br>Rate: 3.66%","Area: West<br>Year: 2024<br>Rate: 4.01%"],"type":"scatter","mode":"lines+markers","line":{"width":3.0236220472440949,"color":"rgba(255,217,47,1)","dash":"solid"},"hoveron":"points","name":"West","legendgroup":"West","showlegend":true,"xaxis":"x3","yaxis":"y6","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(255,217,47,1)","opacity":1,"size":4.5354330708661417,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(255,217,47,1)"}},"frame":null},{"x":[2024,2023,2022,2021,2020,2019,2018,2017,2016,2015,2014,2013,2012,2011,2010,2009,2008,2007,2006,2005,2004,2003,2002,2001,2000],"y":[3.8999999999999999,3.6000000000000001,3.2999999999999998,3.7999999999999998,3.8999999999999999,2.7999999999999998,3,3.2999999999999998,3.5,3.7000000000000002,3.8999999999999999,3.8999999999999999,3.7000000000000002,3.7999999999999998,4.2999999999999998,4.5999999999999996,4,4.5999999999999996,5.7999999999999998,6.7000000000000002,5.2000000000000002,5.2999999999999998,4.5,3.5,3.7000000000000002],"text":["Area: Total<br>Year: 2024<br>Rate: 3.9%","Area: Total<br>Year: 2023<br>Rate: 3.6%","Area: Total<br>Year: 2022<br>Rate: 3.3%","Area: Total<br>Year: 2021<br>Rate: 3.8%","Area: Total<br>Year: 2020<br>Rate: 3.9%","Area: Total<br>Year: 2019<br>Rate: 2.8%","Area: Total<br>Year: 2018<br>Rate: 3%","Area: Total<br>Year: 2017<br>Rate: 3.3%","Area: Total<br>Year: 2016<br>Rate: 3.5%","Area: Total<br>Year: 2015<br>Rate: 3.7%","Area: Total<br>Year: 2014<br>Rate: 3.9%","Area: Total<br>Year: 2013<br>Rate: 3.9%","Area: Total<br>Year: 2012<br>Rate: 3.7%","Area: Total<br>Year: 2011<br>Rate: 3.8%","Area: Total<br>Year: 2010<br>Rate: 4.3%","Area: Total<br>Year: 2009<br>Rate: 4.6%","Area: Total<br>Year: 2008<br>Rate: 4%","Area: Total<br>Year: 2007<br>Rate: 4.6%","Area: Total<br>Year: 2006<br>Rate: 5.8%","Area: Total<br>Year: 2005<br>Rate: 6.7%","Area: Total<br>Year: 2004<br>Rate: 5.2%","Area: Total<br>Year: 2003<br>Rate: 5.3%","Area: Total<br>Year: 2002<br>Rate: 4.5%","Area: Total<br>Year: 2001<br>Rate: 3.5%","Area: Total<br>Year: 2000<br>Rate: 3.7%"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(166,216,84,1)","opacity":1,"size":4.5354330708661417,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(166,216,84,1)"}},"hoveron":"points","name":"Total","legendgroup":"Total","showlegend":false,"xaxis":"x2","yaxis":"y5","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":52.529680365296812,"r":7.3059360730593621,"b":37.260273972602747,"l":31.415525114155255},"paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"title":{"text":"Mean Unemployment Rate by City Area","font":{"color":"rgba(0,0,0,1)","family":"","size":17.534246575342465},"x":0,"xref":"paper"},"xaxis":{"domain":[0,0.31376386170906717],"automargin":true,"type":"linear","autorange":false,"range":[1998.8,2025.2],"tickmode":"array","ticktext":["2000","2005","2010","2015","2020","2025"],"tickvals":[2000,2005,2010,2015,2020,2025],"categoryorder":"array","categoryarray":["2000","2005","2010","2015","2020","2025"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y4","title":"","hoverformat":".2f"},"annotations":[{"text":"Year","x":0.5,"y":0,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"top","annotationType":"axis","yshift":-21.917808219178081},{"text":"Mean Unemployment Rate (%)","x":0,"y":0.5,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"xref":"paper","yref":"paper","textangle":-90,"xanchor":"right","yanchor":"center","annotationType":"axis","xshift":-16.073059360730596},{"text":"Center","x":0.15688193085453359,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(26,26,26,1)","family":"","size":11.68949771689498},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"},{"text":"East","x":0.5,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(26,26,26,1)","family":"","size":11.68949771689498},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"},{"text":"North","x":0.84311806914546639,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(26,26,26,1)","family":"","size":11.68949771689498},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"},{"text":"South","x":0.15688193085453359,"y":0.4604261796042618,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(26,26,26,1)","family":"","size":11.68949771689498},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"},{"text":"Total","x":0.5,"y":0.4604261796042618,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(26,26,26,1)","family":"","size":11.68949771689498},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"},{"text":"West","x":0.84311806914546639,"y":0.4604261796042618,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(26,26,26,1)","family":"","size":11.68949771689498},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"}],"yaxis":{"domain":[0.5395738203957382,1],"automargin":true,"type":"linear","autorange":false,"range":[2.0516666666666667,6.0483333333333329],"tickmode":"array","ticktext":["3","4","5","6"],"tickvals":[3,4,5,6],"categoryorder":"array","categoryarray":["3","4","5","6"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":"","hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","layer":"below","x0":0,"x1":0.31376386170906717,"y0":0,"y1":23.37899543378996,"yanchor":1,"ysizemode":"pixel"},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","layer":"below","x0":0.35290280495759946,"x1":0.64709719504240049,"y0":0,"y1":23.37899543378996,"yanchor":1,"ysizemode":"pixel"},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","layer":"below","x0":0.68623613829093277,"x1":1,"y0":0,"y1":23.37899543378996,"yanchor":1,"ysizemode":"pixel"},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","layer":"below","x0":0,"x1":0.31376386170906717,"y0":0,"y1":23.37899543378996,"yanchor":0.4604261796042618,"ysizemode":"pixel"},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","layer":"below","x0":0.35290280495759946,"x1":0.64709719504240049,"y0":0,"y1":23.37899543378996,"yanchor":0.4604261796042618,"ysizemode":"pixel"},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","layer":"below","x0":0.68623613829093277,"x1":1,"y0":0,"y1":23.37899543378996,"yanchor":0.4604261796042618,"ysizemode":"pixel"}],"xaxis2":{"type":"linear","autorange":false,"range":[1998.8,2025.2],"tickmode":"array","ticktext":["2000","2005","2010","2015","2020","2025"],"tickvals":[2000,2005,2010,2015,2020,2025],"categoryorder":"array","categoryarray":["2000","2005","2010","2015","2020","2025"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"domain":[0.35290280495759946,0.64709719504240049],"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y5","title":"","hoverformat":".2f"},"yaxis2":{"type":"linear","autorange":false,"range":[2.7890000000000001,6.5510000000000002],"tickmode":"array","ticktext":["3","4","5","6"],"tickvals":[3,4,5,6],"categoryorder":"array","categoryarray":["3","4","5","6"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"domain":[0.5395738203957382,1],"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x2","title":"","hoverformat":".2f"},"xaxis3":{"type":"linear","autorange":false,"range":[1998.8,2025.2],"tickmode":"array","ticktext":["2000","2005","2010","2015","2020","2025"],"tickvals":[2000,2005,2010,2015,2020,2025],"categoryorder":"array","categoryarray":["2000","2005","2010","2015","2020","2025"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"domain":[0.68623613829093277,1],"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y6","title":"","hoverformat":".2f"},"yaxis3":{"type":"linear","autorange":false,"range":[2.6175000000000002,7.1824999999999992],"tickmode":"array","ticktext":["3","4","5","6","7"],"tickvals":[3,4,5,6,7],"categoryorder":"array","categoryarray":["3","4","5","6","7"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"domain":[0.5395738203957382,1],"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x3","title":"","hoverformat":".2f"},"yaxis4":{"type":"linear","autorange":false,"range":[2.5766666666666667,7.123333333333334],"tickmode":"array","ticktext":["3","4","5","6","7"],"tickvals":[3,4,5,6,7],"categoryorder":"array","categoryarray":["3","4","5","6","7"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"domain":[0,0.4604261796042618],"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":"","hoverformat":".2f"},"yaxis5":{"type":"linear","autorange":false,"range":[2.605,6.8950000000000005],"tickmode":"array","ticktext":["3","4","5","6"],"tickvals":[3,4,5,6],"categoryorder":"array","categoryarray":["3","4","5","6"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"domain":[0,0.4604261796042618],"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x2","title":"","hoverformat":".2f"},"yaxis6":{"type":"linear","autorange":false,"range":[2.5835714285714286,6.7164285714285716],"tickmode":"array","ticktext":["3","4","5","6"],"tickvals":[3,4,5,6],"categoryorder":"array","categoryarray":["3","4","5","6"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"domain":[0,0.4604261796042618],"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x3","title":"","hoverformat":".2f"},"showlegend":true,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498},"title":{"text":"City Area","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"9fac3a0aeb60":{"x":{},"y":{},"colour":{},"text":{},"type":"scatter"},"9fac22e30965":{"x":{},"y":{},"colour":{},"text":{}}},"cur_data":"9fac3a0aeb60","visdat":{"9fac3a0aeb60":["function (y) ","x"],"9fac22e30965":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p>Figure 1: Interactive mean unemployment rate by Munich city area, 2000-2024</p>
+</div>
+</div>
+</section>
+<section id="description-and-interpretation-of-the-plot" class="level3">
+<h3 class="anchored" data-anchor-id="description-and-interpretation-of-the-plot">Description and Interpretation of the Plot</h3>
+<p>All five regions and the city-wide total show a similar trend over the 24 year period. In 2000, almsot all graphs start at around 3.6% before peaking dramatically in 2005 at almost 7% and only a small plateu in 2004. The center area graph has the exact same trend but remained consistently lower, peaking at approximately 6% in 2005. After 2005 all graphs show an inconsistent but almost identical decline to about 2.5% in 2019. In 2020, every area graph shows a drastic jump to about 4%, declines again in 2022 but increases from then on to 4% in 2024.</p>
+<p>The peak in 2005 is explained by the introduction of the major Hartz IV welfare reforms in Germany that same year. The reform merged the statistical registries for traditional unemployment benefits and social welfare into a single metric, which artificially inflated the total count of registered unemployment individuals rather than reflecting a sudden economic collapse. After this, rules for receiving welfare became stricter and combined with a growing economy resulted in an inconsistent but steady decline in unemployment rates.</p>
+<p>In 2020, this downward trend was abruptly interrupted by the COVID-19 pandemic, causing a sharp jump.</p>
+</section>
+</section>
+<section id="rq2-gender-disparities-in-south-munich-2024" class="level2">
+<h2 class="anchored" data-anchor-id="rq2-gender-disparities-in-south-munich-2024">3. RQ2: Gender Disparities in South Munich (2024)</h2>
+<p><strong>Research Question 2:</strong> Do unemployment percentages in 2024 differ significantly based on gender across the districts of South Munich ?</p>
+<p>To investigate whether there is a systematic difference between male and female unemployment rates in the southern parts of the city, we isolate the 2024 observation year and restrict our sample to the districts classified under the South area.</p>
+<section id="hypotheses" class="level3">
+<h3 class="anchored" data-anchor-id="hypotheses">Hypotheses</h3>
+<p>To test this statistically, we define our null and alternative hypotheses:</p>
+<p><strong>Null Hypothesis (</strong><span class="math inline">\(H_0\)</span><strong>):</strong> In 2024, there is no difference in the mean unemployment rate between males and females in South Munich. <span class="math display">\[\mu_{\text{male}} = \mu_{\text{female}}\]</span></p>
+<p><strong>Alternative Hypothesis (</strong><span class="math inline">\(H_A\)</span><strong>):</strong> In 2024, there is a significant difference in the mean unemployment rate between males and females in South Munich<strong>.</strong><span class="math display">\[\mu_{\text{male}} \neq \mu_{\text{female}}\]</span></p>
+</section>
+<section id="descriptive-statistics" class="level3">
+<h3 class="anchored" data-anchor-id="descriptive-statistics">Descriptive Statistics</h3>
+<p>Before inferential testing, we generate a descriptive summary table using the <code>{gt}</code> package. This summarizes the sample sizes, averages, minimums and maximums of the unemployment rates for both demographic groups across the southern districts.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">library</span>(gt)</span>
+<span id="cb3-2"><a href="#cb3-2"></a></span>
+<span id="cb3-3"><a href="#cb3-3"></a>south_2024_gender <span class="ot">&lt;-</span> arbeitslosen <span class="sc">|&gt;</span> </span>
+<span id="cb3-4"><a href="#cb3-4"></a>  <span class="fu">mutate</span>(<span class="at">district_code =</span> <span class="fu">as.numeric</span>(<span class="fu">str_extract</span>(Raumbezug, <span class="st">"^[0-9]+"</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a>  <span class="fu">left_join</span>(district_area, <span class="at">by =</span> <span class="st">"district_code"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb3-6"><a href="#cb3-6"></a>  <span class="fu">filter</span>(</span>
+<span id="cb3-7"><a href="#cb3-7"></a>    Jahr <span class="sc">==</span> <span class="dv">2024</span>,</span>
+<span id="cb3-8"><a href="#cb3-8"></a>    area <span class="sc">==</span> <span class="st">"South"</span>,</span>
+<span id="cb3-9"><a href="#cb3-9"></a>    Auspragung <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"männlich"</span>, <span class="st">"weiblich"</span>)</span>
+<span id="cb3-10"><a href="#cb3-10"></a>  )</span>
+<span id="cb3-11"><a href="#cb3-11"></a></span>
+<span id="cb3-12"><a href="#cb3-12"></a>south_2024_summary <span class="ot">&lt;-</span> south_2024_gender <span class="sc">|&gt;</span></span>
+<span id="cb3-13"><a href="#cb3-13"></a>  <span class="fu">group_by</span>(Auspragung) <span class="sc">|&gt;</span></span>
+<span id="cb3-14"><a href="#cb3-14"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb3-15"><a href="#cb3-15"></a>    <span class="at">n =</span> <span class="fu">n</span>(),</span>
+<span id="cb3-16"><a href="#cb3-16"></a>    <span class="at">mean_rate =</span> <span class="fu">mean</span>(Indikatorwert, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb3-17"><a href="#cb3-17"></a>    <span class="at">min_rate =</span> <span class="fu">min</span>(Indikatorwert, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb3-18"><a href="#cb3-18"></a>    <span class="at">max_rate =</span> <span class="fu">max</span>(Indikatorwert, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb3-19"><a href="#cb3-19"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb3-20"><a href="#cb3-20"></a>  )</span>
+<span id="cb3-21"><a href="#cb3-21"></a></span>
+<span id="cb3-22"><a href="#cb3-22"></a>south_2024_summary <span class="sc">|&gt;</span> </span>
+<span id="cb3-23"><a href="#cb3-23"></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span></span>
+<span id="cb3-24"><a href="#cb3-24"></a>  <span class="fu">fmt_number</span>(<span class="at">columns =</span> <span class="fu">c</span>(mean_rate, min_rate, max_rate), <span class="at">decimals =</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb3-25"><a href="#cb3-25"></a>  <span class="fu">fmt_integer</span>(<span class="at">columns =</span> n) <span class="sc">|&gt;</span></span>
+<span id="cb3-26"><a href="#cb3-26"></a>  <span class="fu">cols_label</span>(</span>
+<span id="cb3-27"><a href="#cb3-27"></a>    <span class="at">Auspragung =</span> <span class="st">"Group / Gender"</span>,</span>
+<span id="cb3-28"><a href="#cb3-28"></a>    <span class="at">n =</span> <span class="st">"Districts (n)"</span>,</span>
+<span id="cb3-29"><a href="#cb3-29"></a>    <span class="at">mean_rate =</span> <span class="st">"Mean (%)"</span>,</span>
+<span id="cb3-30"><a href="#cb3-30"></a>    <span class="at">min_rate =</span> <span class="st">"Min (%)"</span>,</span>
+<span id="cb3-31"><a href="#cb3-31"></a>    <span class="at">max_rate =</span> <span class="st">"Max(%)"</span></span>
+<span id="cb3-32"><a href="#cb3-32"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb3-33"><a href="#cb3-33"></a>  <span class="fu">tab_spanner</span>(</span>
+<span id="cb3-34"><a href="#cb3-34"></a>    <span class="at">label =</span> <span class="st">"Unemployment Rate (%)"</span>,</span>
+<span id="cb3-35"><a href="#cb3-35"></a>    <span class="at">columns =</span> <span class="fu">c</span>(mean_rate, min_rate, max_rate)</span>
+<span id="cb3-36"><a href="#cb3-36"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-37"><a href="#cb3-37"></a>  <span class="fu">cols_align</span>(<span class="at">align =</span> <span class="st">"right"</span>, <span class="at">columns =</span> <span class="fu">where</span>(is.numeric)) <span class="sc">|&gt;</span></span>
+<span id="cb3-38"><a href="#cb3-38"></a>  <span class="fu">cols_align</span>(<span class="at">align =</span> <span class="st">"left"</span>, <span class="at">columns =</span> Auspragung) <span class="sc">|&gt;</span></span>
+<span id="cb3-39"><a href="#cb3-39"></a>  <span class="fu">tab_header</span>(</span>
+<span id="cb3-40"><a href="#cb3-40"></a>    <span class="at">title =</span> <span class="st">"Unemployment Rate by Gender"</span>,</span>
+<span id="cb3-41"><a href="#cb3-41"></a>    <span class="at">subtitle =</span> <span class="st">"South Munich Districts, 2024"</span></span>
+<span id="cb3-42"><a href="#cb3-42"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb3-43"><a href="#cb3-43"></a>  <span class="fu">tab_source_note</span>(<span class="fu">md</span>(<span class="st">"Source: Statistisches Amt München"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="oesigxlebl" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#oesigxlebl table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#oesigxlebl thead, #oesigxlebl tbody, #oesigxlebl tfoot, #oesigxlebl tr, #oesigxlebl td, #oesigxlebl th {
+  border-style: none;
+}
+
+#oesigxlebl p {
+  margin: 0;
+  padding: 0;
+}
+
+#oesigxlebl .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#oesigxlebl .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#oesigxlebl .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#oesigxlebl .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#oesigxlebl .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#oesigxlebl .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#oesigxlebl .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#oesigxlebl .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#oesigxlebl .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#oesigxlebl .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#oesigxlebl .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#oesigxlebl .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#oesigxlebl .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#oesigxlebl .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#oesigxlebl .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#oesigxlebl .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#oesigxlebl .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#oesigxlebl .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#oesigxlebl .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#oesigxlebl .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#oesigxlebl .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#oesigxlebl .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#oesigxlebl .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#oesigxlebl .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#oesigxlebl .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#oesigxlebl .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#oesigxlebl .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#oesigxlebl .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#oesigxlebl .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#oesigxlebl .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#oesigxlebl .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#oesigxlebl .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#oesigxlebl .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#oesigxlebl .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#oesigxlebl .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#oesigxlebl .gt_left {
+  text-align: left;
+}
+
+#oesigxlebl .gt_center {
+  text-align: center;
+}
+
+#oesigxlebl .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#oesigxlebl .gt_font_normal {
+  font-weight: normal;
+}
+
+#oesigxlebl .gt_font_bold {
+  font-weight: bold;
+}
+
+#oesigxlebl .gt_font_italic {
+  font-style: italic;
+}
+
+#oesigxlebl .gt_super {
+  font-size: 65%;
+}
+
+#oesigxlebl .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#oesigxlebl .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#oesigxlebl .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#oesigxlebl .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#oesigxlebl .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#oesigxlebl .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#oesigxlebl .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#oesigxlebl .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#oesigxlebl div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-bootstrap="false">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="gt_heading header">
+<td colspan="5" class="gt_heading gt_title gt_font_normal">Unemployment Rate by Gender</td>
+</tr>
+<tr class="gt_heading even">
+<td colspan="5" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border">South Munich Districts, 2024</td>
+</tr>
+<tr class="gt_col_headings gt_spanner_row header">
+<th rowspan="2" id="Auspragung" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Group / Gender</th>
+<th rowspan="2" id="n" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Districts (n)</th>
+<th colspan="3" id="Unemployment Rate (%)" class="gt_center gt_columns_top_border gt_column_spanner_outer" data-quarto-table-cell-role="th" scope="colgroup"><div class="gt_column_spanner">
+Unemployment Rate (%)
+</div></th>
+</tr>
+<tr class="gt_col_headings even">
+<th id="mean_rate" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Mean (%)</th>
+<th id="min_rate" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Min (%)</th>
+<th id="max_rate" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Max(%)</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left" headers="Auspragung">männlich</td>
+<td class="gt_row gt_right" headers="n">6</td>
+<td class="gt_row gt_right" headers="mean_rate">4.1</td>
+<td class="gt_row gt_right" headers="min_rate">3.7</td>
+<td class="gt_row gt_right" headers="max_rate">4.4</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Auspragung">weiblich</td>
+<td class="gt_row gt_right" headers="n">6</td>
+<td class="gt_row gt_right" headers="mean_rate">3.6</td>
+<td class="gt_row gt_right" headers="min_rate">3.2</td>
+<td class="gt_row gt_right" headers="max_rate">3.9</td>
+</tr>
+</tbody><tfoot>
+<tr class="gt_sourcenotes odd">
+<td colspan="5" class="gt_sourcenote">Source: Statistisches Amt München</td>
+</tr>
+</tfoot>
+
+</table>
+
+</div>
+<p>Figure 2: rq2 gt table</p>
+</div>
+</div>
+</section>
+<section id="inferential-analysis-permutation-test" class="level3">
+<h3 class="anchored" data-anchor-id="inferential-analysis-permutation-test">Inferential Analysis (Permutation Test)</h3>
+<p>To compare the mean unemployment rates between males and females across of Munich, we analyze data from all <span class="math inline">\(n = 25\)</span> districts per demographic group. While <span class="math inline">\(25\)</span> observations per group provides a more robust dataset than a small sub region, it is still below the traditional threshold of <span class="math inline">\(n = 30\)</span> of a normal distribution.</p>
+<p>Because unemployment rates are naturally restricted by 0% on the lower end and tend to be skewed, relying on the parametric assumption of a classical two sample <span class="math inline">\(t\)</span>-test remains risky. Therefore, we use a simulation based permutation test using the <code>{infer}</code> package.</p>
+<p>This non parametric approach is completely distribution free. It constructs an empirical null distribution directly from our sample by shuffling the group labels (“männlich” and “weiblich”) 5000 times and calculating the difference in means. This computational method provides a <span class="math inline">\(p\)</span>-value without making any unverifiable assumption about the population.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">library</span>(infer)</span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb4-3"><a href="#cb4-3"></a></span>
+<span id="cb4-4"><a href="#cb4-4"></a>unemployment_2024 <span class="ot">&lt;-</span> arbeitslosen <span class="sc">|&gt;</span></span>
+<span id="cb4-5"><a href="#cb4-5"></a>  <span class="fu">filter</span>(</span>
+<span id="cb4-6"><a href="#cb4-6"></a>    Jahr <span class="sc">==</span> <span class="dv">2024</span>,</span>
+<span id="cb4-7"><a href="#cb4-7"></a>    Auspragung <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"männlich"</span>, <span class="st">"weiblich"</span>)</span>
+<span id="cb4-8"><a href="#cb4-8"></a>  )</span>
+<span id="cb4-9"><a href="#cb4-9"></a></span>
+<span id="cb4-10"><a href="#cb4-10"></a>observed_diff <span class="ot">&lt;-</span> unemployment_2024 <span class="sc">|&gt;</span></span>
+<span id="cb4-11"><a href="#cb4-11"></a>  <span class="fu">specify</span>(Indikatorwert <span class="sc">~</span> Auspragung) <span class="sc">|&gt;</span></span>
+<span id="cb4-12"><a href="#cb4-12"></a>  <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"diff in means"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"männlich"</span>, <span class="st">"weiblich"</span>))</span>
+<span id="cb4-13"><a href="#cb4-13"></a></span>
+<span id="cb4-14"><a href="#cb4-14"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb4-15"><a href="#cb4-15"></a>null_dist <span class="ot">&lt;-</span> unemployment_2024 <span class="sc">|&gt;</span></span>
+<span id="cb4-16"><a href="#cb4-16"></a>  <span class="fu">specify</span>(Indikatorwert <span class="sc">~</span> Auspragung) <span class="sc">|&gt;</span></span>
+<span id="cb4-17"><a href="#cb4-17"></a>  <span class="fu">hypothesize</span>(<span class="at">null =</span> <span class="st">"independence"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-18"><a href="#cb4-18"></a>  <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">5000</span>, <span class="at">type =</span> <span class="st">"permute"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-19"><a href="#cb4-19"></a>  <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"diff in means"</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">"männlich"</span>, <span class="st">"weiblich"</span>))</span>
+<span id="cb4-20"><a href="#cb4-20"></a></span>
+<span id="cb4-21"><a href="#cb4-21"></a>p_value_val <span class="ot">&lt;-</span> null_dist <span class="sc">|&gt;</span></span>
+<span id="cb4-22"><a href="#cb4-22"></a>  <span class="fu">get_p_value</span>(<span class="at">obs_stat =</span> observed_diff, <span class="at">direction =</span> <span class="st">"two-sided"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-23"><a href="#cb4-23"></a>  <span class="fu">pull</span>(p_value)</span>
+<span id="cb4-24"><a href="#cb4-24"></a></span>
+<span id="cb4-25"><a href="#cb4-25"></a>null_dist <span class="sc">|&gt;</span> </span>
+<span id="cb4-26"><a href="#cb4-26"></a>  <span class="fu">visualize</span>() <span class="sc">+</span></span>
+<span id="cb4-27"><a href="#cb4-27"></a>  <span class="fu">shade_p_value</span>(<span class="at">obs_stat =</span> observed_diff, <span class="at">direction =</span> <span class="st">"both"</span>, <span class="at">fill =</span> <span class="st">"pink"</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb4-28"><a href="#cb4-28"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb4-29"><a href="#cb4-29"></a>  <span class="fu">labs</span>(</span>
+<span id="cb4-30"><a href="#cb4-30"></a>    <span class="at">title =</span> <span class="st">"Permutation Null Distribution (All Munich Districts)"</span>,</span>
+<span id="cb4-31"><a href="#cb4-31"></a>    <span class="at">subtitle =</span> <span class="fu">paste</span>(<span class="st">"Observed Difference ="</span>, <span class="fu">round</span>(observed_diff<span class="sc">$</span>stat, <span class="dv">3</span>), <span class="st">"percentage points | p-value ="</span>, <span class="fu">round</span>(p_value_val, <span class="dv">3</span>)),</span>
+<span id="cb4-32"><a href="#cb4-32"></a>    <span class="at">x =</span> <span class="st">"Difference in Mean Unemployment Rate (Male - Female)"</span>,</span>
+<span id="cb4-33"><a href="#cb4-33"></a>    <span class="at">y =</span> <span class="st">"Frequency"</span></span>
+<span id="cb4-34"><a href="#cb4-34"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="report_files/figure-html/rq2-infer-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Figure 3: Simulated null distribution of the difference in means (5000 permutations) with the observeed statistic</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="interpretation-of-the-permutation-test-results" class="level3">
+<h3 class="anchored" data-anchor-id="interpretation-of-the-permutation-test-results">Interpretation of the Permutation Test Results</h3>
+<ul>
+<li><p><strong>Observed Difference:</strong> In 2024, the observed difference in mean unemployment rates between men and women across all 25 districts of Munich is 0.2 percentage points (with males having a slightly higher average unemployment rate than females).</p></li>
+<li><p><strong>Null Distribution:</strong> Our generated null distribution represents a scenario where gender has no systematic impact on unemployment rates. Shuffling the gender 5000 times shows that differences around 0.2 percentage points are common under the null hypothesis.</p></li>
+<li><p><strong>The</strong> <span class="math inline">\(p\)</span><strong>-value:</strong> The two-sided permutation test produces a <span class="math inline">\(p\)</span>-value of <span class="math inline">\(0.221\)</span> or <span class="math inline">\(22.1\%\)</span>.</p></li>
+<li><p><strong>Statistical Decision:</strong> Because our <span class="math inline">\(p\)</span>-value (<span class="math inline">\(0.221\)</span>) is larger than the significance level <span class="math inline">\(\alpha = 0.05\)</span>, we fail reject the null hypothesis (<span class="math inline">\(H_0\)</span>).</p></li>
+<li><p><strong>Conclusion:</strong> We do not have statistically significant evidence of a gender disparity in unemployment rates across Munich’s districts in 2024. The observed difference of 0.2 percentage points is minor and can can easily be explained by random district variation.</p></li>
+</ul>
+</section>
+</section>
+<section id="conclusion-and-discussion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion-and-discussion">4. Conclusion and Discussion</h2>
+<p>This analysis investigated both the trend of unemployment in Munich from 2000 to 2024 (RQ1) and potential gender based disparities in unemployment rates for the year 2024 (RQ2).</p>
+<section id="key-findings" class="level3">
+<h3 class="anchored" data-anchor-id="key-findings">Key Findings</h3>
+<ul>
+<li><p><strong>Trends (RQ1):</strong> The trend over the 24 year period revealed synchronized trends across all five Munich regions and the city wide total.</p></li>
+<li><p><strong>Gender Disparities (RQ2):</strong> Our initial focus on a subset of South Munich pointed toward a statistically significant gender gap. When increasing the analysis to all 25 districts, the difference was statistically insignificant and can easily be explained by natural / random variation.</p></li>
+</ul>
+</section>
+<section id="key-takeaways" class="level3">
+<h3 class="anchored" data-anchor-id="key-takeaways">Key Takeaways</h3>
+<ul>
+<li><p><strong>Understanding context behind the data:</strong> The dramatic 2005 peak is a reminder that statistical anomalies are sometimes caused by administrative changes rather than real world crises. The Hartz IV reforms did not trigger a sudden economic collapse, they simply changed how we count the unemployed. This shows how important it is to understand the context of a dataset before rushing to conclusions.</p></li>
+<li><p><strong>Danger sample sizes:</strong> Comparing South Munich to the entire city shows how easily sample sizes can mislead. With only six districts in our initial southern subset, fluctuations were amplified. This made a gender gap look statistically significant by pure chance. When we looked at all of Munich, that gap disappeared.</p></li>
+<li><p><strong>Resampling:</strong> Unemployment rates are bounded ratios that are naturally skewed. That’s why relying on classical parametric tests like a <span class="math inline">\(t\)</span>-test is risky with only 25 districts. By choosing a simulation based permutation test through the <code>{infer}</code> package, we didn’t have to worry about forcing our data into a normal distribution. Instead, we let the computer shuffle the data to give us a distribution free <span class="math inline">\(p\)</span>-value we can actually trust.</p></li>
+</ul>
+</section>
+<section id="final-summary" class="level3">
+<h3 class="anchored" data-anchor-id="final-summary">Final Summary</h3>
+<p>In conclusion, although Munich’s unemployment trends have been shaped by policy shifts and global pandemics, there is no systemic gender gap in unemployment rates across the city.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

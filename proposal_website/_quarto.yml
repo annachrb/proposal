@@ -11,6 +11,8 @@ website:
         text: Home
       - href: proposal.qmd
         text: Proposal
+      - href: report.qmd
+        text: Statistical Report
       - href: reflection_log.qmd
         text: Reflection Log
       - about.qmd
