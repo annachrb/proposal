@@ -30,7 +30,7 @@ Each row represents the yearly percentage of unemployed people per district in M
 
 Columns include the id, indicator name, unemployed-person type (total, male, female, ...), year, Munich district (including the city total), unemployment percentage, unemployed count, and total resident count (15–64 years old).
 
-**Row identification:** year (`Jahr`), district (`Raumbezug`), and demographic group (`Auspragung`) together uniquely identify each row.
+**Row identification:** `_id`, year (`Jahr`), district (`Raumbezug`), and demographic group (`Auspragung`) together uniquely identify each row.
 
 Key variables we expect to use are the year, district, unemployment percentage, and both base values.
 
@@ -72,7 +72,7 @@ vis_dat(arbeitslosen)
 skim(arbeitslosen)
 ```
 
-Dates are read as `<dbl>`, categorical variables are `<chr>` . No column has an unexpected type.
+Dates and numbers are read as `<dbl>`, categorical variables are `<chr>` . No column has an unexpected type.
 
 ```{r}
 #| label: missingness
@@ -200,7 +200,7 @@ The peak in 2005 is explained by the introduction of the major Hartz IV welfare 
 
 In 2020, this downward trend was abruptly interrupted by the COVID-19 pandemic, causing a sharp jump.
 
-## 3. RQ2: Gender Disparities in Munich (2024)
+## 4. RQ2: Gender Disparities in Munich (2024)
 
 **Research Question 2:** Do unemployment percentages in 2024 differ significantly based on gender across Munich ?
 
@@ -331,7 +331,7 @@ null_dist |>
 
 -   **Conclusion:** We do not have statistically significant evidence of a gender disparity in unemployment rates across Munich's districts in 2024. The observed difference of 0.2 percentage points is minor and can can easily be explained by random district variation.
 
-## 4. Conclusion and Discussion
+## 5. Conclusion and Discussion
 
 This analysis investigated both the trend of unemployment in Munich from 2000 to 2024 (RQ1) and potential gender based disparities in unemployment rates for the year 2024 (RQ2).
 

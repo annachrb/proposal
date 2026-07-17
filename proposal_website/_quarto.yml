@@ -4,15 +4,15 @@ project:
   execute-dir: project
 
 website:
-  title: "Proposal"
+  title: "Munich Unemployment: A 24-Year Spatial and Demographic Analysis"
   navbar:
     left:
       - href: index.qmd
         text: Home
-      - href: proposal.qmd
-        text: Proposal
       - href: report.qmd
         text: Statistical Report
+      - href: proposal.qmd
+        text: Proposal
       - href: reflection_log.qmd
         text: Reflection Log
       - about.qmd

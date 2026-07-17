@@ -1,1 +1,17 @@
 /* css styles */
+:root {
+  --bs-primary: #1D5A29;
+  --bs-secondary: #7DAA7D;
+  --bs-body-bg: #F9FBF9;
+  --bs-body-color: #2F362F;
+  
+  --bs-link-color: #1D5A29;
+}
+
+h1, h2, h3 {
+  color: #1D5A29;
+}
+
+.navbar {
+  border-bottom: 2px solid #1D5A29;
+}
