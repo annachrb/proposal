@@ -15,4 +15,4 @@ We explore how unemployment percentages have changed over time by city area and 
 
 ## Data source and licence
 
-The dataset is published under [Datenlizenz Deutschland Namensnennung 2.0](https://www.govdata.de/dl-de/by-2-0) and was downloaded from the Munich Open Data Portal on 2026-05-15.
+The dataset is published under [Datenlizenz Deutschland Namensnennung 2.0](https://www.govdata.de/dl-de/by-2-0) and was downloaded from the Munich Open Data Portal on 2026-05-18.

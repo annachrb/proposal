@@ -18,7 +18,7 @@ This statistical report explores the unemployment percentage across Munich's 25 
 
 ### Source and Licensing
 
-Our analysis uses data from the [Munich Open Data Portal](https://opendata.muenchen.de) covering the years 2000 - 2024. The dataset is published under [Datenlizenz Deutschland Namensnennung 2.0](https://www.govdata.de/dl-de/by-2-0) and was downloaded from the Munich Open Data Portal on 2026-05-15. This open government license allows for copying, redistribution, and commercial usage as long as proper attribution is provided.
+Our analysis uses data from the [Munich Open Data Portal](https://opendata.muenchen.de) covering the years 2000 - 2024. The dataset is published under [Datenlizenz Deutschland Namensnennung 2.0](https://www.govdata.de/dl-de/by-2-0) and was downloaded from the Munich Open Data Portal on 2026-05-18. This open government license allows for copying, redistribution, and commercial usage as long as proper attribution is provided.
 
 ### Dataset Variables 
 
@@ -352,3 +352,12 @@ This analysis investigated both the trend of unemployment in Munich from 2000 to
 ### Final Summary
 
 In conclusion, although Munich's unemployment trends have been shaped by policy shifts and global pandemics, there is no systemic gender gap in unemployment rates across the city.
+
+## 6. Sources
+
+1.  Statistisches Amt München. *Indikatorenatlas: Arbeitsmarkt - Arbeitslosen - Anteil.* Open Data Protal München. Licensed under Datenlizenz Deutschland - Namensnennung - Version 2.0 (dl-by-de).
+
+    <https://opendata.muenchen.de/dataset/indikatorenatlas-2014-arbeitsmarkt-arbeitslosendichte-83r65mct> (accessed \[2026-05-18\])
+
+2.  Chester Ismay, Albert Y. Kim, Arturo Valdivia. *Statistical Inference via Data Science: A ModernDive into R and the Tidyverse* (Second Edition)*,* Chapter 9*,* last built July 13, 2026.\
+    <https://moderndive.com/v2/hypothesis-testing.html>
