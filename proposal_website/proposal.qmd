@@ -414,7 +414,6 @@ arbeitslosen_south |>
 ### Code style
 
 -   tidyverse style guide: `<-` for assignments, spaces around operators, ...
--   `styler` package in RStudio to format before committing
 -   shared AI system prompt so output follows tidyverse conventions
 
 ### Packages

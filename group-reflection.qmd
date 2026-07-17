@@ -78,7 +78,7 @@ Most packages were straightforward to use since we already knew them from the pr
 
 *What was hard:*
 
-`infer` was hard to understand at first. The syntax with `specify()`, `assume("t")` and `shade_p_value()` was not obvious. We followed the practicals template as a sandbox first and tried to understand the functions by testing them there before applying them to our own data in the project.
+`infer` was hard to understand at first. The syntax with `specify()`, `hypothesize()` and `shade_p_value()` was not obvious. We followed the practicals template as a sandbox first and tried to understand the functions by testing them there before applying them to our own data in the project.
 
 ### Initial data analysis & data cleaning (W7)
 
@@ -114,7 +114,7 @@ The renv syntax was confusing at first, especially the yes or no prompts when in
 
 For RQ1, we mapped each district to one of five city areas (Center, North, East, South, West) using the district code, joined that onto the dataset, and calculated annual mean unemployment rates per area from 2000 to 2024. We added Stadt München back in separately as a "Total" line. We produced a faceted line plot, plus an interactive plotly version with hover tooltips showing the exact year and rate.
 
-For RQ2, we ran a difference in means test comparing männlich and weiblich unemployment rates in South Munich for 2024, using `infer` with a theory-based t null distribution, `shade_p_value()`, and a bootstrap 95% confidence interval. We also built a summary gt table.
+For RQ2, we ran a difference in means test comparing männlich and weiblich unemployment rates in Munich for 2024, using `infer` with a simulation based permutation null distribution (5000 reps), `shade_p_value()`, and a significance level of $\alpha = 0.05$. We also built a summary gt table.
 
 We originally considered a third question, whether we could build a simple model to predict future unemployment percentages. We cut this to keep the project focused on two questions, in line with the course guidance to limit the proposal to at most two RQs.
 
@@ -142,19 +142,21 @@ Nothing major here, most of the work was applying what we practiced in the sandb
 
 ## Key analytical decisions
 
-### Decision 1: **Narrowing RQ2 to South Munich**
+### Decision 1: **Expanding RQ2 to all 25 Munich districts**
 
 *What were we deciding between?*
 
-We were deciding whether to test the gender gap in unemployment across all of Munich, or narrow it to one specific region.
+We were deciding whether to test the gender gap in unemployment across all of Munich, or narrow it to one specific area (South) and what `{infer}` test to use.
 
 *How did we reason through it?*
 
-We wanted to look at one defined area instead of a broad citywide average, since a citywide number could hide regional differences. South Munich was also personally relevant, since one of our group members lives there. We had this in mind from the start, but our `infer` code initially ran on the full Munich dataset instead of being filtered to South Munich. We had to catch that and fix it to match what we had intended.
+We decided on Munich as a whole, since focusing on just South Munich's districts would limit the sample size to just 6 districts. This could bear the risk of including or running into distorted noise data. To have a more stable test and output we decided on the biggest possible sample.
+
+For the tes we discussed with Google Gemini and verifyed the recommendation of a simulation based permutation test by looking through [ModernDive's hypothesis testing chapter](https://moderndive.com/v2/hypothesis-testing.html) .
 
 *In hindsight, would we decide differently?*
 
-No, we're happy with the South-only scope, since it gave us a clear, focused result instead of a citywide number.
+No, we're happy with the scope, since it gave us a clear, focused result instead of a by chance distorted mislead and the test delivered results without assumptions of a distribution.
 
 ### Decision 2: **Grouping districts into five city areas for RQ1**
 
@@ -208,11 +210,11 @@ Describe up to 5 significant uses of an LLM tool during the project.
 -   **What it produced:** A list of possible reasons why the site wasn't updating. After I gave more context (that everything was already pushed to the repository), it narrowed this down further.
 -   **What we had to correct or verify:** The first response was too generic since it didn't account for the fact that we'd already pushed. We had to give it our specific situation before the explanation became useful, and we verified the actual fix ourselves by rendering and then pushing.
 
-### Usage 2: Understanding `infer` function syntax
+### Usage 2:  `infer` function syntax and programming support
 
 -   **Tool / model:** Google Gemini
--   **What it produced:** A structured explanation of what each function in the `infer` practical template does (`specify()`, `assume()`, etc.). After we asked for a simpler explanation, it gave a clearer version.
--   **What we had to correct or verify:** The first explanation was too complex to follow. After getting a simpler version and implementing it ourselves, we ran into errors from using the wrong variable names, which we then debugged with its help. We verified the final code produced the correct output by checking it against our actual research question.
+-   **What it produced:** A structured explanation of what each function in the `infer` practical template does (`specify()`, `generate()`, etc.). After we asked for a simpler explanation, it gave a clearer version. A draft of the infer code for the simulation test, based on our decision to switch from the theory-based t-test.
+-   **What we had to correct or verify:** The first explanation was too complex to follow. After getting a simpler version and implementing it ourselves, we ran into errors from using the wrong variable names, which we then debugged with its help. We verified the final code produced the correct output by checking it against our actual research question. We also had to check the reps = 5000 and set.seed(42) were doing what we thought (shuffling 5000 times and keeping the shuffling the same each time the code is run) and made sure the filtering matched our RQ before trusting the output.
 
 ### Usage 3: Grammar and phrasing in written sections
 

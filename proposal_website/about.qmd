@@ -6,12 +6,12 @@ title: "About"
 
 This project analyses unemployment trends across Munich's 25 city districts from 2000 to 2024, using data from the [Munich Open Data Portal](https://opendata.muenchen.de). It was completed as the group project for StatProg2 (SoSe 2026) at LMU Munich.
 
-We explore how unemployment percentages have changed over time by city area and if they differ by gender across South Munich's districts in 2024. Full details on [Proposal](proposal.qmd) page.
+We explore how unemployment percentages have changed over time by city area and if they differ by gender across Munich's 25 districts in 2024. Full details on [Proposal](proposal.qmd) page.
 
 ## Group members
 
-- Rebecca Patrick - [R.Patrick@campus.lmu.de](mailto:R.Patrick@campus.lmu.de)
 - Anna Chrebtov - [Anna.Chrebtov@campus.lmu.de](mailto:Anna.Chrebtov@campus.lmu.de)
+- Rebecca Patrick - [R.Patrick@campus.lmu.de](mailto:R.Patrick@campus.lmu.de)
 
 ## Data source and licence
 

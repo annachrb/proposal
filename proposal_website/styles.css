@@ -1,6 +1,6 @@
 /* css styles */
 :root {
-  --bs-primary: #1D5A29;
+  --bs-primary: #2D4A27;
   --bs-secondary: #7DAA7D;
   --bs-body-bg: #F9FBF9;
   --bs-body-color: #2F362F;
@@ -9,9 +9,9 @@
 }
 
 h1, h2, h3 {
-  color: #1D5A29;
+  color: #2D4A27;
 }
 
 .navbar {
-  border-bottom: 2px solid #1D5A29;
+  border-bottom: 2px solid #2D4A27;
 }

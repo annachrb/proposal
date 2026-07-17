@@ -11,6 +11,6 @@ This project analyses unemployment trends across Munich's 25 city districts from
 We explore two questions:
 
 1.  How has the unemployment percentage in Munich changed from 2000 to 2024 overall and by city area (North, East, South, West)?
-2.  Do unemployment percentages differ in 2024 based on gender across districts in South Munich.
+2.  Do unemployment percentages differ in 2024 based on gender across all 25 districts Munich.
 
-Read the full analysis on the [Proposal](proposal.qmd) page or learn more [About](about.qmd) this project.
+Read the full analysis on the [Report](report.qmd) page, the initial [Proposal](proposal.qmd) or learn more [About](about.qmd) this project.
