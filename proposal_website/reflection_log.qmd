@@ -269,7 +269,7 @@ Next time we could resolve that problem like this:
     Did the LLM's reasoning hold up?
     Where did it help, and where did you need to apply your own judgement?
 
-    We used Gemini to help understand the infer function syntax, like specify() and assume("t").
+    We used Gemini to help understand the infer function syntax.
     The first explanation was too complex, so we asked for a simpler version.
     That helped us understand what each function does, but we still had to apply our own judgement when debugging, since we had errors from using the wrong variable names.
     The LLM helped explain the syntax, not the actual statistical reasoning behind our result.

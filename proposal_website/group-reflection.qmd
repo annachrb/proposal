@@ -10,11 +10,11 @@ For each skill area, describe what your group actually used it for. If you did n
 
 *What we did:*
 
-We practices writing functions in `Practical3.qmd`. We wrote a grouped summary function using tidy evaluation (`mean_mass_by()` with `{{ }}` -\> searches for column name not the variable literally named) and a recursive function. We did not use custom functions into the group project itself. The actual analysis in `proposal.qmd` stayed as inline `dplyr` pipe chain code.
+We practices writing functions in `Practical3.qmd`. We wrote a grouped summary function using tidy evaluation (`mean_mass_by()` with ({{ }})-\> searches for column name not the variable literally named) and a recursive function. We did not use custom functions into the group project itself. The actual analysis in `proposal.qmd` and `report.qmd` stayed as inline `dplyr` pipe chain code.
 
 *What worked well:*
 
-The practical exercise gave us a understanding of tidy evaluation (`{{ }}`) and recursion, which we hadn't used before. Because it was separate from the project's real analysis, we could focus on understanding without worrying about breaking anything that mattered.
+The practical exercise gave us a understanding of tidy evaluation ({{ }}) and recursion, which we hadn't used before. Because it was separate from the project's real analysis, we could focus on understanding without worrying about breaking anything that mattered.
 
 *What was hard:*
 
@@ -46,11 +46,11 @@ We used Git for version control throughout the project, working with branches, c
 
 *What worked well:*
 
-Later in the project, we also ran into a remote tracking issue. After merging a feature branch into main and deleting the remote branch on GitHub, one of us kept working on that same branch locally without noticing the remote tracking was gone. A later push failed, and in trying to resolve it, an improper pull overwrote local progress. We learned to check `git branch` and `git status` before continuing working.
+Once we adopted separate branches per task instead of everyone working directly on `main`, the workflow got noticeably cleaner and we avoided merge conflicts. Committing frequently also made it easier to structure work by finishing and committing one task before moving to the next kept the project from feeling chaotic.
 
 *What was hard:*
 
-Once we adopted separate branches per task instead of everyone working directly on `main`, the workflow got noticeably cleaner and we avoided merge conflicts. Committing frequently also made it easier to structure work by finishing and committing one task before moving to the next kept the project from feeling chaotic.
+Later in the project, we also ran into a remote tracking issue. After merging a feature branch into main and deleting the remote branch on GitHub, one of us kept working on that same branch locally without noticing the remote tracking was gone. A later push failed, and trying to resolve it, an improper pull overwrote local progress. We learned to check `git branch` and `git status` before continuing working.
 
 ### Quarto websites & collaborative coding (W5)
 
@@ -92,7 +92,7 @@ The screening tools (`skim`, `vis_dat`, `naniar`) gave us a fast overview and ma
 
 *What was hard:*
 
-Getting familiar with the column names and what they actually meant took time, since names like `Basiswert 1`, `Basiswert 2` and `Auspragung` gave no information on their own. It wasn't hard we got familiar and worked with the data some time.
+Getting familiar with the column names and what they actually meant took time, since names like `Basiswert 1`, `Basiswert 2` and `Auspragung` gave no information on their own. It wasn't hard once we got familiar and worked with the data some time.
 
 ### Reproducibility, open data & renv (W9)
 
@@ -102,7 +102,7 @@ We initialized renv in the project and committed `renv.lock` and the `renv/` fol
 
 *What worked well:*
 
-Committing the lockfile itself was simple, and `snapshot()` picked up our packages without issues.
+Committing the lockfile itself was simple and `snapshot()` picked up our packages without issues.
 
 *What was hard:*
 
@@ -120,17 +120,21 @@ We originally considered a third question, whether we could build a simple model
 
 *What worked well:*
 
-The area mapping and annual means calculation for RQ1 worked cleanly once we had the district-to-area lookup table set up. The bootstrap confidence interval for RQ2 gave us a concrete range to report alongside the p-value.
+The area mapping and annual means calculation for RQ1 worked cleanly. RQ2 results gave us a concrete p-value for the Hypothesis decision and a plot for visualization.
 
 *What was hard:*
 
-Our original `infer` code for RQ2 filtered on the whole Munich dataset instead of just South Munich, even though our written research question specifically asked about South Munich districts. We had to catch this mismatch between the stated question and the actual code and fix it by filtering to the South Munich district codes before running the test.
+For RQ2, we changed our initial plan from just looking at South Munich to looking at all 25 districts. We made this decision because when we ran the Hypotheses test, the result was strongly against the Null Hypothesis, that there is no systematic disparity between women and men in unemployment. We became a bit skeptic because the sample size was also very small and so we ran the test on Munich as a whole. The result was very different with no evidence that there is this systematic disparity. We decided on keeping the second one since it was more reliable because of the sample size (25 instead of 6 districts). Additionally, we used a simulation based permutation test instead of a t-test, because rates / probabilities are often skewed and don't follow a normal- or t-distribution.
+
+We used Gemini to help understand the infer function syntax because it was hard to understand just from the practical. The first explanation was too complex, so we asked for a simpler version. That helped us understand what each function does, but we still had to apply our own judgement when debugging, since we had errors from using the wrong variable names and our functions were not complete. The LLM helped explain the syntax, not the actual statistical reasoning behind our result.
+
+For the `{infer}` test, we used Google Gemini to discuss whether a theory-based t-distribution was appropriate given we have percentages. Based on this discussion, we rethought using the t-test versus a simulation based permutation approach on <https://moderndive.com/v2/hypothesis-testing.html> and decided to implement the simulation based test.
 
 ### Communication & visualisation (W11)
 
 *What we did:*
 
-In the sandbox part with `palmerpenguins`, we practiced deciding when to use a table versus a plot, building a gt summary table, and polishing a default ggplot2 plot. For our own project, we built a gt summary table for the RQ2 gender comparison, improved the captions on our plots, and added `#| warning: false` to clean up the chunk output. We also fixed the duplicate plot issue between `index.qmd` and `proposal.qmd`, keeping the `linewidth` version and removing the older `size` version. We shared the gt table for RQ2 with the group, since it made the difference in means between männlich and weiblich easy to see at a glance instead of just reading it out of the `infer` output.
+In the sandbox part with `palmerpenguins`, we practiced deciding when to use a table versus a plot, building a gt summary table, and polishing a default ggplot2 plot. For our own project, we built a gt summary table for the RQ2 gender comparison, improved the captions on our plots, and added `#| warning: false` to clean up the chunk output. We also fixed the duplicate plot issue in our final `report.qmd`, keeping the interactive version and removing the older static version. We shared the gt table for RQ2 with the group, since it made the difference in means between männlich and weiblich easy to see at a glance instead of just reading it out of the `infer` output.
 
 *What worked well:*
 
@@ -152,7 +156,7 @@ We were deciding whether to test the gender gap in unemployment across all of Mu
 
 We decided on Munich as a whole, since focusing on just South Munich's districts would limit the sample size to just 6 districts. This could bear the risk of including or running into distorted noise data. To have a more stable test and output we decided on the biggest possible sample.
 
-For the tes we discussed with Google Gemini and verifyed the recommendation of a simulation based permutation test by looking through [ModernDive's hypothesis testing chapter](https://moderndive.com/v2/hypothesis-testing.html) .
+For the test we discussed with Google Gemini and verifyed the recommendation of a simulation based permutation test by looking through [ModernDive's hypothesis testing chapter](https://moderndive.com/v2/hypothesis-testing.html) .
 
 *In hindsight, would we decide differently?*
 
@@ -198,7 +202,7 @@ We mostly followed the plan from the proposal, using separate branches per task 
 
 *What would we change about how we coordinated?*
 
-We would structure task assignment more clearly. Right now we mostly divided work informally, saying things like "I'll do this, you do that, could you look into that," instead of writing tasks down with clear ownership and scope. More structure here would reduce the chance of things falling through the cracks or people working on overlapping parts by accident.
+We would structure task assignments more clearly. Right now we mostly divided work informally, saying things like "I'll do this, you do that, could you look into that," instead of writing tasks down with clear ownership and scope. More structure here would reduce the chance of things falling through the cracks or people working on overlapping parts by accident.
 
 ## LLM usage
 
@@ -207,17 +211,17 @@ Describe up to 5 significant uses of an LLM tool during the project.
 ### Usage 1: Debugging GitHub Pages not updating
 
 -   **Tool / model:** Google Gemini
--   **What it produced:** A list of possible reasons why the site wasn't updating. After I gave more context (that everything was already pushed to the repository), it narrowed this down further.
--   **What we had to correct or verify:** The first response was too generic since it didn't account for the fact that we'd already pushed. We had to give it our specific situation before the explanation became useful, and we verified the actual fix ourselves by rendering and then pushing.
+-   **What it produced:** A list of possible reasons why the site wasn't updating. After we gave more context (that everything was already pushed to the repository), it narrowed this down further.
+-   **What we had to correct or verify:** The first response was too generic since it didn't account for the fact that we had already pushed. We had to give it our specific situation before the explanation became useful and we verified the actual fix ourselves by rendering and then pushing.
 
 ### Usage 2:  `infer` function syntax and programming support
 
 -   **Tool / model:** Google Gemini
 -   **What it produced:** A structured explanation of what each function in the `infer` practical template does (`specify()`, `generate()`, etc.). After we asked for a simpler explanation, it gave a clearer version. A draft of the infer code for the simulation test, based on our decision to switch from the theory-based t-test.
--   **What we had to correct or verify:** The first explanation was too complex to follow. After getting a simpler version and implementing it ourselves, we ran into errors from using the wrong variable names, which we then debugged with its help. We verified the final code produced the correct output by checking it against our actual research question. We also had to check the reps = 5000 and set.seed(42) were doing what we thought (shuffling 5000 times and keeping the shuffling the same each time the code is run) and made sure the filtering matched our RQ before trusting the output.
+-   **What we had to correct or verify:** The first explanation was too complex to follow. After getting a simpler version and implementing it ourselves, we ran into errors from using the wrong variable names and using the functions wrong, which we then debugged with its help. We verified the final code produced the correct output by checking it against our actual research question. We also had to check the reps = 5000 and set.seed(42) were doing what we thought (shuffling 5000 times and keeping the shuffling the same each time the code is run) and made sure the filtering matched our RQ before trusting the output.
 
 ### Usage 3: Grammar and phrasing in written sections
 
 -   **Tool / model:** Claude
 -   **What it produced:** Suggestions for fixing awkward sentence structure and word choice in written sections, while keeping our own meaning.
--   **What we had to correct or verify:** We explicitly asked it to keep our meaning and only fix grammar and word choice, since we sometimes used words that weren't the precise enough. We reviewed each suggestion and only kept changes that matched what we actually meant. Sometimes we changed word suggestions we felt unnatural with.
+-   **What we had to correct or verify:** We explicitly asked it to keep our meaning and only fix grammar and word choice, since we sometimes used words that weren't precise enough. We reviewed each suggestion and only kept changes that matched what we actually meant. Sometimes we changed word suggestions we felt unnatural with.

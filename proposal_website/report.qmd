@@ -321,6 +321,8 @@ null_dist |>
 
 ### Interpretation of the Permutation Test Results
 
+-   **Description:** The red vertical represents the observed difference in mean unemployment rates ($0.2$). The pink shaded regions show the portion of the null distribution as extreme or more extreme than this result in both directions. The combined area of these pink regions equals the $p$-value of $0.221$, which represents the probability of observing such a difference under the null hypothesis.
+
 -   **Observed Difference:** In 2024, the observed difference in mean unemployment rates between men and women across all 25 districts of Munich is 0.2 percentage points (with males having a slightly higher average unemployment rate than females).
 
 -   **Null Distribution:** Our generated null distribution represents a scenario where gender has no systematic impact on unemployment rates. Shuffling the gender 5000 times shows that differences around 0.2 percentage points are common under the null hypothesis.
@@ -329,7 +331,7 @@ null_dist |>
 
 -   **Statistical Decision:** Because our $p$-value ($0.221$) is larger than the significance level $\alpha = 0.05$, we fail to reject the null hypothesis ($H_0$).
 
--   **Conclusion:** We do not have statistically significant evidence of a gender disparity in unemployment rates across Munich's districts in 2024. The observed difference of 0.2 percentage points is minor and can can easily be explained by random district variation.
+-   **Conclusion:** We do not have statistically significant evidence of a gender disparity in unemployment rates across Munich's districts in 2024. The observed difference of 0.2 percentage points is minor and can easily be explained by random district variation.
 
 ## 5. Conclusion and Discussion
 

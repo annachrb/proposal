@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Group Reflection</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="group-reflection_files/libs/clipboard/clipboard.min.js"></script>
+<script src="group-reflection_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="group-reflection_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="group-reflection_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="group-reflection_files/libs/quarto-html/popper.min.js"></script>
+<script src="group-reflection_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="group-reflection_files/libs/quarto-html/anchor.min.js"></script>
+<link href="group-reflection_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="group-reflection_files/libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="group-reflection_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="group-reflection_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="group-reflection_files/libs/bootstrap/bootstrap-d6a003b94517c951b2d65075d42fb01b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="fullcontent quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Group Reflection</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="skills-inventory" class="level2">
+<h2 class="anchored" data-anchor-id="skills-inventory">Skills inventory</h2>
+<p>For each skill area, describe what your group actually used it for. If you did not use a skill, say so and note why.</p>
+<section id="functions-refactoring-w2" class="level3">
+<h3 class="anchored" data-anchor-id="functions-refactoring-w2">Functions &amp; refactoring (W2)</h3>
+<p><em>What we did:</em></p>
+<p>We practices writing functions in <code>Practical3.qmd</code>. We wrote a grouped summary function using tidy evaluation (<code>mean_mass_by()</code> with ({{ }})-&gt; searches for column name not the variable literally named) and a recursive function. We did not use custom functions into the group project itself. The actual analysis in <code>proposal.qmd</code> and <code>report.qmd</code> stayed as inline <code>dplyr</code> pipe chain code.</p>
+<p><em>What worked well:</em></p>
+<p>The practical exercise gave us a understanding of tidy evaluation ({{ }}) and recursion, which we hadn’t used before. Because it was separate from the project’s real analysis, we could focus on understanding without worrying about breaking anything that mattered.</p>
+<p><em>What was hard:</em></p>
+<p>Looking back, <code>proposal.qmd</code> has two places with duplicated code. The missingness check (<code>count(Auspragung)</code> and the NA summary) is repeated almost exactly. We run it once on the full dataset and again on the South Munich subset. The district code extraction (<code>str_extract(Raumbezug, "^[0-9]+")</code>) is also repeated. It appears in the RQ1 area mapping and again in the RQ2 South filter.</p>
+<p>We didn’t notice this while writing the code. By the time we did, the deadline was close. Refactoring working analysis code just to make it tidier felt risky. We decided not to risk introducing a new bug just for style.</p>
+</section>
+<section id="debugging-w3" class="level3">
+<h3 class="anchored" data-anchor-id="debugging-w3">Debugging (W3)</h3>
+<p><em>What we did:</em></p>
+<p>An example of a bug we encountered in the project is that rendered plot images were shown as broken/missing on the live GitHub Pages site. Our process through bugs was the same each time. We first read the actual error / looked at the problem and then checked the lecture/practical material for the topic involved (Quarto deployment for images) and attempted fixes ourselves. Only when that didn’t resolve it or made things worse, we asked an LLM how we could fix the problem and the cause.</p>
+<p>For the broken images bug, trying to fix it ourselves didn’t get us far. The cause was a <code>*_files/</code> rule in <code>.gitignore</code> silently excluding the rendered figure folders from every commit, so the HTML pages referenced image files that had never actually been pushed to the repo. The LLM correctly recognized this from the description alone, which we then confirmed by checking our actual <code>.gitignore</code> contents.</p>
+<p><em>What worked well:</em></p>
+<p>Trying to solve the problems ourselves first, using the actual error / problem and course materials, meant we had rough ideas what the fix / root could be for each bug before asking for help. This way we didn’t blindly trust the LLM and instead could make sense out of the explanation.</p>
+<p><em>What was hard:</em></p>
+<p>Most of the times the root causes weren’t obvious from what showed up alone. We wouldn’t have found the actual culprit by just looking at the code longer. The <code>.gitignore</code> was something we had set up at the very start of the project and forgot about since we didn’t fully understand what it does until actually deploying a website.</p>
+</section>
+<section id="version-control-remotes-w4" class="level3">
+<h3 class="anchored" data-anchor-id="version-control-remotes-w4">Version control &amp; remotes (W4)</h3>
+<p><em>What we did:</em></p>
+<p>We used Git for version control throughout the project, working with branches, commits, and a remote GitHub repository. Early on we hit a repo setup problem: the default branch was misspelled as “mian” instead of “main,” and the README had a stray placeholder word repeated several times. We tried fixing it with an LLM’s help, but the fix caused more problems than it solved, so we deleted the repository and started over. The same “mian” typo happened again on the second attempt, which led us to check GitHub’s repository creation settings directly rather than trying to fix it after the fact. We found the default branch name setting and corrected it there.</p>
+<p><em>What worked well:</em></p>
+<p>Once we adopted separate branches per task instead of everyone working directly on <code>main</code>, the workflow got noticeably cleaner and we avoided merge conflicts. Committing frequently also made it easier to structure work by finishing and committing one task before moving to the next kept the project from feeling chaotic.</p>
+<p><em>What was hard:</em></p>
+<p>Later in the project, we also ran into a remote tracking issue. After merging a feature branch into main and deleting the remote branch on GitHub, one of us kept working on that same branch locally without noticing the remote tracking was gone. A later push failed, and trying to resolve it, an improper pull overwrote local progress. We learned to check <code>git branch</code> and <code>git status</code> before continuing working.</p>
+</section>
+<section id="quarto-websites-collaborative-coding-w5" class="level3">
+<h3 class="anchored" data-anchor-id="quarto-websites-collaborative-coding-w5">Quarto websites &amp; collaborative coding (W5)</h3>
+<p><em>What we did:</em></p>
+<p>Everyone in the group worked on <code>_quarto.yml</code>. We didn’t split it up by person. Our workflow was to render the site locally first and check it looked right. Then we pushed it. GitHub Pages only updates from the rendered output, not the source files. So if we forgot to render before pushing, the live site would be out of date.</p>
+<p><em>What worked well:</em></p>
+<p>The theme (cosmo + brand) and the sidebar with the TOC worked well right away. No real problems there.</p>
+<p><em>What was hard:</em></p>
+<p>It took us a while to get used to the render-then-push workflow. We didn’t fully understand at first that GitHub Pages needs the rendered HTML, not just the source files pushed. This caused some early confusion.</p>
+</section>
+<section id="r-packages-w6" class="level3">
+<h3 class="anchored" data-anchor-id="r-packages-w6">R packages (W6)</h3>
+<p><em>What we did:</em></p>
+<p>We agreed on the basic packages as a group early on (tidyverse, readr). As the project went on, everyone added more packages individually when they needed them, like visdat, skimr and naniar for data screening, infer for the hypothesis test, and gt for the summary table.</p>
+<p><em>What worked well:</em></p>
+<p>Most packages were straightforward to use since we already knew them from the practicals or the documentation was clear enough (skimr, naniar, gt).</p>
+<p><em>What was hard:</em></p>
+<p><code>infer</code> was hard to understand at first. The syntax with <code>specify()</code>, <code>hypothesize()</code> and <code>shade_p_value()</code> was not obvious. We followed the practicals template as a sandbox first and tried to understand the functions by testing them there before applying them to our own data in the project.</p>
+</section>
+<section id="initial-data-analysis-data-cleaning-w7" class="level3">
+<h3 class="anchored" data-anchor-id="initial-data-analysis-data-cleaning-w7">Initial data analysis &amp; data cleaning (W7)</h3>
+<p><em>What we did:</em></p>
+<p>We used <code>vis_dat</code>, <code>skim</code>, <code>miss_var_summary</code> and <code>vis_miss</code> to screen the dataset. We found no unexpected column types, categorical variables were <code>&lt;chr&gt;</code> and numbers were <code>&lt;dbl&gt;</code>. We identified two data quality issues. First, individual districts and the Stadt München total were mixed in the same <code>Raumbezug</code> column. Second, the <code>Auspragung</code> column combined gender and totals (<code>insgesamt</code>) in one long column. We also found an external metadata PDF linked under the CSV file on the main data page, which explained that <code>Basiswert 2</code> changes meaning depending on <code>Auspragung</code>, and that Stadt München rows aggregate differently than individual district rows.</p>
+<p><em>What worked well:</em></p>
+<p>The screening tools (<code>skim</code>, <code>vis_dat</code>, <code>naniar</code>) gave us a fast overview and made it easy to spot the missingness and structure issues early.</p>
+<p><em>What was hard:</em></p>
+<p>Getting familiar with the column names and what they actually meant took time, since names like <code>Basiswert 1</code>, <code>Basiswert 2</code> and <code>Auspragung</code> gave no information on their own. It wasn’t hard once we got familiar and worked with the data some time.</p>
+</section>
+<section id="reproducibility-open-data-renv-w9" class="level3">
+<h3 class="anchored" data-anchor-id="reproducibility-open-data-renv-w9">Reproducibility, open data &amp; renv (W9)</h3>
+<p><em>What we did:</em></p>
+<p>We initialized renv in the project and committed <code>renv.lock</code> and the <code>renv/</code> folder to the repo. When installing new packages, renv asked for a yes or no confirmation, and we followed that workflow with <code>snapshot()</code> to update the lockfile. For the dataset itself, we used data under the Datenlizenz Deutschland Namensnennung 2.0 license, which allows use and redistribution as long as the source is attributed. The license is public, so we didn’t run into any issues.</p>
+<p><em>What worked well:</em></p>
+<p>Committing the lockfile itself was simple and <code>snapshot()</code> picked up our packages without issues.</p>
+<p><em>What was hard:</em></p>
+<p>The renv syntax was confusing at first, especially the yes or no prompts when installing new packages. We also didn’t consistently use <code>renv::restore()</code> after pulling changes from each other, so we didn’t fully close the loop on reproducibility. We mostly relied on installing packages manually if something was missing, instead of restoring from the lockfile. We intend on using <code>restore()</code> from now on.</p>
+</section>
+<section id="analysis-inference-strategies-w10" class="level3">
+<h3 class="anchored" data-anchor-id="analysis-inference-strategies-w10">Analysis &amp; inference strategies (W10)</h3>
+<p><em>What we did:</em></p>
+<p>For RQ1, we mapped each district to one of five city areas (Center, North, East, South, West) using the district code, joined that onto the dataset, and calculated annual mean unemployment rates per area from 2000 to 2024. We added Stadt München back in separately as a “Total” line. We produced a faceted line plot, plus an interactive plotly version with hover tooltips showing the exact year and rate.</p>
+<p>For RQ2, we ran a difference in means test comparing männlich and weiblich unemployment rates in Munich for 2024, using <code>infer</code> with a simulation based permutation null distribution (5000 reps), <code>shade_p_value()</code>, and a significance level of <span class="math inline">\(\alpha = 0.05\)</span>. We also built a summary gt table.</p>
+<p>We originally considered a third question, whether we could build a simple model to predict future unemployment percentages. We cut this to keep the project focused on two questions, in line with the course guidance to limit the proposal to at most two RQs.</p>
+<p><em>What worked well:</em></p>
+<p>The area mapping and annual means calculation for RQ1 worked cleanly. RQ2 results gave us a concrete p-value for the Hypothesis decision and a plot for visualization.</p>
+<p><em>What was hard:</em></p>
+<p>For RQ2, we changed our initial plan from just looking at South Munich to looking at all 25 districts. We made this decision because when we ran the Hypotheses test, the result was strongly against the Null Hypothesis, that there is no systematic disparity between women and men in unemployment. We became a bit skeptic because the sample size was also very small and so we ran the test on Munich as a whole. The result was very different with no evidence that there is this systematic disparity. We decided on keeping the second one since it was more reliable because of the sample size (25 instead of 6 districts). Additionally, we used a simulation based permutation test instead of a t-test, because rates / probabilities are often skewed and don’t follow a normal- or t-distribution.</p>
+<p>We used Gemini to help understand the infer function syntax because it was hard to understand just from the practical. The first explanation was too complex, so we asked for a simpler version. That helped us understand what each function does, but we still had to apply our own judgement when debugging, since we had errors from using the wrong variable names and our functions were not complete. The LLM helped explain the syntax, not the actual statistical reasoning behind our result.</p>
+<p>For the <code>{infer}</code> test, we used Google Gemini to discuss whether a theory-based t-distribution was appropriate given we have percentages. Based on this discussion, we rethought using the t-test versus a simulation based permutation approach on <a href="https://moderndive.com/v2/hypothesis-testing.html" class="uri">https://moderndive.com/v2/hypothesis-testing.html</a> and decided to implement the simulation based test.</p>
+</section>
+<section id="communication-visualisation-w11" class="level3">
+<h3 class="anchored" data-anchor-id="communication-visualisation-w11">Communication &amp; visualisation (W11)</h3>
+<p><em>What we did:</em></p>
+<p>In the sandbox part with <code>palmerpenguins</code>, we practiced deciding when to use a table versus a plot, building a gt summary table, and polishing a default ggplot2 plot. For our own project, we built a gt summary table for the RQ2 gender comparison, improved the captions on our plots, and added <code>#| warning: false</code> to clean up the chunk output. We also fixed the duplicate plot issue in our final <code>report.qmd</code>, keeping the interactive version and removing the older static version. We shared the gt table for RQ2 with the group, since it made the difference in means between männlich and weiblich easy to see at a glance instead of just reading it out of the <code>infer</code> output.</p>
+<p><em>What worked well:</em></p>
+<p>The gt table made the RQ2 result much clearer than the raw <code>infer</code> output alone. Once we knew the workflow from the sandbox exercise, applying it to our own table went smoothly.</p>
+<p><em>What was hard:</em></p>
+<p>Nothing major here, most of the work was applying what we practiced in the sandbox directly to our own project.</p>
+</section>
+</section>
+<section id="key-analytical-decisions" class="level2">
+<h2 class="anchored" data-anchor-id="key-analytical-decisions">Key analytical decisions</h2>
+<section id="decision-1-expanding-rq2-to-all-25-munich-districts" class="level3">
+<h3 class="anchored" data-anchor-id="decision-1-expanding-rq2-to-all-25-munich-districts">Decision 1: <strong>Expanding RQ2 to all 25 Munich districts</strong></h3>
+<p><em>What were we deciding between?</em></p>
+<p>We were deciding whether to test the gender gap in unemployment across all of Munich, or narrow it to one specific area (South) and what <code>{infer}</code> test to use.</p>
+<p><em>How did we reason through it?</em></p>
+<p>We decided on Munich as a whole, since focusing on just South Munich’s districts would limit the sample size to just 6 districts. This could bear the risk of including or running into distorted noise data. To have a more stable test and output we decided on the biggest possible sample.</p>
+<p>For the test we discussed with Google Gemini and verifyed the recommendation of a simulation based permutation test by looking through <a href="https://moderndive.com/v2/hypothesis-testing.html">ModernDive’s hypothesis testing chapter</a> .</p>
+<p><em>In hindsight, would we decide differently?</em></p>
+<p>No, we’re happy with the scope, since it gave us a clear, focused result instead of a by chance distorted mislead and the test delivered results without assumptions of a distribution.</p>
+</section>
+<section id="decision-2-grouping-districts-into-five-city-areas-for-rq1" class="level3">
+<h3 class="anchored" data-anchor-id="decision-2-grouping-districts-into-five-city-areas-for-rq1">Decision 2: <strong>Grouping districts into five city areas for RQ1</strong></h3>
+<p><em>What were we deciding between?</em></p>
+<p>We were deciding between plotting all 25 districts individually or grouping them into fewer, larger regions.</p>
+<p><em>How did we reason through it?</em></p>
+<p>25 individual plots would be hard to interpret at a glance. We built our own mapping of districts into five city areas (Center, North, East, South, West) so we could still see regional differences without having to look at 25 individual plots. We also kept the Stadt München total as its own separate “Total” category for completion.</p>
+<p><em>In hindsight, would we decide differently?</em></p>
+<p>No, this grouping is a good balance of not too much detail and not too little.</p>
+</section>
+<section id="decision-3-cutting-rq3" class="level3">
+<h3 class="anchored" data-anchor-id="decision-3-cutting-rq3">Decision 3: <strong>Cutting RQ3</strong></h3>
+<p><em>What were we deciding between?</em></p>
+<p>We were deciding between keeping a third research question on predicting future unemployment percentages or limiting the project to just two RQs.</p>
+<p><em>How did we reason through it?</em></p>
+<p>We decided to cut it to keep the project focused on two questions, in line with the course guidance to limit the proposal to at most two RQs. We also noticed that a prediction would be risky, because events outside the data, like economic shocks, could have a major impact on the trend and can’t be captured by a simple model.</p>
+<p><em>In hindsight, would we decide differently?</em></p>
+<p>No, cutting it was the right call, since it let us go deeper on RQ1 and RQ2 instead of spreading effort across three questions.</p>
+</section>
+</section>
+<section id="workflow-collaboration" class="level2">
+<h2 class="anchored" data-anchor-id="workflow-collaboration">Workflow &amp; collaboration</h2>
+<p><em>How did we divide work across group members?</em></p>
+<p>We split tasks within each research question rather than assigning whole RQs to one person. For example, for RQ2, Rebecca built the gt table while Anna programmed the <code>infer</code> test. This let us work in parallel on the same question instead of one person owning it end to end.</p>
+<p><em>What branching or Git workflow did we actually use — and did it match the proposal?</em></p>
+<p>We mostly followed the plan from the proposal, using separate branches per task (e.g.&nbsp;<code>feature/RQ1</code>) and having another teammate verify before merging. This didn’t always hold up though. When something needed to be fixed fast or done quickly, we pushed directly to main without going through review. So the branching workflow was consistent for planned work but broke down under time pressure.</p>
+<p><em>What would we change about how we coordinated?</em></p>
+<p>We would structure task assignments more clearly. Right now we mostly divided work informally, saying things like “I’ll do this, you do that, could you look into that,” instead of writing tasks down with clear ownership and scope. More structure here would reduce the chance of things falling through the cracks or people working on overlapping parts by accident.</p>
+</section>
+<section id="llm-usage" class="level2">
+<h2 class="anchored" data-anchor-id="llm-usage">LLM usage</h2>
+<p>Describe up to 5 significant uses of an LLM tool during the project.</p>
+<section id="usage-1-debugging-github-pages-not-updating" class="level3">
+<h3 class="anchored" data-anchor-id="usage-1-debugging-github-pages-not-updating">Usage 1: Debugging GitHub Pages not updating</h3>
+<ul>
+<li><strong>Tool / model:</strong> Google Gemini</li>
+<li><strong>What it produced:</strong> A list of possible reasons why the site wasn’t updating. After we gave more context (that everything was already pushed to the repository), it narrowed this down further.</li>
+<li><strong>What we had to correct or verify:</strong> The first response was too generic since it didn’t account for the fact that we had already pushed. We had to give it our specific situation before the explanation became useful and we verified the actual fix ourselves by rendering and then pushing.</li>
+</ul>
+</section>
+<section id="usage-2-infer-function-syntax-and-programming-support" class="level3">
+<h3 class="anchored" data-anchor-id="usage-2-infer-function-syntax-and-programming-support">Usage 2: <code>infer</code> function syntax and programming support</h3>
+<ul>
+<li><strong>Tool / model:</strong> Google Gemini</li>
+<li><strong>What it produced:</strong> A structured explanation of what each function in the <code>infer</code> practical template does (<code>specify()</code>, <code>generate()</code>, etc.). After we asked for a simpler explanation, it gave a clearer version. A draft of the infer code for the simulation test, based on our decision to switch from the theory-based t-test.</li>
+<li><strong>What we had to correct or verify:</strong> The first explanation was too complex to follow. After getting a simpler version and implementing it ourselves, we ran into errors from using the wrong variable names and using the functions wrong, which we then debugged with its help. We verified the final code produced the correct output by checking it against our actual research question. We also had to check the reps = 5000 and set.seed(42) were doing what we thought (shuffling 5000 times and keeping the shuffling the same each time the code is run) and made sure the filtering matched our RQ before trusting the output.</li>
+</ul>
+</section>
+<section id="usage-3-grammar-and-phrasing-in-written-sections" class="level3">
+<h3 class="anchored" data-anchor-id="usage-3-grammar-and-phrasing-in-written-sections">Usage 3: Grammar and phrasing in written sections</h3>
+<ul>
+<li><strong>Tool / model:</strong> Claude</li>
+<li><strong>What it produced:</strong> Suggestions for fixing awkward sentence structure and word choice in written sections, while keeping our own meaning.</li>
+<li><strong>What we had to correct or verify:</strong> We explicitly asked it to keep our meaning and only fix grammar and word choice, since we sometimes used words that weren’t precise enough. We reviewed each suggestion and only kept changes that matched what we actually meant. Sometimes we changed word suggestions we felt unnatural with.</li>
+</ul>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
