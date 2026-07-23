@@ -1,14 +1,22 @@
 ---
-title: "anna"
-format: html
+title: "Anna"
+format: pdf
 ---
 
 ## Anna - Contribution Statement
 
-*To be completed before the final submission deadline.*
-
-**Primarily responsible for:**
+**Primarily responsible for:** RQ1, RQ2 Hypothesis test, GitHub and website deployment and formatting
 
 **Key tasks:**
 
+-   Built and evaluated the regression model and hypothesis test
+
+-   Formatted the proposal and final statistical report
+
+-   Deployed the website via GitHub
+
+-   Wrote the Interpretations, Conclusion and Discussion
+
 **Collaborative tasks:**
+
+EDA, IDA, finding the dataset and licence, data context, research question design, final report review
