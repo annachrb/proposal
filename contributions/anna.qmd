@@ -1,6 +1,6 @@
 ---
 title: "Anna"
-format: pdf
+format: typst
 ---
 
 ## Anna - Contribution Statement
