@@ -1,0 +1,17 @@
+---
+title: "rebecca"
+format: pdf
+---
+
+## Rebecca - Contribution Statement
+
+**Primarily responsible for:** RQ2 summary table (gt), plot refinement
+
+Key tasks:
+
+-   Built and formatted the RQ2 summary table (männlich/weiblich)
+-   plot refinement
+
+Collaborative tasks:
+
+EDA, IDA, finding the dataset and licence, data context, research question design
